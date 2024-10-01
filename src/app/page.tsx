@@ -90,7 +90,7 @@ export default function Home() {
     setCanCheck(initialChecks);
   };
 
-  if (loading || true) return <Loading />
+  if (loading) return <Loading />
 
   return (
     <div className="p-4 flex flex-col h-dvh items-center justify-between">
@@ -141,8 +141,8 @@ export default function Home() {
         />
       </div>
       <footer className="flex flex-col items-center justify-center">
-        <span className="text-gray-300 text-sm">
-          @2024 Defy. All rights reserved.
+        <span className="text-gray-300 text-sm my-4">
+          @2024 Word Quest. All rights reserved.
         </span>
       </footer>
     </div>
