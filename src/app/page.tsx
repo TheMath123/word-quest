@@ -3,8 +3,11 @@
 import words from '@/assets/words.json';
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { DefeatDialog, Keyboard, Row, WinDialog } from "@/components";
+import { useEffect, useState } from 'react';
+import Loading from './loading';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const chosenWord = words[Math.floor(Math.random() * words.length)];
   const correctWord = chosenWord.word;
   const wordSize = correctWord.length;
@@ -13,16 +16,20 @@ export default function Home() {
   const [win, setWin] = useLocalStorage('win', false);
   const initialChecks = Array(maxAttempts).fill(false);
   const [canCheck, setCanCheck] = useLocalStorage('checks', initialChecks);
-  const [attempt, setAttempt] = useLocalStorage('attempt', maxAttempts);
+  const [currentAttempt, setCurrentAttempt] = useLocalStorage('attempt', 0);
   const fillGrid = Array(maxAttempts).fill('');
   const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
   const [currentWord, setCurrentWord] = useLocalStorage('word', '');
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const handleBackspace = () => {
     if (currentWord.length > 0) {
       setCurrentWord((prev: string) => prev.slice(0, -1));
       const newGameWords = [...gameWords];
-      newGameWords[maxAttempts - attempt] = currentWord.slice(0, -1);
+      newGameWords[currentAttempt] = currentWord.slice(0, -1);
       setGameWords(newGameWords);
     }
   };
@@ -36,7 +43,7 @@ export default function Home() {
       const newWord = currentWord + newLetter;
       setCurrentWord(newWord);
       const newGameWords = [...gameWords];
-      newGameWords[maxAttempts - attempt] = newWord;
+      newGameWords[currentAttempt] = newWord;
       setGameWords(newGameWords);
     }
   };
@@ -44,14 +51,14 @@ export default function Home() {
   const nextAttempt = () => {
     setCanCheck(prev => {
       const newChecks = [...prev];
-      newChecks[attempt] = true;
+      newChecks[currentAttempt] = true;
       return newChecks;
     });
     const isWin = verifyWin();
-    if (attempt <= 0 && !isWin) {
+    if (currentAttempt === maxAttempts - 1 && !isWin) {
       setDefeat(true);
     }
-    setAttempt((prev: number) => prev - 1);
+    setCurrentAttempt((prev: number) => prev + 1);
     if (!win) setCurrentWord('');
   }
 
@@ -64,24 +71,26 @@ export default function Home() {
     return false;
   }
 
-  // const verifyDefeat = () => {
-  //   if (win) return false;
-  //   const winValidation = currentWord.toLowerCase() !== correctWord;
-  //   if (attempt <= 0 && winValidation) {
-  //     setDefeat(true)
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  const verifyDefeat = () => {
+    if (win) return false;
+    const winValidation = currentWord.toLowerCase() !== correctWord;
+    if (currentAttempt === maxAttempts && winValidation) {
+      setDefeat(true)
+      return true;
+    }
+    return false;
+  }
 
   const resetTurn = () => {
-    setAttempt(maxAttempts);
+    setCurrentAttempt(0);
     setGameWords(fillGrid);
     setCurrentWord('');
     setDefeat(false);
     setWin(false);
     setCanCheck(initialChecks);
   };
+
+  if (loading || true) return <Loading />
 
   return (
     <div className="p-4 flex flex-col h-dvh items-center justify-between">
@@ -93,16 +102,16 @@ export default function Home() {
             <code
               className="py-1 px-2 aspect-square text-white bg-gray-800 rounded-md font-semibold"
             >
-              {attempt}
+              {maxAttempts - currentAttempt}
             </code>
             {' '} attempts left
           </p>
-          <div className="flex flex-row gap-1 text-gray-300"><dt className="font-bold">Tip:</dt> <dd>{chosenWord.tip}</dd></div>
+          <p className="flex flex-row gap-1 text-gray-300"><dt className="font-bold">Tip:</dt> <dd>{chosenWord.tip}</dd></p>
 
         </header>
         <WinDialog
           open={win}
-          data={{ attempts: maxAttempts - attempt }}
+          data={{ attempts: maxAttempts - currentAttempt }}
           onNextRound={resetTurn}
         />
 
@@ -114,9 +123,9 @@ export default function Home() {
         <main className="max-w-2xl flex flex-col w-full space-y-4">
           {gameWords.map((word: string, index: number) => (
             <Row
-              focused={index === attempt && !win}
+              focused={index === currentAttempt && !win}
               key={`row-${index}`}
-              word={index === attempt ? currentWord : word}
+              word={index === currentAttempt ? currentWord : word}
               size={wordSize}
               correctWord={correctWord}
               checkWord={canCheck[index]}
