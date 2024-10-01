@@ -71,15 +71,15 @@ export default function Home() {
     return false;
   }
 
-  const verifyDefeat = () => {
-    if (win) return false;
-    const winValidation = currentWord.toLowerCase() !== correctWord;
-    if (currentAttempt === maxAttempts && winValidation) {
-      setDefeat(true)
-      return true;
-    }
-    return false;
-  }
+  // const verifyDefeat = () => {
+  //   if (win) return false;
+  //   const winValidation = currentWord.toLowerCase() !== correctWord;
+  //   if (currentAttempt === maxAttempts && winValidation) {
+  //     setDefeat(true)
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   const resetTurn = () => {
     setCurrentAttempt(0);
@@ -94,7 +94,7 @@ export default function Home() {
 
   return (
     <div className="p-4 flex flex-col h-dvh items-center justify-between">
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 h-dvh">
         <header className="flex flex-col gap-1 items-center">
           <h1 className="text-4xl font-bold text-center text-gray-100">Guess the word</h1>
           <p className="text-center text-gray-300 text-xl">
