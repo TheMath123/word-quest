@@ -1,6 +1,6 @@
 export function Footer() {
-  return <footer className="flex flex-col items-center justify-center">
-    <span className="text-foreground text-sm my-4">
+  return <footer className="flex flex-col items-center justify-center px-6 -z-10">
+    <span className="text-foreground text-sm">
       @2024 Word Quest. All rights reserved.
     </span>
   </footer>
