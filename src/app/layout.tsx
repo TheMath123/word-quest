@@ -13,6 +13,7 @@ const font = Jost({
 export const metadata: Metadata = {
   title: "Word Quest",
   description: "Challenge your knowledge in solving riddles, and discover the correct word.",
+  icons: ['/images/favicon.png'],
 };
 
 export default function RootLayout({
@@ -22,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/images/favicon.ico" sizes="any" />
+      </head>
       <body
         className={`${font.className} antialiased`}
       >
