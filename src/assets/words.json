@@ -3,180 +3,180 @@
     "id": "V1StGXR8_Z5jdHi6B-myT",
     "word": "bola",
     "tip": "Spherical object used in many sports",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "K9XnTph7_mLqRsZtC-wF3",
     "word": "casa",
     "tip": "Place where people live",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "Q4RmNcf2_pGvWxKyH-tL8",
     "word": "carro",
     "tip": "Four-wheeled vehicle",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "Z7YxBgh5_sDbMnVfR-kP1",
     "word": "livro",
     "tip": "Bound pages with written content",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "J2LmSdj9_qNrTxCvB-fH6",
     "word": "cachorro",
     "tip": "Man's best friend",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "X5WnRkl3_tFbYzMgD-cS7",
     "word": "gato",
     "tip": "Feline pet",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "P8HtVmf6_wJyNzLqX-bG2",
     "word": "telefone",
     "tip": "Communication device",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "C1DxZnr4_kLsSyBvM-pH9",
     "word": "sol",
     "tip": "Bright star at the center of our solar system",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "T6FbNjh8_yRwQxKpL-mS3",
     "word": "lua",
     "tip": "Earth's natural satellite",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "G9MvXcl2_zTbHnRfD-kW7",
     "word": "flor",
     "tip": "Colorful part of a plant",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "L3BsYdh5_qNmWxJpC-tF8",
     "word": "computador",
     "tip": "Electronic device for processing data",
-    "difficult": 3
+    "alphabet": "latino"
   },
   {
     "id": "R7HtKmf9_wPbNzLqX-cG2",
     "word": "mesa",
     "tip": "Furniture with a flat top and legs",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "Y1VnSjl3_tFbMzRgD-xH6",
     "word": "cadeira",
     "tip": "Furniture for sitting",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "N4DxZhr7_kLsWyBvM-pH9",
     "word": "escola",
     "tip": "Place for education",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "B8FbTjc2_yRwQxKpL-mS5",
     "word": "praia",
     "tip": "Sandy shore by the sea",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "H2MvXnl5_zTbRfDgY-kW1",
     "word": "montanha",
     "tip": "Large natural elevation of the Earth's surface",
-    "difficult": 3
+    "alphabet": "latino"
   },
   {
     "id": "S6BsYdh9_qNmWxJpC-tF3",
     "word": "rio",
     "tip": "Natural flowing watercourse",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "W1HtKmf4_xLsNzBvC-rG7",
     "word": "oceano",
     "tip": "Vast body of saltwater",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "D5RnVjl8_tFbMzHgY-xS2",
     "word": "arvore",
     "tip": "Tall plant with a trunk and branches",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "F9BsKdh3_qNmWxJpC-tL6",
     "word": "fruta",
     "tip": "Edible plant product",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "M2HtXmf7_wPbNzLqR-cG9",
     "word": "pao",
     "tip": "Baked food made from flour",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "A6VnTjl1_yRwQxKpL-mS4",
     "word": "leite",
     "tip": "White liquid produced by mammals",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "E8MvZcl5_zTbRfDgY-kW2",
     "word": "agua",
     "tip": "Essential liquid for life",
-    "difficult": 1
+    "alphabet": "latino"
   },
   {
     "id": "I3BsYdh7_qNmWxJpC-tF9",
     "word": "roupa",
     "tip": "Items worn to cover the body",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "O1HtKmf2_wPbNzLqX-cG5",
     "word": "sapato",
     "tip": "Footwear",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "U7VnSjl9_tFbMzRgD-xH3",
     "word": "celular",
     "tip": "Portable communication device",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "Y4DxZhr6_kLsWyBvM-pH1",
     "word": "musica",
     "tip": "Auditory art form",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "B9FbTjc3_yRwQxKpL-mS7",
     "word": "filme",
     "tip": "Motion picture",
-    "difficult": 2
+    "alphabet": "latino"
   },
   {
     "id": "H2MvXnl5_zTbRfDgY-kW8",
     "word": "trabalho",
     "tip": "Occupation or job",
-    "difficult": 3
+    "alphabet": "latino"
   },
   {
     "id": "K5RnVjl2_tFbMzHgY-xS9",
     "word": "amigo",
     "tip": "Person you like and trust",
-    "difficult": 2
+    "alphabet": "latino"
   }
 ]
