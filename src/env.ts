@@ -5,6 +5,9 @@ export const env = createEnv({
   server: {
     GITHUB_ID: z.string({ required_error: "GITHUB_ID is required" }),
     GITHUB_SECRET: z.string({ required_error: "GITHUB_SECRET is required" }),
+    NEXTAUTH_SECRET: z.string({
+      required_error: "NEXTAUTH_SECRET is required",
+    }),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z
@@ -15,5 +18,6 @@ export const env = createEnv({
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     GITHUB_ID: process.env.GITHUB_ID,
     GITHUB_SECRET: process.env.GITHUB_SECRET,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
 });
