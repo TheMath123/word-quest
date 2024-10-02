@@ -25,7 +25,7 @@ export function GamePage() {
   const [currentAttempt, setCurrentAttempt] = useLocalStorage('attempt', 0);
   const fillGrid = Array(maxAttempts).fill('');
   const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
-  const [currentWord, setCurrentWord] = useLocalStorage('word', '');
+  const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
 
   const chooseNewWord = () => {
     const chosenWord = randomNewWord();
