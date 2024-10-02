@@ -5,3 +5,4 @@ export * from "./row";
 export * from "./key";
 export * from "./keyboard";
 export * from "./footer";
+export * from "./how-to-play/how-to-play";

@@ -9,9 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background:
+        "background-gradient":
           "linear-gradient(135deg, var(--background) 51%, var(--background2) 100%)",
         foreground: "var(--foreground)",
+        background: "var(--background)",
+        background2: "var(--background2)",
+      },
+      fontFamily: {
+        jost: ["Jost", "sans-serif"],
       },
     },
   },
