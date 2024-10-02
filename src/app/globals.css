@@ -23,6 +23,7 @@ body {
     var(--background) 51%,
     var(--background2) 100%
   );
+  background-repeat: initial;
 }
 
 @layer utilities {

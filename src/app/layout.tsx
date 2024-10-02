@@ -27,7 +27,7 @@ export default function RootLayout({
         <link rel="icon" href="/images/favicon.ico" sizes="any" />
       </head>
       <body
-        className={`${font.className} antialiased`}
+        className={`${font.className} antialiased bg-background-gradient`}
       >
         <ThemeProvider
           attribute="class"

@@ -22,8 +22,8 @@ export function GamePage() {
   if (!correctWord) return <Loading />
 
   return (
-    <div className="flex flex-col items-center justify-between p-4 min-h-fit h-full sm:h-dvh">
-      <div className="flex flex-1 flex-col gap-8 justify-between md:justify-start pb-8 h-dvh sm:h-full">
+    <div className="flex flex-col items-center justify-between p-4">
+      <div className="flex flex-col gap-8 justify-between md:justify-start pb-8 h-full sm:h-screen">
         <header className="flex flex-col gap-1 items-center">
           <h1 className="text-4xl font-bold text-center text-foreground">Guess the word</h1>
           <p className="text-center text-foreground/80 text-xl">
