@@ -44,7 +44,6 @@ export function GamePage() {
       if (chosenWord) {
         setCorrectWord(chosenWord);
         setWordSize(chosenWord.word.length);
-        console.log(chosenWord.word);
         return;
       }
     }

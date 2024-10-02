@@ -12,8 +12,8 @@ export function DefeatDialog({ open = false, onTryAgain }: DefeatDialogProps) {
     onTryAgain();
   }
 
-  return <Dialog.Root open={open} onOpenChange={handleNextRound}>
-    <Dialog.Portal>
+  return <Dialog.Root open={open} onOpenChange={handleNextRound} >
+    <Dialog.Portal >
       <Dialog.Overlay
         className='fixed inset-0 bg-gray-900/50 blur-lg animate-dialog-overlay-show'
       />
@@ -22,7 +22,7 @@ export function DefeatDialog({ open = false, onTryAgain }: DefeatDialogProps) {
           'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
           'flex flex-col gap-6 p-6',
           'bg-gray-900 text-gray-100',
-          'bg-blend-multiply w-fit rounded-md shadow-lg shadow-gray-800 animate-dialog-content-show'
+          'bg-blend-multiply min-w-[300px] w-full max-w-fit rounded-md shadow-lg shadow-gray-800 animate-dialog-content-show'
         )}
       >
         <Dialog.Title className='text-2xl font-bold'>

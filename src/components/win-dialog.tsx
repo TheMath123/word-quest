@@ -24,13 +24,13 @@ export function WinDialog({ open = false, onNextRound, data }: WinDialogProps) {
           'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
           'flex flex-col gap-6 p-6',
           'bg-gray-900 text-gray-100',
-          'bg-blend-multiply w-fit rounded-md shadow-lg shadow-gray-800 animate-dialog-content-show'
+          'bg-blend-multiply min-w-[300px] w-full max-w-fit rounded-md shadow-lg shadow-gray-800 animate-dialog-content-show'
         )}
       >
         <Dialog.Title className='text-2xl font-bold'>
           Victory! 🥳🎖
         </Dialog.Title>
-        <Dialog.Description className='text-xl'>
+        <Dialog.Description className='text-xl space-y-4'>
           Congratulations! You got the word right.<br />
           <span className='flex flex-row gap-2'>
             <dt>Remaining attempts:</dt>
