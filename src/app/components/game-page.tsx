@@ -9,7 +9,7 @@ interface Word {
   id: string,
   word: string,
   tip: string,
-  difficult: number;
+  alphabet: string;
 }
 
 export function GamePage() {
@@ -49,8 +49,6 @@ export function GamePage() {
     }
     chooseNewWord()
   }, []);
-
-
 
   const randomNewWord = (): Word => {
     const rawWord = words[Math.floor(Math.random() * words.length)];
