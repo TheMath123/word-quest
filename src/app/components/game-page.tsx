@@ -5,12 +5,19 @@ import { DefeatDialog, Keyboard, Row, WinDialog } from "@/components";
 import { useEffect, useState } from 'react';
 import Loading from '@/app/loading';
 
+interface Word {
+  id: string,
+  word: string,
+  tip: string,
+  difficult: number;
+}
+
 export function GamePage() {
   const [loading, setLoading] = useState(true);
-  const chosenWord = words[Math.floor(Math.random() * words.length)];
-  const correctWord = chosenWord.word;
-  const wordSize = correctWord.length;
   const maxAttempts = 5;
+  const [wordID, setWordID] = useLocalStorage<string | undefined>('id');
+  const [correctWord, setCorrectWord] = useState<Word | null>(null);
+  const [wordSize, setWordSize] = useLocalStorage('sizew', 0);
   const [defeat, setDefeat] = useLocalStorage('defeat', false);
   const [win, setWin] = useLocalStorage('win', false);
   const initialChecks = Array(maxAttempts).fill(false);
@@ -20,9 +27,37 @@ export function GamePage() {
   const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
   const [currentWord, setCurrentWord] = useLocalStorage('word', '');
 
+  const chooseNewWord = () => {
+    const chosenWord = randomNewWord();
+    setCorrectWord(chosenWord);
+    setWordSize(chosenWord.word.length);
+  }
+
+  const getWord = (id: string): Word | null => {
+    return words.find(word => word.id === id) || null;
+  }
+
   useEffect(() => {
     setLoading(false);
+    if (wordID) {
+      const chosenWord = getWord(wordID);
+      if (chosenWord) {
+        setCorrectWord(chosenWord);
+        setWordSize(chosenWord.word.length);
+        console.log(chosenWord.word);
+        return;
+      }
+    }
+    chooseNewWord()
   }, []);
+
+
+
+  const randomNewWord = (): Word => {
+    const rawWord = words[Math.floor(Math.random() * words.length)];
+    setWordID(rawWord.id);
+    return rawWord;
+  }
 
   const handleBackspace = () => {
     if (currentWord.length > 0) {
@@ -62,7 +97,7 @@ export function GamePage() {
   }
 
   const verifyWin = () => {
-    const validation = currentWord.toLowerCase() === correctWord;
+    const validation = currentWord.toLowerCase() === correctWord?.word;
     if (validation) {
       setWin(true);
       return true;
@@ -87,9 +122,10 @@ export function GamePage() {
     setDefeat(false);
     setWin(false);
     setCanCheck(initialChecks);
+    chooseNewWord()
   };
 
-  if (loading) return <Loading />
+  if (loading || !correctWord) return <Loading />
 
   return (
     <div className="p-4 flex flex-col h-dvh items-center justify-between">
@@ -105,7 +141,7 @@ export function GamePage() {
             </code>
             {' '} attempts left
           </p>
-          <p className="flex flex-row gap-1 text-gray-300"><dt className="font-bold">Tip:</dt> <dd>{chosenWord.tip}</dd></p>
+          <p className="flex flex-row gap-1 text-gray-300"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
 
         </header>
         <WinDialog
@@ -126,7 +162,7 @@ export function GamePage() {
               key={`row-${index}`}
               word={index === currentAttempt ? currentWord : word}
               size={wordSize}
-              correctWord={correctWord}
+              correctWord={correctWord.word}
               checkWord={canCheck[index]}
             />
           )
