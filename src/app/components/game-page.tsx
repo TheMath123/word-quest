@@ -1,118 +1,25 @@
-
-import words from '@/assets/words.json';
-import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useGame } from "@/context/game-context";
+import Loading from "@/app/loading";
 import { DefeatDialog, Footer, Keyboard, Row, WinDialog } from "@/components";
-import { useEffect, useState } from 'react';
-import Loading from '@/app/loading';
-
-interface Word {
-  id: string,
-  word: string,
-  tip: string,
-  alphabet: string;
-}
 
 export function GamePage() {
-  const [loading, setLoading] = useState(true);
-  const maxAttempts = 5;
-  const [wordID, setWordID] = useLocalStorage<string | undefined>('id');
-  const [correctWord, setCorrectWord] = useState<Word | null>(null);
-  const [wordSize, setWordSize] = useLocalStorage('sizew', 0);
-  const [defeat, setDefeat] = useLocalStorage('defeat', false);
-  const [win, setWin] = useLocalStorage('win', false);
-  const initialChecks = Array(maxAttempts).fill(false);
-  const [canCheck, setCanCheck] = useLocalStorage('checks', initialChecks);
-  const [currentAttempt, setCurrentAttempt] = useLocalStorage('attempt', 0);
-  const fillGrid = Array(maxAttempts).fill('');
-  const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
-  const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
+  const {
+    maxAttempts,
+    correctWord,
+    wordSize,
+    defeat,
+    win,
+    canCheck,
+    currentAttempt,
+    gameWords,
+    currentWord,
+    handleBackspace,
+    handleConfirm,
+    handleWordChange,
+    resetTurn,
+  } = useGame();
 
-  const chooseNewWord = () => {
-    const chosenWord = randomNewWord();
-    setCorrectWord(chosenWord);
-    setWordSize(chosenWord.word.length);
-  }
-
-  const getWord = (id: string): Word | null => {
-    return words.find(word => word.id === id) || null;
-  }
-
-  useEffect(() => {
-    setLoading(false);
-    if (wordID) {
-      const chosenWord = getWord(wordID);
-      if (chosenWord) {
-        setCorrectWord(chosenWord);
-        setWordSize(chosenWord.word.length);
-        return;
-      }
-    }
-    chooseNewWord()
-  }, []);
-
-  const randomNewWord = (): Word => {
-    const rawWord = words[Math.floor(Math.random() * words.length)];
-    setWordID(rawWord.id);
-    return rawWord;
-  }
-
-  const handleBackspace = () => {
-    if (currentWord.length > 0) {
-      setCurrentWord((prev: string) => prev.slice(0, -1));
-      const newGameWords = [...gameWords];
-      newGameWords[currentAttempt] = currentWord.slice(0, -1);
-      setGameWords(newGameWords);
-    }
-  };
-
-  const handleConfirm = () => {
-    nextAttempt();
-  }
-
-  const handleWordChange = (newLetter: string) => {
-    if (currentWord.length < wordSize && !defeat && !win) {
-      const newWord = currentWord + newLetter;
-      setCurrentWord(newWord);
-      const newGameWords = [...gameWords];
-      newGameWords[currentAttempt] = newWord;
-      setGameWords(newGameWords);
-    }
-  };
-
-  const nextAttempt = () => {
-    setCanCheck(prev => {
-      const newChecks = [...prev];
-      newChecks[currentAttempt] = true;
-      return newChecks;
-    });
-    const isWin = verifyWin();
-    if (currentAttempt === maxAttempts - 1 && !isWin) {
-      setDefeat(true);
-    }
-    setCurrentAttempt((prev: number) => prev + 1);
-    if (!win) setCurrentWord('');
-  }
-
-  const verifyWin = () => {
-    const validation = currentWord.toLowerCase() === correctWord?.word;
-    if (validation) {
-      setWin(true);
-      return true;
-    }
-    return false;
-  }
-
-  const resetTurn = () => {
-    setCurrentAttempt(0);
-    setGameWords(fillGrid);
-    setCurrentWord('');
-    setDefeat(false);
-    setWin(false);
-    setCanCheck(initialChecks);
-    chooseNewWord()
-  };
-
-  if (loading || !correctWord) return <Loading />
+  if (!correctWord) return <Loading />
 
   return (
     <div className="p-4 flex flex-col items-center justify-between">
@@ -129,8 +36,8 @@ export function GamePage() {
             {' '} attempts left
           </p>
           <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
-
         </header>
+
         <WinDialog
           open={win}
           data={{ attempts: maxAttempts - currentAttempt }}
@@ -158,7 +65,8 @@ export function GamePage() {
           disabled={defeat || win}
           onKeyPress={handleWordChange}
           onBackspace={handleBackspace}
-          wordSize={wordSize} onConfirm={handleConfirm}
+          wordSize={wordSize}
+          onConfirm={handleConfirm}
         />
       </div>
       <Footer />
