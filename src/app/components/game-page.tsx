@@ -22,8 +22,8 @@ export function GamePage() {
   if (!correctWord) return <Loading />
 
   return (
-    <div className="p-4 flex flex-col items-center justify-between">
-      <div className="flex flex-col gap-8 h-dvh justify-between md:justify-start pb-8">
+    <div className="flex flex-col items-center justify-between p-4 min-h-fit h-full sm:h-dvh">
+      <div className="flex flex-1 flex-col gap-8 justify-between md:justify-start pb-8 h-dvh sm:h-full">
         <header className="flex flex-col gap-1 items-center">
           <h1 className="text-4xl font-bold text-center text-foreground">Guess the word</h1>
           <p className="text-center text-foreground/80 text-xl">
@@ -35,11 +35,8 @@ export function GamePage() {
             </code>
             {' '} attempts left
           </p>
-          <div className="flex gap-6">
-
-            <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
-            <HowToPlay />
-          </div>
+          <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
+          <HowToPlay />
         </header>
 
         <WinDialog
