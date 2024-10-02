@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"); */
 
 :root {
   --background: theme("colors.gray.100");
@@ -24,10 +23,6 @@ body {
     var(--background) 51%,
     var(--background2) 100%
   );
-
-  /* font-family: "Jost", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400; */
 }
 
 @layer utilities {
