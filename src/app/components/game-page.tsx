@@ -1,7 +1,7 @@
 
 import words from '@/assets/words.json';
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { DefeatDialog, Keyboard, Row, WinDialog } from "@/components";
+import { DefeatDialog, Footer, Keyboard, Row, WinDialog } from "@/components";
 import { useEffect, useState } from 'react';
 import Loading from '@/app/loading';
 
@@ -118,17 +118,17 @@ export function GamePage() {
     <div className="p-4 flex flex-col items-center justify-between">
       <div className="flex flex-col gap-8 h-dvh justify-between md:justify-start pb-8">
         <header className="flex flex-col gap-1 items-center">
-          <h1 className="text-4xl font-bold text-center text-gray-100">Guess the word</h1>
-          <p className="text-center text-gray-300 text-xl">
+          <h1 className="text-4xl font-bold text-center text-foreground">Guess the word</h1>
+          <p className="text-center text-foreground/80 text-xl">
             You have {' '}
             <code
-              className="py-1 px-2 aspect-square text-white bg-gray-800 rounded-md font-semibold"
+              className="py-1 px-2 aspect-square text-foreground dark:text-white bg-gray-300 dark:bg-gray-800 rounded-md font-semibold"
             >
               {maxAttempts - currentAttempt}
             </code>
             {' '} attempts left
           </p>
-          <p className="flex flex-row gap-1 text-gray-300"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
+          <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
 
         </header>
         <WinDialog
@@ -142,7 +142,7 @@ export function GamePage() {
           onTryAgain={resetTurn}
         />
 
-        <main className="max-w-2xl flex flex-col w-full space-y-4">
+        <main className="max-w-2xl min-h-fit flex flex-col w-full space-y-4">
           {gameWords.map((word: string, index: number) => (
             <Row
               focused={index === currentAttempt && !win}
@@ -152,8 +152,7 @@ export function GamePage() {
               correctWord={correctWord.word}
               checkWord={canCheck[index]}
             />
-          )
-          )}
+          ))}
         </main>
         <Keyboard
           disabled={defeat || win}
@@ -162,11 +161,7 @@ export function GamePage() {
           wordSize={wordSize} onConfirm={handleConfirm}
         />
       </div>
-      <footer className="flex flex-col items-center justify-center">
-        <span className="text-gray-300 text-sm my-4">
-          @2024 Word Quest. All rights reserved.
-        </span>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const font = Jost({
@@ -24,7 +25,14 @@ export default function RootLayout({
       <body
         className={`${font.className} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html >
   );

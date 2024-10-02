@@ -4,19 +4,25 @@
 
 :root {
   --background: theme("colors.gray.100");
+  --background2: theme("colors.gray.300");
   --foreground: theme("colors.gray.900");
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: theme("colors.gray.900");
+    --background2: theme("colors.gray.950");
     --foreground: theme("colors.gray.100");
   }
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: linear-gradient(
+    135deg,
+    var(--background) 51%,
+    var(--background2) 100%
+  );
   font-family: Jost, Arial, Helvetica, sans-serif;
 }
 

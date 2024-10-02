@@ -4,3 +4,4 @@ export * from "./letter";
 export * from "./row";
 export * from "./key";
 export * from "./keyboard";
+export * from "./footer";

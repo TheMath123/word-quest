@@ -6,13 +6,13 @@ const letterVariants = tv({
   base: 'flex flex-col w-full max-w-16 aspect-square rounded-md font-semibold text-xl md:text-2xl items-center justify-center',
   variants: {
     state: {
-      default: 'bg-gray-400 text-gray-950',
-      wrong: 'bg-gray-500 text-gray-950',
-      correct: 'bg-green-600 text-gray-950',
-      exist: 'bg-amber-600 text-gray-950',
+      default: 'bg-gray-300 dark:bg-gray-400 text-gray-950',
+      wrong: 'bg-gray-400 dark:bg-gray-500 text-gray-950',
+      correct: 'bg-green-400 dark:bg-green-600 text-gray-950',
+      exist: 'bg-amber-400 dark:bg-amber-600 text-gray-950',
     },
     focused: {
-      true: 'border-2 border-slate-300',
+      true: 'border-2 border-slate-700 dark:border-slate-300',
       false: ''
     }
   },
