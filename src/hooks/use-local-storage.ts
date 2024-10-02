@@ -3,24 +3,34 @@ import { getEncryptionKey, encrypt, decrypt, encryptKey } from "../lib/crypto";
 
 const isBrowser = typeof window !== "undefined";
 
-export const useLocalStorage = <T>(key: string, initialValue: T) => {
+export const useLocalStorage = <T>(key: string, initialValue?: T) => {
   const encryptionKey = React.useMemo(
     () => (isBrowser ? getEncryptionKey() : null),
     []
   );
 
-  const [storedValue, setStoredValue] = React.useState<T>(() => {
-    if (!isBrowser) {
+  React.useEffect(() => {
+    setStoredValue(getValue());
+  }, []);
+
+  const getValue = React.useCallback(() => {
+    const encryptedKey = encryptKey(key);
+    const item = localStorage.getItem(encryptedKey);
+    if (item && encryptionKey) {
+      const decryptedItem = decrypt(item, encryptionKey);
+      return JSON.parse(decryptedItem);
+    } else if (initialValue) {
       return initialValue;
     }
+    return undefined;
+  }, [encryptionKey, initialValue, key]);
+
+  const [storedValue, setStoredValue] = React.useState<T>(() => {
+    if (!isBrowser) {
+      return initialValue ?? undefined;
+    }
     try {
-      const encryptedKey = encryptKey(key);
-      const item = localStorage.getItem(encryptedKey);
-      if (item && encryptionKey) {
-        const decryptedItem = decrypt(item, encryptionKey);
-        return JSON.parse(decryptedItem);
-      }
-      return initialValue;
+      return getValue();
     } catch (error) {
       console.error(error);
       return initialValue;
