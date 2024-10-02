@@ -156,6 +156,7 @@ export function GamePage() {
         />
 
         <main className="max-w-2xl flex flex-col w-full space-y-4">
+          {/* TODO: Improvements responsiveness and accessibility in mobile */}
           {gameWords.map((word: string, index: number) => (
             <Row
               focused={index === currentAttempt && !win}
