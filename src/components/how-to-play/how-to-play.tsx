@@ -15,7 +15,7 @@ import { ContentInfo } from "./content-info"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
-export function HowItWorks() {
+export function HowToPlay() {
   const [open, setOpen] = React.useState(false)
 
   const title = 'How to play?'

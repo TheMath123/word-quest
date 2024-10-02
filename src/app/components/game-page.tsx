@@ -1,6 +1,6 @@
 import { useGame } from "@/context/game-context";
 import Loading from "@/app/loading";
-import { DefeatDialog, Footer, Keyboard, Row, WinDialog } from "@/components";
+import { DefeatDialog, Footer, HowToPlay, Keyboard, Row, WinDialog } from "@/components";
 
 export function GamePage() {
   const {
@@ -35,7 +35,11 @@ export function GamePage() {
             </code>
             {' '} attempts left
           </p>
-          <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
+          <div className="flex gap-6">
+
+            <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
+            <HowToPlay />
+          </div>
         </header>
 
         <WinDialog
