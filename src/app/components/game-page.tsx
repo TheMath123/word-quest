@@ -89,7 +89,8 @@ export function GamePage() {
     setCanCheck(initialChecks);
   };
 
-  if (loading) return <Loading />
+  // if (loading) return <Loading />
+  if (true) return <Loading />
 
   return (
     <div className="p-4 flex flex-col h-dvh items-center justify-between">
