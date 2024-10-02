@@ -66,6 +66,7 @@ export function GamePage() {
           ))}
         </main>
         <Keyboard
+          className="mb-6"
           disabled={defeat || win}
           onKeyPress={handleWordChange}
           onBackspace={handleBackspace}

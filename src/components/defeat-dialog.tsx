@@ -1,6 +1,6 @@
-import * as Dialog from '@radix-ui/react-dialog';
 import { cn } from '@/lib/cn';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface DefeatDialogProps {
   open?: boolean;
@@ -13,35 +13,35 @@ export function DefeatDialog({ open = false, onTryAgain }: DefeatDialogProps) {
     onTryAgain();
   }
 
-  return <Dialog.Root open={open} onOpenChange={handleNextRound} >
-    <Dialog.Portal >
-      <Dialog.Overlay
-        className='fixed inset-0 bg-black/80 blur-lg animate-dialog-overlay-show'
-      />
-      <Dialog.Content
-        className={cn(
-          'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-          'flex flex-col gap-6 p-6',
-          'bg-gray-900 text-gray-100',
-          'bg-blend-multiply min-w-[300px] w-full max-w-fit rounded-md shadow shadow-gray-900 animate-dialog-content-show'
-        )}
-      >
-        <Dialog.Title className='text-2xl font-bold'>
+  return <Dialog open={open} onOpenChange={handleNextRound} >
+    <DialogContent
+      className={cn(
+        'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+        'flex flex-col gap-6 p-6',
+        'bg-gray-900 text-gray-100',
+        'bg-blend-multiply min-w-[300px] w-full max-w-fit rounded-md shadow shadow-gray-900 animate-dialog-content-show'
+      )}
+    >
+      <DialogHeader>
+        <DialogTitle className='text-2xl font-bold'>
           Defeat! 🥲
-        </Dialog.Title>
-        <Dialog.Description>
-          You lost, not this time!
-          <br />
-          Unfortunately you used all your chances.
-        </Dialog.Description>
-        <Dialog.Close asChild>
+        </DialogTitle>
+      </DialogHeader>
+      <DialogDescription>
+        You lost, not this time!
+        <br />
+        Unfortunately you used all your chances.
+      </DialogDescription>
+      <DialogFooter>
+        <DialogClose asChild>
           <Button
+            className='w-full'
           >
             Try Again
           </Button>
-        </Dialog.Close>
-      </Dialog.Content>
-    </Dialog.Portal>
-  </Dialog.Root >
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog >
 
 }

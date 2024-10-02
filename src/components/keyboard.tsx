@@ -7,9 +7,10 @@ interface KeyboardProps {
   onBackspace: () => void,
   onConfirm: () => void,
   wordSize: number,
-  disabled?: boolean
+  disabled?: boolean,
+  className?: string,
 }
-export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false }: KeyboardProps) {
+export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false, className }: KeyboardProps) {
 
   const handleKeyPress = (letter: string) => {
     onKeyPress(letter)
@@ -23,7 +24,7 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false 
     onConfirm()
   }
 
-  return <div className={cn('grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap', 'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4')}>
+  return <div className={cn(className, 'grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap', 'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4')}>
     {alphabet.length > 0 && alphabet.map(
       (letter: string) =>
         <Key
