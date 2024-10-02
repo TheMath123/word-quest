@@ -3,7 +3,7 @@ import { tv, VariantProps } from 'tailwind-variants';
 import { cn } from '@/lib/cn';
 
 const letterVariants = tv({
-  base: 'flex flex-col w-full max-w-16 aspect-square rounded-md font-semibold text-2xl items-center justify-center',
+  base: 'flex flex-col w-full max-w-16 aspect-square rounded-md font-semibold text-xl md:text-2xl items-center justify-center',
   variants: {
     state: {
       default: 'bg-gray-400 text-gray-950',

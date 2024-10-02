@@ -23,7 +23,7 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false 
     onConfirm()
   }
 
-  return <div className={cn('grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap', 'bg-slate-800 rounded-lg p-4')}>
+  return <div className={cn('grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap', 'bg-slate-800 rounded-lg p-2 md:p-4')}>
     {alphabet.length > 0 && alphabet.map(
       (letter: string) =>
         <Key

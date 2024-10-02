@@ -33,7 +33,7 @@ export function Row({ focused = false, word = '', size, checkWord = false, corre
     return 'default';
   }
 
-  return <div className={cn(`flex flex-row gap-4 justify-center `)}>
+  return <div className={cn(`flex flex-row gap-2 md:gap-4 justify-center min-w-[300px]`)}>
     {wordLetters.map((letter, index) => (
       <Letter
         key={`${letter}-${index}`}

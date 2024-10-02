@@ -105,16 +105,6 @@ export function GamePage() {
     return false;
   }
 
-  // const verifyDefeat = () => {
-  //   if (win) return false;
-  //   const winValidation = currentWord.toLowerCase() !== correctWord;
-  //   if (currentAttempt === maxAttempts && winValidation) {
-  //     setDefeat(true)
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   const resetTurn = () => {
     setCurrentAttempt(0);
     setGameWords(fillGrid);
@@ -128,8 +118,8 @@ export function GamePage() {
   if (loading || !correctWord) return <Loading />
 
   return (
-    <div className="p-4 flex flex-col h-dvh items-center justify-between">
-      <div className="flex flex-col gap-6 h-dvh">
+    <div className="p-4 flex flex-col items-center justify-between">
+      <div className="flex flex-col gap-8 h-dvh justify-between md:justify-start pb-8">
         <header className="flex flex-col gap-1 items-center">
           <h1 className="text-4xl font-bold text-center text-gray-100">Guess the word</h1>
           <p className="text-center text-gray-300 text-xl">
@@ -156,7 +146,6 @@ export function GamePage() {
         />
 
         <main className="max-w-2xl flex flex-col w-full space-y-4">
-          {/* TODO: Improvements responsiveness and accessibility in mobile */}
           {gameWords.map((word: string, index: number) => (
             <Row
               focused={index === currentAttempt && !win}
