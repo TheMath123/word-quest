@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -25,15 +24,13 @@ export function HowToPlay() {
       <DialogTrigger asChild>
         <ButtonInfo />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-fit">
+      <DialogContent className="sm:max-w-1/2 h-dvh sm:h-fit">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <DialogDescription>
-          <ScrollArea className="h-full">
-            <ContentInfo />
-          </ScrollArea>
-        </DialogDescription>
+        <ScrollArea className="h-full max-h-[calc(100vh-200px)]">
+          <ContentInfo />
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button className="w-full">Back</Button>
