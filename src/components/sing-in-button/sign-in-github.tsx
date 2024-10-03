@@ -2,30 +2,24 @@
 
 import { useState } from "react";
 import signInWithGithub from "@/actions/sign-in-with-github";
-import { cn } from "@/lib/cn";
 import { BrandGithub } from "@mynaui/icons-react"
+import { Button } from "@/components/ui/button";
 
-export function SignIn() {
+export function SignInGithub() {
   const [loading, setLoading] = useState(false);
 
   return (
     <form action={signInWithGithub} onProgress={() => setLoading}>
-      <button
+      <Button
         disabled={loading}
         type="submit"
-        className={cn(
-          'flex flex-row gap-4',
-          "px-4 py-2 bg-blue-600 rounded",
-          'absolute top-8 left-8',
-          'font-medium text-foreground',
-          'disabled:bg-gray-500 disabled:cursor-default'
-        )}
+        className="text-foreground"
       >
         <BrandGithub
-          className="stroke-foreground"
+          className="stroke-foreground stroke-2"
         />
         Sign in with Github
-      </button>
+      </Button>
     </form>
   )
 }
