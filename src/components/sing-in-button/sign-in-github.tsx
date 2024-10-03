@@ -13,10 +13,10 @@ export function SignInGithub() {
       <Button
         disabled={loading}
         type="submit"
-        className="text-foreground"
+        className="text-gray-50 gap-2 font-medium"
       >
         <BrandGithub
-          className="stroke-foreground stroke-2"
+          className="stroke-gray-50  stroke-2"
         />
         Sign in with Github
       </Button>

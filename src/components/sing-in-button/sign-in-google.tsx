@@ -13,9 +13,10 @@ export function SignInGoogle() {
       <Button
         disabled={loading}
         type="submit"
+        className="text-gray-50 gap-2 font-medium"
       >
         <BrandGoogle
-          className="stroke-foreground"
+          className="stroke-gray-50"
         />
         Sign in with Google
       </Button>

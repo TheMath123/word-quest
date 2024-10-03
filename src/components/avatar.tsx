@@ -9,7 +9,11 @@ interface UserAvatarProps {
 export default function UserAvatar({ image, name }: UserAvatarProps) {
   return (
     <div
-      className={cn("rounded shadow overflow-hidden border border-gray-300', aspect-square")}
+      className={cn(
+        "rounded-md shadow overflow-hidden",
+        "aspect-square w-16 h-16",
+        "border-2 border-gray-300 dark:border-gray-500"
+      )}
     >
       <Image
         src={image ?? ''}
