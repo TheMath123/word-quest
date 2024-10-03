@@ -13,9 +13,9 @@ export const env = createEnv({
     AUTH_GITHUB_SECRET: z.string({
       required_error: "AUTH_GITHUB_SECRET is required",
     }),
-    // NEXTAUTH_SECRET: z.string({
-    //   required_error: "NEXTAUTH_SECRET is required",
-    // }),
+    NODE_ENV: z.string({
+      required_error: "NODE_ENV is required",
+    }),
   },
   client: {
     NEXT_PUBLIC_ENCRYPTION_KEY: z.string({
@@ -27,7 +27,7 @@ export const env = createEnv({
     TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
     AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
     AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
-    // NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXT_PUBLIC_ENCRYPTION_KEY: process.env.NEXT_PUBLIC_ENCRYPTION_KEY,
+    NODE_ENV: process.env.NODE_ENV,
   },
 });
