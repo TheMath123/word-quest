@@ -4,8 +4,6 @@ import CryptoJS from "crypto-js";
 export const getEncryptionKey = (): string => {
   const ENCRYPTION_KEY = env.NEXT_PUBLIC_ENCRYPTION_KEY;
 
-  console.log("ENCRYPTION_KEY", ENCRYPTION_KEY);
-
   if (!ENCRYPTION_KEY) {
     throw new Error("ENCRYPTION_KEY not found in .env file");
   }
