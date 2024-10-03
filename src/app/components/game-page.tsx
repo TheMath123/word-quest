@@ -1,8 +1,16 @@
-import { useGame } from "@/context/game-context";
+'use client'
+
+import { GameProvider, useGame } from "@/context/game-context";
 import Loading from "@/app/loading";
 import { DefeatDialog, Footer, HowToPlay, Keyboard, Row, WinDialog } from "@/components";
 
 export function GamePage() {
+  return <GameProvider>
+    <GameContainer />
+  </GameProvider>
+}
+
+export function GameContainer() {
   const {
     maxAttempts,
     correctWord,

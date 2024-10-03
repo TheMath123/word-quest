@@ -1,21 +1,9 @@
-import { useEffect, useState } from "react";
-import { Session } from "next-auth";
-import { handleSession } from "@/actions/session";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getInitials } from "@/utils/get-initials";
+import { auth } from "@/lib/auth";
+import { ProfileButton } from "@/components/profile-button/profile-button";
 
-export function UserHeader() {
-  const [session, setSession] = useState<Session | null>(null);
-
-  useEffect(() => {
-    async function getSession() {
-      const data = await handleSession()
-      setSession(data)
-    }
-
-    getSession()
-  }, [])
+export async function UserHeader() {
+  const session = await auth();
 
   if (!session || !session.user) {
     return <header className="w-full p-4 flex justify-end">
@@ -27,9 +15,6 @@ export function UserHeader() {
   }
 
   return <header className="w-full p-4">
-    <Avatar>
-      <AvatarImage src={session.user.image ?? ''} />
-      <AvatarFallback>{getInitials(session.user.name ?? '')}</AvatarFallback>
-    </Avatar>
+    <ProfileButton user={session.user} />
   </header>
 }
