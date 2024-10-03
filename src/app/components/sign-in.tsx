@@ -9,7 +9,7 @@ export function SignIn() {
   const [loading, setLoading] = useState(false);
 
   return (
-    <form onSubmit={signInWithGithub} onProgress={() => setLoading}>
+    <form action={signInWithGithub} onProgress={() => setLoading}>
       <button
         disabled={loading}
         type="submit"

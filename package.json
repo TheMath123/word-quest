@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:migrate": "pnpm dlx prisma migrate dev --name",
+    "turso:send": "turso db shell word-quest <"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.5.3",

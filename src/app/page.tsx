@@ -1,14 +1,15 @@
 'use client'
 
 import { GameProvider } from "@/context/game-context"
-import { SignIn } from "./components/sign-in"
-import { GamePage } from "./components/game-page"
+import { GamePage, } from "@/app/components/game-page"
+import { SignIn } from "@/app/components/sign-in"
+import { ThemeProvider } from "next-themes"
 
 export default function Home() {
-  return <>
+  return <ThemeProvider >
     <SignIn />
     <GameProvider>
       <GamePage />
     </GameProvider>
-  </>
+  </ThemeProvider>
 }
