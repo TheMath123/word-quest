@@ -1,15 +1,15 @@
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db/prisma";
+import { getUserByEmail } from "@/model/user";
 import { NextResponse } from "next/server";
 
 export const GET = auth(async function GET(req) {
-  console.log("req.auth", req.auth);
-  if (!req.auth)
-    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
-
-  const user = await prisma.user.findUnique({
-    where: { id: req.auth.user?.id },
-  });
+  if (!req.auth || !req.auth.user) {
+    return NextResponse.json(
+      { error: "Authentication error" },
+      { status: 401 }
+    );
+  }
+  const user = await getUserByEmail(req.auth.user.email ?? undefined);
 
   return NextResponse.json(user);
 });
