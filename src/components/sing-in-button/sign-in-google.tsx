@@ -5,7 +5,11 @@ import { BrandGoogle } from "@mynaui/icons-react"
 import signInWithGoogle from "@/actions/sign-in-with-google";
 import { Button } from "@/components/ui/button";
 
-export function SignInGoogle() {
+interface SignInGoogleProps {
+  children?: React.ReactNode;
+}
+
+export function SignInGoogle({ children }: SignInGoogleProps) {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -18,7 +22,7 @@ export function SignInGoogle() {
         <BrandGoogle
           className="stroke-gray-50"
         />
-        Sign in with Google
+        {children}
       </Button>
     </form>
   )

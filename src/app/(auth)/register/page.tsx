@@ -13,9 +13,13 @@ export default function Login() {
         />
         <h1 className="text-4xl font-bold mb-6 text-center">Word Quest</h1>
         <div className="px-6 py-8 border border-foreground rounded-lg flex flex-col gap-4 items-center w-fit bg-background shadow">
-          <SignInButton.Google />
+          <SignInButton.Google>
+            Sign up with Google
+          </SignInButton.Google>
           <span className="font-medium">OR</span>
-          <SignInButton.Github />
+          <SignInButton.Github>
+            Sign up with Github
+          </SignInButton.Github>
         </div>
       </div>
       <Footer />

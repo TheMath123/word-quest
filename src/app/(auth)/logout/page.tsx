@@ -1,8 +1,19 @@
+'use client'
+
+import { useEffect } from "react";
 import logout from "@/actions/logout";
+import { useRouter } from "next/navigation";
 import { Footer } from "@/components";
 
-export default async function Logout() {
-  const rest = await logout()
+export default function Logout() {
+  const router = useRouter()
+  useEffect(() => {
+    const l = async () => {
+      await logout()
+      router.push('/');
+    }
+    l()
+  }, []);
 
   return (
     <div className="flex flex-col h-dvh">
