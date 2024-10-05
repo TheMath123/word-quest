@@ -2,10 +2,14 @@
 
 import { Footer, SignInButton } from "@/components";
 import { WordQuestLogo } from "@/components/images/word-quest-logo";
+import Link from "next/link";
 
 export default function Login() {
   return (
     <main className="flex flex-col justify-between items-center h-dvh">
+      <nav className="w-full p-4 flex justify-end">
+        <Link href='/' className="font-medium">Home</Link>
+      </nav>
       <div className="grid h-full place-content-center place-items-center">
         <WordQuestLogo
           width="124"
