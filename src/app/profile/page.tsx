@@ -14,7 +14,7 @@ export default function Profile() {
   const [data, setData] = useState()
 
   useEffect(() => {
-    ; (async () => {
+    (async () => {
       const d = await getUser()
       if (d.error) {
         router.push("/login");
