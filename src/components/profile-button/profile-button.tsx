@@ -44,7 +44,7 @@ export function ProfileButton({ user }: ProfileButtonProps) {
           className="text-red-500 hover:text-red-600"
         >
           <Link
-            href="/api/auth/signout"
+            href="/logout"
           >
             Sign Out
           </Link>
