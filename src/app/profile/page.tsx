@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export async function getUser() {
+async function getUser() {
   const response = await fetch("/api/game/profile");
   const user = await response.json();
   return user;
