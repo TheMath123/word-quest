@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import signInWithGithub from "@/actions/sign-in-with-github";
+import signInWithGithub from "@/actions/auth/sign-in-with-github";
 import { BrandGithub } from "@mynaui/icons-react"
 import { Button } from "@/components/ui/button";
 

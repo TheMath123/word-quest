@@ -1,7 +1,8 @@
-import Avatar from "@/components/avatar";
+import getUser from "@/actions/auth/profile";
 
-export default function Profile() {
+export default async function Profile() {
+  const user = await getUser();
   return <main className="bg-background-gradient h-dvh grid place-content-center">
-    <Avatar />
+    <pre>{JSON.stringify(user, null, 2)}</pre>
   </main>
 }

@@ -1,8 +1,11 @@
-import { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default auth(async function middleware(req: NextRequest) {
-  // console.log("req", req);
-  // Your custom middleware logic goes here
+export default auth(async function middleware(req) {
+  NextResponse.next();
 });
+
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};

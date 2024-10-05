@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
+    VERCEL_URL: z.string({ required_error: "VERCEL_URL is required" }),
     AUTH_GITHUB_ID: z.string({ required_error: "AUTH_GITHUB_ID is required" }),
     AUTH_GITHUB_SECRET: z.string({
       required_error: "AUTH_GITHUB_SECRET is required",
@@ -27,6 +28,7 @@ export const env = createEnv({
     }),
   },
   runtimeEnv: {
+    VERCEL_URL: process.env.VERCEL_URL,
     AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
     AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
     AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
