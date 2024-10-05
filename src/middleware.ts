@@ -1,8 +1,7 @@
-import { auth } from "@/lib/auth";
+import { auth as middleware } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default auth(async function middleware(req) {
+export default middleware(() => {
   NextResponse.next();
 });
 
