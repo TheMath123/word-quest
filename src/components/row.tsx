@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from "react";
 import { Letter } from "@/components";
 import { convertStringToArray } from "@/lib/convert-string-to-array";

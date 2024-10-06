@@ -27,14 +27,6 @@ interface GameContextType {
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-export const useGame = () => {
-  const context = useContext(GameContext);
-  if (!context) {
-    throw new Error('useGame must be used within a GameProvider');
-  }
-  return context;
-};
-
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const maxAttempts = 5;
   const [wordID, setWordID] = useLocalStorage<string | undefined>('id');
@@ -154,4 +146,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   >
     {children}
   </GameContext.Provider>;
+};
+
+export const useGame = () => {
+  const context = useContext(GameContext);
+  if (!context) {
+    throw new Error('useGame must be used within a GameProvider');
+  }
+  return context;
 };

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { getEncryptionKey, encrypt, decrypt, encryptKey } from "../lib/crypto";
+import { getEncryptionKey, encrypt, decrypt, encryptKey } from "@/lib/crypto";
 
 const isBrowser = typeof window !== "undefined";
 

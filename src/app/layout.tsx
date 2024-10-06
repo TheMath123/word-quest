@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 
 const font = Jost({
@@ -27,16 +27,10 @@ export default function RootLayout({
         <link rel="icon" href="/images/favicon.ico" sizes="any" />
       </head>
       <body
-        className={`${font.className} antialiased bg-background-gradient`}
+        className={`${font.className} antialiased relative`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        {children}
+        <Analytics />
       </body>
     </html >
   );

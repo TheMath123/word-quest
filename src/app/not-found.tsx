@@ -3,8 +3,14 @@
 import colors from 'tailwindcss/colors';
 import { BlinkBlur } from 'react-loading-indicators';
 import { Footer } from '@/components';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export default function Loading() {
+export default function NotFound() {
+  const router = useRouter()
+  useEffect(() => {
+    router.push('/')
+  }, []);
   return (
     <div className="flex flex-col h-dvh">
       <main className="grid place-content-center h-full">

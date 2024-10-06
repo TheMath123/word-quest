@@ -1,10 +1,11 @@
-'use client'
-
-import { GameProvider } from "@/context/game-context"
-import { GamePage } from "@/app/components/game-page"
+import { GamePage, } from "@/app/components/game-page"
+import { UserHeader } from "@/app/components/user-header"
+import { Footer } from "@/components"
 
 export default function Home() {
-  return <GameProvider>
+  return (<div className="grid h-dvh">
+    <UserHeader />
     <GamePage />
-  </GameProvider>
+    <Footer />
+  </div>)
 }
