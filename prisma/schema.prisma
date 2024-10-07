@@ -107,7 +107,8 @@ model Puzzle {
   id String @id @default(cuid())
   word String
   tip String
-  alphabet Alphabet?
+  alphabet Alphabet @relation(fields: [alphabetid], references: [id])
+  alphabetid String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -117,11 +118,12 @@ model Puzzle {
 
 model Alphabet {
   id String @id @default(cuid())
-  puzzle   Puzzle  @relation(fields: [puzzleId], references: [id])
-  puzzleId String @unique
   name String @unique
   characters String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+
+  Puzzle Puzzle[]
 }
