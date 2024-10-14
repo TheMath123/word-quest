@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
+import { Toaster } from "@/components/ui/toaster"
+
 import "./globals.css";
 
 const font = Jost({
@@ -30,6 +32,7 @@ export default function RootLayout({
         className={`${font.className} antialiased relative`}
       >
         {children}
+        <Toaster />
         <Analytics />
       </body>
     </html >

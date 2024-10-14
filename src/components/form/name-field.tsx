@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -17,7 +17,7 @@ interface NameFieldProps {
 }
 
 export function NameField({ name, label, placeholder, description }: NameFieldProps) {
-  const form = useForm();
+  const form = useFormContext();
 
   return <FormField
     control={form.control}
@@ -26,7 +26,7 @@ export function NameField({ name, label, placeholder, description }: NameFieldPr
       <FormItem>
         <FormLabel>{label ?? 'Name'}</FormLabel>
         <FormControl>
-          <Input placeholder={placeholder ?? "Grece"} {...field} />
+          <Input placeholder={placeholder ?? "Write your name"} {...field} />
         </FormControl>
         {description ? <FormDescription>
           {description}

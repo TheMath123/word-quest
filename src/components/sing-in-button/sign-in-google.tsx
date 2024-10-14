@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BrandGoogle } from "@mynaui/icons-react"
-import signInWithGoogle from "@/actions/auth/sign-in-with-google";
+import signInWithGoogle from "@/services/auth/sign-in-with-google";
 import { Button } from "@/components/ui/button";
 
 interface SignInGoogleProps {

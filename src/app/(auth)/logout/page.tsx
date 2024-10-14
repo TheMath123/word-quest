@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from "react";
-import logout from "@/actions/auth/logout";
+import logout from "@/services/auth/logout";
 import { useRouter } from "next/navigation";
 import { Footer } from "@/components";
 
