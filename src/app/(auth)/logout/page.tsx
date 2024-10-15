@@ -1,18 +1,19 @@
 'use client'
 
-import { useEffect } from "react";
 import logout from "@/services/auth/logout";
-import { useRouter } from "next/navigation";
 import { Footer } from "@/components";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Logout() {
   const router = useRouter()
   useEffect(() => {
-    const l = async () => {
-      await logout()
-      router.push('/');
-    }
-    l()
+    const leave = async () => {
+      await logout();
+      router.replace('/');
+    };
+
+    leave();
   }, []);
 
   return (

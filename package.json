@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:migrate": "pnpm dlx prisma migrate dev --name",
+    "prisma:migrate": "pnpm dlx prisma migrate dev",
     "turso:send": "turso db shell word-quest <"
   },
   "dependencies": {

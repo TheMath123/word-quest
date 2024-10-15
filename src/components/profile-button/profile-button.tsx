@@ -15,7 +15,7 @@ interface ProfileButtonProps {
   user: User;
 }
 
-export function ProfileButton({ user }: ProfileButtonProps) {
+export async function ProfileButton({ user }: ProfileButtonProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -44,7 +44,7 @@ export function ProfileButton({ user }: ProfileButtonProps) {
           className="text-red-500 hover:text-red-600"
         >
           <Link
-            href="/logout"
+            href='/logout'
           >
             Sign Out
           </Link>

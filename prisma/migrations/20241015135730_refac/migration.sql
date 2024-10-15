@@ -81,23 +81,22 @@ CREATE TABLE "PuzzleCompleted" (
 );
 
 -- CreateTable
-CREATE TABLE "Puzzle" (
+CREATE TABLE "Alphabet" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "word" TEXT NOT NULL,
-    "tip" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "characters" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
 
 -- CreateTable
-CREATE TABLE "Alphabet" (
+CREATE TABLE "Puzzle" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "puzzleId" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "characters" TEXT NOT NULL,
+    "word" TEXT NOT NULL,
+    "tip" TEXT NOT NULL,
+    "alphabetName" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "Alphabet_puzzleId_fkey" FOREIGN KEY ("puzzleId") REFERENCES "Puzzle" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "updatedAt" DATETIME NOT NULL
 );
 
 -- CreateTable
@@ -128,9 +127,6 @@ CREATE UNIQUE INDEX "GameData_userId_key" ON "GameData"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PuzzleCompleted_puzzleId_key" ON "PuzzleCompleted"("puzzleId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Alphabet_puzzleId_key" ON "Alphabet"("puzzleId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Alphabet_name_key" ON "Alphabet"("name");

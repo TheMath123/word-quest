@@ -103,27 +103,20 @@ model PuzzleCompleted {
   GameData GameData[]
 }
 
-model Puzzle {
-  id String @id @default(cuid())
-  word String
-  tip String
-  alphabet Alphabet @relation(fields: [alphabetid], references: [id])
-  alphabetid String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  PuzzleCompleted PuzzleCompleted[]
-}
-
 model Alphabet {
-  id String @id @default(cuid())
-  name String @unique
+  id         String   @id @default(cuid())
+  name       String   @unique
   characters String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-
-  Puzzle Puzzle[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
+model Puzzle {
+  id               String           @id @default(cuid())
+  word             String
+  tip              String
+  alphabetName       String
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  PuzzleCompleted  PuzzleCompleted?
+}
+

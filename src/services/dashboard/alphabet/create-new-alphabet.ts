@@ -35,6 +35,10 @@ export default async function createNewAlphabet(
     return { description: "Alphabet created" };
   } catch (error) {
     console.error("error", error);
-    return { error: "Name and characters are required" };
+    if (error instanceof Error) {
+      return { error: error.message };
+    } else {
+      return { error: "An unknown error occurred" };
+    }
   }
 }

@@ -25,7 +25,6 @@ const createAlphabet = async (
       characters,
     },
   });
-
   return alphabet;
 };
 

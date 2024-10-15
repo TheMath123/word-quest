@@ -16,9 +16,12 @@ export default async function Profile() {
   }
 
   return <main className="bg-background-gradient h-dvh grid place-content-center">
-    <header className="space-y-4">
-      <h1 className="text-2xl font-medium">Welcome, <span className="font-semibold">{user.name}</span></h1>
+    <header className="flex flex-row gap-4">
       {user.image ? <Image src={user.image} alt={user.name + 'photo'} width={100} height={100} /> : null}
+      <div>
+        <h1 className="text-2xl font-medium">Welcome, <span className="font-semibold">{user.name}</span></h1>
+        <h2 className="text-base font-light">{user.email}</h2>
+      </div>
     </header>
     <nav className="flex gap-4 p-4">
       <ul className="flex space-x-4">
