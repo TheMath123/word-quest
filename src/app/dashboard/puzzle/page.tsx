@@ -9,25 +9,25 @@ import {
 } from "@/components/ui/form"
 import { NameField } from "@/components/form"
 import { toast } from "@/hooks/use-toast"
-import { createNewAlphabet } from "@/services/dashboard/alphabet"
-import { AlphabetSchemaType, alphabetSchema } from "./alphabet-schema"
+import { PuzzleSchemaType, puzzleSchema } from "./puzzle-schema"
+import { AlphabetField } from "@/components/form/alphabet-field.tsx"
+import { createNewPuzzle } from "@/services/dashboard/puzzle/create-new-puzzle"
 import { useState } from "react"
 
-
-
-export default function Alphabet() {
+export default function Puzzle() {
   const [loading, setLoading] = useState(false)
-  const form = useForm<AlphabetSchemaType>({
-    resolver: zodResolver(alphabetSchema),
+  const form = useForm<PuzzleSchemaType>({
+    resolver: zodResolver(puzzleSchema),
     defaultValues: {
-      name: "",
-      characters: ''
+      word: "",
+      tip: '',
+      alphabetName: '',
     },
   })
 
-  async function onSubmit(values: AlphabetSchemaType) {
+  async function onSubmit(values: PuzzleSchemaType) {
     setLoading(true)
-    const res = await createNewAlphabet({ ...values })
+    const res = await createNewPuzzle({ ...values })
     if (res?.error) {
       toast({
         variant: "destructive",
@@ -47,13 +47,14 @@ export default function Alphabet() {
   }
 
   return <main className="p-4 flex flex-col gap-4 items-center justify-start">
-    <h1 className="text-xl font-bold">Create New Alphabet</h1>
+    <h1 className="text-xl font-bold">Create New Puzzle</h1>
 
     <div className="w-full max-w-sm">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <NameField name="name" placeholder="Write Alphabet name" />
-          <NameField name="characters" label="Characters" placeholder="a;b;c;e;d;f;..." />
+          <NameField name="word" label="Word" placeholder="Write the word to be discovered" />
+          <NameField name="tip" label="Tip" placeholder="Write a short tip" />
+          <AlphabetField />
           <Button type="submit" disabled={loading}>Submit</Button>
         </form>
       </Form>

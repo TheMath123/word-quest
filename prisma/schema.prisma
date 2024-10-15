@@ -85,22 +85,22 @@ model Authenticator {
 }
 
 model GameData {
-  id                String   @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [email])
-  userId String @unique
-  totalCompleted    Int
-  puzzleCompleted   PuzzleCompleted[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String            @id @default(cuid())
+  user            User              @relation(fields: [userId], references: [id])
+  userId          String            @unique
+  totalCompleted  Int               @default(0)
+  puzzlesCompleted PuzzleCompleted[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 }
 
 model PuzzleCompleted {
-  id String @id @default(cuid())
-  puzzle Puzzle @relation(fields: [puzzleId], references: [id])
-  puzzleId String @unique
+  id         String   @id @default(cuid())
+  puzzle     Puzzle   @relation(fields: [puzzleId], references: [id])
+  puzzleId   String
   completedAt DateTime @default(now())
-
-  GameData GameData[]
+  gameData   GameData @relation(fields: [gameDataId], references: [id])
+  gameDataId String
 }
 
 model Alphabet {
@@ -109,14 +109,16 @@ model Alphabet {
   characters String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  puzzles    Puzzle[]
 }
 model Puzzle {
   id               String           @id @default(cuid())
   word             String
   tip              String
-  alphabetName       String
+  alphabet         Alphabet          @relation(fields: [alphabetName], references: [name])
+  alphabetName     String
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  PuzzleCompleted  PuzzleCompleted?
+  puzzlesCompleted PuzzleCompleted[]
 }
 

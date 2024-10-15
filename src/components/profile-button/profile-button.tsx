@@ -19,7 +19,6 @@ export async function ProfileButton({ user }: ProfileButtonProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        {" "}
         <Avatar>
           <AvatarImage src={user.image ?? ""} />
           <AvatarFallback>
@@ -30,9 +29,7 @@ export async function ProfileButton({ user }: ProfileButtonProps) {
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          asChild
-        >
+        <DropdownMenuItem asChild >
           <Link
             href='/profile'
           >

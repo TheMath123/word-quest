@@ -2,6 +2,6 @@
 
 import { signIn } from "@/lib/auth";
 
-export default async function signInWithGithub() {
+export async function signInWithGithub() {
   return await signIn("github", { redirectTo: "/" });
 }

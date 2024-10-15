@@ -1,23 +1,18 @@
 "use server";
 
-import { AlphabetDTO } from "@/dtos";
-import { getAlphabet, createAlphabet } from "@/model/alphabet";
+import { PuzzleDTO } from "@/dtos";
+import { createPuzzle } from "@/model/puzzle";
 
 interface AlphabetResponse {
   description?: string;
   error?: string;
 }
 
-export async function createNewAlphabet(
-  data: AlphabetDTO
+export async function createNewPuzzle(
+  data: PuzzleDTO
 ): Promise<AlphabetResponse> {
   try {
-    const alphabetExists = await getAlphabet(data.name);
-    if (alphabetExists) {
-      return { error: "Alphabet already exists" };
-    }
-
-    await createAlphabet(data);
+    await createPuzzle(data);
 
     return { description: "Alphabet created" };
   } catch (error) {

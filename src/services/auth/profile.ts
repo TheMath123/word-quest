@@ -1,13 +1,19 @@
 "use server";
 
 import { auth } from "@/lib/auth";
+import { User } from "next-auth";
 
-export default async function getProfile() {
+interface Response {
+  user?: User;
+  error?: string;
+}
+
+export async function getProfile(): Promise<Response> {
   const session = await auth();
 
   if (!session) {
     return { error: "You are not authenticated, please log in." };
   }
 
-  return session.user;
+  return { user: session.user };
 }
