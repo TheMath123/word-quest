@@ -1,13 +1,16 @@
-import { UserHeader } from "./user-header"
-// import { GamePage } from "./game-page"
+import { Suspense } from "react"
+import { UserHeader } from "./components/user-header"
 import { Footer } from "@/components"
+import { GamePage } from "./components/game-page"
 
 export default function Home() {
   return (
-    <div className="grid h-dvh">
-      <UserHeader />
-      {/* <GamePage /> */}
-      <Footer />
-    </div>
+    <Suspense>
+      <div className="grid h-dvh">
+        <UserHeader />
+        <GamePage />
+        <Footer />
+      </div>
+    </Suspense>
   )
 }

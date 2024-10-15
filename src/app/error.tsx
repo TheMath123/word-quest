@@ -9,7 +9,6 @@ interface ErrorProps {
 }
 
 export default function Error({ error, reset }: ErrorProps) {
-
   return (
     <div className="flex flex-col h-dvh">
       <main className="grid place-content-center h-full space-y-6">

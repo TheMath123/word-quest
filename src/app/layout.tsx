@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from "@/components/ui/toaster"
+// import { Analytics } from "@vercel/analytics/react"
 
 import "./globals.css";
 
@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
-        <Analytics />
+        {/* <Analytics /> */}
       </body>
     </html >
   );
