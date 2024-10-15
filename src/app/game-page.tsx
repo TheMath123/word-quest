@@ -4,13 +4,7 @@ import { GameProvider, useGame } from "@/context/game-context";
 import Loading from "@/app/loading";
 import { DefeatDialog, HowToPlay, Keyboard, Row, WinDialog } from "@/components";
 
-export function GamePage() {
-  return <GameProvider>
-    <GameContainer />
-  </GameProvider>
-}
-
-export function GameContainer() {
+function GameContainer() {
   const {
     maxAttempts,
     correctWord,
@@ -80,4 +74,10 @@ export function GameContainer() {
     </div>
 
   );
+}
+
+export function GamePage() {
+  return <GameProvider>
+    <GameContainer />
+  </GameProvider>
 }

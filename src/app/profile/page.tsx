@@ -7,12 +7,12 @@ import Link from "next/link"
 export default async function Profile() {
   const data = await getProfile()
 
-  if (!data.user && data.error) {
-    return <main className="bg-background-gradient h-dvh grid place-content-center space-y-6">
-      <h1>{data.error}</h1>
-      <Link href='/' className="text-xl">Back</Link>
-    </main>
-  }
+  // if (!data.user && data.error) {
+  //   return <main className="bg-background-gradient h-dvh grid place-content-center space-y-6">
+  //     <h1>{data.error}</h1>
+  //     <Link href='/' className="text-xl">Back</Link>
+  //   </main>
+  // }
 
   return <main className="bg-background-gradient h-dvh grid place-content-center">
     <header className="flex flex-row gap-4">

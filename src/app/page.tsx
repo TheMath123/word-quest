@@ -1,11 +1,13 @@
-import { GamePage, } from "@/app/components/game-page"
-import { UserHeader } from "@/app/components/user-header"
+import { UserHeader } from "./user-header"
+// import { GamePage } from "./game-page"
 import { Footer } from "@/components"
 
 export default function Home() {
-  return (<div className="grid h-dvh">
-    <UserHeader />
-    <GamePage />
-    <Footer />
-  </div>)
+  return (
+    <div className="grid h-dvh">
+      <UserHeader />
+      {/* <GamePage /> */}
+      <Footer />
+    </div>
+  )
 }

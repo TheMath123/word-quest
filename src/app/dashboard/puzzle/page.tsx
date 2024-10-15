@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/form"
 import { NameField } from "@/components/form"
 import { toast } from "@/hooks/use-toast"
-import { PuzzleSchemaType, puzzleSchema } from "./puzzle-schema"
 import { AlphabetField } from "@/components/form/alphabet-field.tsx"
 import { createNewPuzzle } from "@/services/dashboard/puzzle/create-new-puzzle"
 import { useState } from "react"
+import { PuzzleSchemaType, puzzleSchema } from "./puzzle-schema"
 
 export default function Puzzle() {
   const [loading, setLoading] = useState(false)
