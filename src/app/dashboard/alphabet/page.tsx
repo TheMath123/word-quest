@@ -1,19 +1,18 @@
 'use client'
 
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-
-import { Button } from "@/components/ui/button"
 import {
   Form
 } from "@/components/ui/form"
-import { NameField } from "@/components/form"
-import { toast } from "@/hooks/use-toast"
-import { createNewAlphabet } from "@/services/dashboard/alphabet"
 import { AlphabetSchemaType, alphabetSchema } from "./components/alphabet-schema"
-import { useState } from "react"
+import { createNewAlphabet } from "@/services/dashboard/alphabet"
+import { toast } from "@/hooks/use-toast"
+import { NameField } from "@/components/form"
+import { Button } from "@/components/ui/button"
 
-export default function Alphabet() {
+export default function AlphabetP() {
   const [loading, setLoading] = useState(false)
   const form = useForm<AlphabetSchemaType>({
     resolver: zodResolver(alphabetSchema),
