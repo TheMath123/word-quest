@@ -6,10 +6,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getInitials } from "@/utils/get-initials";
+
 import { User } from "next-auth";
 import Link from "next/link";
+import { ProfilePhoto } from "./profile-photo";
 
 interface ProfileButtonProps {
   user: User;
@@ -19,12 +19,7 @@ export async function ProfileButton({ user }: ProfileButtonProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar>
-          <AvatarImage src={user.image ?? ""} />
-          <AvatarFallback>
-            {getInitials(user.name ?? "")}
-          </AvatarFallback>
-        </Avatar>
+        <ProfilePhoto name={user.name ?? "^_^"} image={user.image ?? ""} />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

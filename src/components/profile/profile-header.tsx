@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { ProfileButton } from "@/components/profile-button/profile-button";
+import { ProfileButton } from "@/components/profile/profile-button";
 
-export async function UserHeader() {
+export async function ProfileHeader() {
   const session = await auth();
 
   if (!session || !session.user) {

@@ -12,6 +12,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@auth/core": "^0.37.0",
     "@auth/prisma-adapter": "^2.5.3",
     "@hookform/resolvers": "^3.9.0",
     "@libsql/client": "^0.14.0",

@@ -1,10 +1,10 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { User } from "next-auth";
+import { Session } from "next-auth";
 
 interface Response {
-  user?: User;
+  user?: Session["user"];
   error?: string;
 }
 

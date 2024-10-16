@@ -20,7 +20,7 @@
     preact "10.11.3"
     preact-render-to-string "5.2.3"
 
-"@auth/core@0.37.0":
+"@auth/core@0.37.0", "@auth/core@^0.37.0":
   version "0.37.0"
   resolved "https://registry.yarnpkg.com/@auth/core/-/core-0.37.0.tgz#4fdafe7de4da6fd03bb62b89f1fc5f4dc2944031"
   integrity sha512-LybAgfFC5dta3Mu3al0UbnzMGVBpZRqLMvvXupQOfETtPNlL7rXgTO13EVRTCdvPqMQrVYjODUDvgVfQM1M3Qg==

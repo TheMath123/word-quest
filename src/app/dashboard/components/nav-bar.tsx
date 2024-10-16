@@ -1,13 +1,15 @@
+import { ProfileAvatar } from "@/components/profile/profile-avatar";
 import Link from "next/link";
 
 export function NavBar() {
-  return <nav className="flex items-center justify-between p-4  shadow-sm w-full">
-    <div className="self-start">
-      <h1 className="text-lg font-bold">Dashboard</h1>
-    </div>
+  return <nav className="flex items-center justify-between p-4 shadow-sm w-full">
+    <ProfileAvatar />
     <ul className="flex flex-row gap-4 w-full justify-center">
       <li>
-        <Link href='/profile'>Profile</Link>
+        <Link href='/'>Home</Link>
+      </li>
+      <li>
+        <Link href='/dashboard/'>Dashboard</Link>
       </li>
       <li>
         <Link href='/dashboard/alphabet'>Alphabet</Link>

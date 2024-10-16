@@ -1,13 +1,13 @@
 import { Suspense } from "react"
-import { UserHeader } from "./components/user-header"
+import { ProfileHeader } from "@/components/profile/profile-header"
 import { Footer } from "@/components"
-import { GamePage } from "./components/game-page"
+import { GamePage } from "@/app/components/game-page"
 
 export default function Home() {
   return (
     <Suspense>
       <div className="grid h-dvh">
-        <UserHeader />
+        <ProfileHeader />
         <GamePage />
         <Footer />
       </div>
