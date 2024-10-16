@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prisma:migrate": "pnpm dlx prisma migrate dev",
-    "turso:send": "turso db shell word-quest <"
+    "turso:send": "turso db shell word-quest <",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.5.3",
