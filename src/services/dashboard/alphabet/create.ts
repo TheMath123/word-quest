@@ -1,14 +1,17 @@
 "use server";
 
 import { AlphabetDTO } from "@/dtos";
-import { getAlphabet, createAlphabet } from "@/model/alphabet";
+import {
+  getAlphabet,
+  createAlphabet as createAlphabetDB,
+} from "@/model/alphabet";
 
 interface AlphabetResponse {
   description?: string;
   error?: string;
 }
 
-export async function createNewAlphabet(
+export async function createAlphabet(
   data: AlphabetDTO
 ): Promise<AlphabetResponse> {
   try {
@@ -17,7 +20,7 @@ export async function createNewAlphabet(
       return { error: "Alphabet already exists" };
     }
 
-    await createAlphabet(data);
+    await createAlphabetDB(data);
 
     return { description: "Alphabet created" };
   } catch (error) {

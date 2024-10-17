@@ -17,18 +17,18 @@ const getPuzzle = async (id: string): Promise<Puzzle | null> => {
 };
 
 const createPuzzle = async (data: PuzzleDTO): Promise<Puzzle> => {
-  const alphabet = await prisma.puzzle.create({
+  const puzzle = await prisma.puzzle.create({
     data: {
       word: data.word,
       tip: data.tip,
       alphabetName: data.alphabetName,
     },
   });
-  return alphabet;
+  return puzzle;
 };
 
 const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<Puzzle> => {
-  const alphabet = await prisma.puzzle.update({
+  const puzzle = await prisma.puzzle.update({
     data: {
       word: data.word,
       tip: data.tip,
@@ -38,7 +38,7 @@ const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<Puzzle> => {
       id: data.id,
     },
   });
-  return alphabet;
+  return puzzle;
 };
 
 export { getPuzzles, getPuzzle, createPuzzle, updatePuzzle };

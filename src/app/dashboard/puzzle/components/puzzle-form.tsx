@@ -10,7 +10,7 @@ import {
 import { NameField } from "@/components/form"
 import { toast } from "@/hooks/use-toast"
 import { AlphabetField } from "@/components/form/alphabet-field.tsx"
-import { createPuzzle } from "@/services/dashboard/puzzle/create-puzzle"
+import { createPuzzle } from "@/services/dashboard/puzzle/create"
 import { useState } from "react"
 import { PuzzleSchemaType, puzzleSchema } from "./puzzle-schema"
 import { Puzzle } from "@prisma/client"

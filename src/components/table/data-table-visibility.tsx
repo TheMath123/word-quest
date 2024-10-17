@@ -1,6 +1,7 @@
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Table } from "@tanstack/react-table"
+import { TallyFive } from '@mynaui/icons-react'
 
 interface DataTableVisibilityProps<TData> {
   table: Table<TData>
@@ -13,8 +14,8 @@ export function DataTableVisibility<TData>({
 
   return <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="outline" className="text-sm">
-        Columns
+      <Button variant="outline" aria-label="Columns" title="Columns">
+        <TallyFive className="w-5 h-5" />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">

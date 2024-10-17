@@ -1,26 +1,27 @@
 'use client';
 
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { PuzzleForm } from "./puzzle-form";
 import { Button } from "@/components/ui/button";
-import { searchPuzzle } from "@/services/dashboard/puzzle";
-import { Puzzle } from "@prisma/client";
+import { Alphabet, } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { AlphabetForm } from "./alphabet-form";
+import { searchAlphabet } from "@/services/dashboard/alphabet";
 
-interface EditPuzzleProps {
+interface EditAlphabetProps {
   id?: string;
   children?: React.ReactNode;
 }
 
-export function EditPuzzle({ id, children }: EditPuzzleProps) {
-  const message = id ? "Edit Puzzle" : "Create New Puzzle";
-  const [data, setData] = useState<Puzzle | null>(null)
+export function EditAlphabet({ id, children }: EditAlphabetProps) {
+  const message = id ? "Edit Alphabet" : "Create New Alphabet";
+  const [data, setData] = useState<Alphabet | null>(null)
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
-      const data = await searchPuzzle(id);
+      const data = await searchAlphabet({ id });
+      console.log('data', data);
       setData(data);
     }
 
@@ -31,14 +32,14 @@ export function EditPuzzle({ id, children }: EditPuzzleProps) {
     <DialogTrigger asChild>
       {id && children ?
         children :
-        <Button variant='outline'>Add puzzle</Button>
+        <Button variant='outline'>Add alphabet</Button>
       }
     </DialogTrigger>
     <DialogContent>
       <DialogTitle>
         {message}
       </DialogTitle>
-      <PuzzleForm initialData={data} onClose={(() => setOpen(false))} />
+      <AlphabetForm initialData={data} onClose={(() => setOpen(false))} />
     </DialogContent>
   </Dialog>
 }

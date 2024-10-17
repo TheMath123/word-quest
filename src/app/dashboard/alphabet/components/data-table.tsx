@@ -24,7 +24,7 @@ import {
 import { DataTablePagination } from "@/components/table/data-table-pagination"
 import { DataTableSearch } from "@/components/table/data-table-search"
 import { DataTableVisibility } from "@/components/table/data-table-visibility";
-import { EditPuzzle } from "./edit-puzzle";
+import { EditAlphabet } from "./edit-alphabet";
 
 interface DataTableProps<TData, TValue> {
   title: string;
@@ -69,12 +69,12 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="space-y-4">
+    <div>
       <header className="flex flex-row justify-between items-center">
-        <DataTableSearch table={table} columnKey="word" />
+        <DataTableSearch table={table} columnKey="name" />
         <h1 className="text-xl font-semibold">{title}</h1>
         <div className="space-x-4 flex items-center">
-          <EditPuzzle />
+          <EditAlphabet />
           <DataTableVisibility table={table} />
         </div>
       </header>
