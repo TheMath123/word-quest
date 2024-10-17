@@ -1,21 +1,17 @@
 "use server";
 
+import { ServiceResponse } from "@/@types/response";
 import { AlphabetDTO } from "@/dtos";
 import {
   getAlphabet,
   createAlphabet as createAlphabetDB,
 } from "@/model/alphabet";
 
-interface AlphabetResponse {
-  description?: string;
-  error?: string;
-}
-
 export async function createAlphabet(
   data: AlphabetDTO
-): Promise<AlphabetResponse> {
+): Promise<ServiceResponse> {
   try {
-    const alphabetExists = await getAlphabet(data.name);
+    const alphabetExists = await getAlphabet({ name: data.name });
     if (alphabetExists) {
       return { error: "Alphabet already exists" };
     }

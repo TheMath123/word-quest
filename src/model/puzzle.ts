@@ -41,4 +41,13 @@ const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<Puzzle> => {
   return puzzle;
 };
 
-export { getPuzzles, getPuzzle, createPuzzle, updatePuzzle };
+const deletePuzzle = async (id: string): Promise<Puzzle> => {
+  const puzzle = await prisma.puzzle.delete({
+    where: {
+      id,
+    },
+  });
+  return puzzle;
+};
+
+export { getPuzzles, getPuzzle, createPuzzle, updatePuzzle, deletePuzzle };

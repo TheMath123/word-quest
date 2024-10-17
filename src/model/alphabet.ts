@@ -7,7 +7,7 @@ const getAlphabets = async (): Promise<Alphabet[] | null> => {
   return data;
 };
 
-interface AlphabetParams {
+interface GetAlphabetParams {
   name?: string;
   id?: string;
 }
@@ -15,7 +15,7 @@ interface AlphabetParams {
 const getAlphabet = async ({
   name,
   id,
-}: AlphabetParams): Promise<Alphabet | null> => {
+}: GetAlphabetParams): Promise<Alphabet | null> => {
   console.log("name", name);
   console.log("id", id);
   const data = await prisma.alphabet.findUnique({
@@ -50,5 +50,20 @@ const updateAlphabet = async (data: AlphabetUpdateDTO): Promise<Alphabet> => {
   return alphabet;
 };
 
-export { getAlphabets, getAlphabet, createAlphabet, updateAlphabet };
-export type { AlphabetParams };
+const deleteAlphabet = async (id: string): Promise<Alphabet> => {
+  const alphabet = await prisma.alphabet.delete({
+    where: {
+      id,
+    },
+  });
+  return alphabet;
+};
+
+export {
+  getAlphabets,
+  getAlphabet,
+  createAlphabet,
+  updateAlphabet,
+  deleteAlphabet,
+};
+export type { GetAlphabetParams };

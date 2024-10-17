@@ -1,7 +1,8 @@
+import { ServiceResponse } from "@/@types/response";
 import { toast } from "@/hooks/use-toast";
 
 type CustomToast = (
-  response: { error?: string; description?: string },
+  response: ServiceResponse,
   options?: {
     success?: {
       title?: string;

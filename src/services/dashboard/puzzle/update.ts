@@ -1,16 +1,12 @@
 "use server";
 
+import { ServiceResponse } from "@/@types/response";
 import { PuzzleUpdateDTO } from "@/dtos";
 import { updatePuzzle as updatePuzzleDB } from "@/model/puzzle";
 
-interface AlphabetResponse {
-  description?: string;
-  error?: string;
-}
-
 export async function updatePuzzle(
   data: PuzzleUpdateDTO
-): Promise<AlphabetResponse> {
+): Promise<ServiceResponse> {
   try {
     await updatePuzzleDB(data);
 
