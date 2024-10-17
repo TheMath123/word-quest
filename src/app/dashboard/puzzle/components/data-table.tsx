@@ -66,8 +66,8 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div >
-      <header>
+    <div className="space-y-4">
+      <header className="flex flex-row justify-between h-10">
         <DataTableSearch table={table} columnKey="word" />
         <DataTableVisibility table={table} />
       </header>

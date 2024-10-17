@@ -1,4 +1,4 @@
-import { PuzzleDTO } from "@/dtos";
+import { PuzzleDTO, PuzzleUpdateDTO } from "@/dtos";
 import { prisma } from "@/lib/db/prisma";
 import { Puzzle } from "@prisma/client";
 
@@ -27,4 +27,18 @@ const createPuzzle = async (data: PuzzleDTO): Promise<Puzzle> => {
   return alphabet;
 };
 
-export { getPuzzles, getPuzzle, createPuzzle };
+const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<Puzzle> => {
+  const alphabet = await prisma.puzzle.update({
+    data: {
+      word: data.word,
+      tip: data.tip,
+      alphabetName: data.alphabetName,
+    },
+    where: {
+      id: data.id,
+    },
+  });
+  return alphabet;
+};
+
+export { getPuzzles, getPuzzle, createPuzzle, updatePuzzle };

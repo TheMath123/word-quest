@@ -10,15 +10,22 @@ import {
 import { NameField } from "@/components/form"
 import { toast } from "@/hooks/use-toast"
 import { AlphabetField } from "@/components/form/alphabet-field.tsx"
-import { createNewPuzzle } from "@/services/dashboard/puzzle/create-new-puzzle"
+import { createPuzzle } from "@/services/dashboard/puzzle/create-puzzle"
 import { useState } from "react"
 import { PuzzleSchemaType, puzzleSchema } from "./puzzle-schema"
+import { Puzzle } from "@prisma/client"
+import { updatePuzzle } from "@/services/dashboard/puzzle"
 
-export function PuzzlePage() {
+interface PuzzleFormProps {
+  initialData?: Puzzle | null;
+  onClose?: () => void;
+}
+
+export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
   const [loading, setLoading] = useState(false)
   const form = useForm<PuzzleSchemaType>({
     resolver: zodResolver(puzzleSchema),
-    defaultValues: {
+    defaultValues: initialData ?? {
       word: "",
       tip: '',
       alphabetName: '',
@@ -27,7 +34,10 @@ export function PuzzlePage() {
 
   async function onSubmit(values: PuzzleSchemaType) {
     setLoading(true)
-    const res = await createNewPuzzle({ ...values })
+    const res = initialData?.id ?
+      await updatePuzzle({ ...values, id: initialData.id }) :
+      await createPuzzle({ ...values });
+
     if (res?.error) {
       toast({
         variant: "destructive",
@@ -44,20 +54,16 @@ export function PuzzlePage() {
       });
     }
     form.reset()
+    onClose?.()
   }
 
-  return <main className="p-4 flex flex-col gap-4 items-center justify-start">
-    <h1 className="text-xl font-bold">Create New Puzzle</h1>
+  return <Form {...form}>
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <NameField name="word" label="Word" placeholder="Write the word to be discovered" />
+      <NameField name="tip" label="Tip" placeholder="Write a short tip" />
+      <AlphabetField />
+      <Button type="submit" disabled={loading}>Save</Button>
+    </form>
+  </Form>
 
-    <div className="w-full max-w-sm">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <NameField name="word" label="Word" placeholder="Write the word to be discovered" />
-          <NameField name="tip" label="Tip" placeholder="Write a short tip" />
-          <AlphabetField />
-          <Button type="submit" disabled={loading}>Submit</Button>
-        </form>
-      </Form>
-    </div>
-  </main>
 }

@@ -3,3 +3,7 @@ export interface PuzzleDTO {
   tip: string;
   alphabetName: string;
 }
+
+export interface PuzzleUpdateDTO extends PuzzleDTO {
+  id: string;
+}

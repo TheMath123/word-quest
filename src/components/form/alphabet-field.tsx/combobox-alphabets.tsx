@@ -26,14 +26,15 @@ interface Item {
 }
 
 interface ComboboxProps {
-  onChange: (value: string) => void
+  value: string;
+  onChange: (value: string) => void;
 }
 
 
-export function ComboboxAlphabets({ onChange }: ComboboxProps) {
+export function ComboboxAlphabets({ value, onChange }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
   const [alphabetList, setAlphabetList] = React.useState<Item[]>([])
+
 
   React.useEffect(() => {
     const fillList = async () => {
@@ -50,7 +51,6 @@ export function ComboboxAlphabets({ onChange }: ComboboxProps) {
 
   const onSelect = (currentValue: string) => {
     onChange(currentValue)
-    setValue(currentValue === value ? "" : currentValue)
     setOpen(false)
   }
 

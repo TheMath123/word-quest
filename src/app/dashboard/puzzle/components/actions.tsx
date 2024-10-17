@@ -9,13 +9,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Puzzle } from "@prisma/client";
+import { EditPuzzle } from "./edit-puzzle";
+import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 
 interface ActionsProps {
   data: Puzzle;
 }
 
 export function Actions({ data }: ActionsProps) {
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,18 +26,22 @@ export function Actions({ data }: ActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Ações</DropdownMenuLabel>
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem
           onClick={() => navigator.clipboard.writeText(data.id)}
         >
-          Copiar ID
+          Copy ID
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Editar
+        <DropdownMenuItem asChild>
+          <EditPuzzle
+            id={data.id}
+          >
+            <div className={dropdownButtonItemCss}>Edit</div>
+          </EditPuzzle>
         </DropdownMenuItem>
         <DropdownMenuItem className="text-destructive">
-          Arquivar
+          Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

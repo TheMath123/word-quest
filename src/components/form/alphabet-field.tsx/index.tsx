@@ -25,7 +25,7 @@ export function AlphabetField({ name, label, description }: AlphabetFieldProps) 
       <FormItem>
         <FormLabel>{label ?? 'Alphabet'}</FormLabel>
         <FormControl>
-          <ComboboxAlphabets onChange={field.onChange} />
+          <ComboboxAlphabets value={field.value} onChange={field.onChange} />
         </FormControl>
         {description ? <FormDescription>
           {description}

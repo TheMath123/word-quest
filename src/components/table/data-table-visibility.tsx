@@ -13,7 +13,7 @@ export function DataTableVisibility<TData>({
 
   return <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="outline" className="ml-auto">
+      <Button variant="outline" className="text-sm">
         Columns
       </Button>
     </DropdownMenuTrigger>

@@ -1,18 +1,16 @@
 "use server";
 
 import { PuzzleDTO } from "@/dtos";
-import { createPuzzle } from "@/model/puzzle";
+import { createPuzzle as createPuzzleDB } from "@/model/puzzle";
 
 interface AlphabetResponse {
   description?: string;
   error?: string;
 }
 
-export async function createNewPuzzle(
-  data: PuzzleDTO
-): Promise<AlphabetResponse> {
+export async function createPuzzle(data: PuzzleDTO): Promise<AlphabetResponse> {
   try {
-    await createPuzzle(data);
+    await createPuzzleDB(data);
 
     return { description: "Alphabet created" };
   } catch (error) {
