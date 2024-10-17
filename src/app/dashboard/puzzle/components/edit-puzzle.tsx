@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { searchPuzzle } from "@/services/dashboard/puzzle";
 import { Puzzle } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { EditLoading } from "./edit-loading";
 
 interface EditPuzzleProps {
   id?: string;
@@ -16,12 +17,14 @@ export function EditPuzzle({ id, children }: EditPuzzleProps) {
   const message = id ? "Edit Puzzle" : "Create New Puzzle";
   const [data, setData] = useState<Puzzle | null>(null)
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
       const data = await searchPuzzle(id);
       setData(data);
+      setLoading(false)
     }
 
     fetchData()
@@ -38,7 +41,7 @@ export function EditPuzzle({ id, children }: EditPuzzleProps) {
       <DialogTitle>
         {message}
       </DialogTitle>
-      <PuzzleForm initialData={data} onClose={(() => setOpen(false))} />
+      {loading ? <EditLoading /> : <PuzzleForm initialData={data} onClose={(() => setOpen(false))} />}
     </DialogContent>
   </Dialog>
 }

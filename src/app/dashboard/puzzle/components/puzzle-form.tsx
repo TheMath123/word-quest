@@ -57,6 +57,7 @@ export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
     onClose?.()
   }
 
+
   return <Form {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
       <NameField name="word" label="Word" placeholder="Write the word to be discovered" />

@@ -6,6 +6,7 @@ import { Alphabet, } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { AlphabetForm } from "./alphabet-form";
 import { searchAlphabet } from "@/services/dashboard/alphabet";
+import { EditLoading } from "./edit-loading";
 
 interface EditAlphabetProps {
   id?: string;
@@ -16,6 +17,7 @@ export function EditAlphabet({ id, children }: EditAlphabetProps) {
   const message = id ? "Edit Alphabet" : "Create New Alphabet";
   const [data, setData] = useState<Alphabet | null>(null)
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +25,7 @@ export function EditAlphabet({ id, children }: EditAlphabetProps) {
       const data = await searchAlphabet({ id });
       console.log('data', data);
       setData(data);
+      setLoading(false)
     }
 
     fetchData()
@@ -39,7 +42,7 @@ export function EditAlphabet({ id, children }: EditAlphabetProps) {
       <DialogTitle>
         {message}
       </DialogTitle>
-      <AlphabetForm initialData={data} onClose={(() => setOpen(false))} />
+      {loading ? <EditLoading /> : <AlphabetForm initialData={data} onClose={(() => setOpen(false))} />}
     </DialogContent>
   </Dialog>
 }
