@@ -16,8 +16,6 @@ const getAlphabet = async ({
   name,
   id,
 }: GetAlphabetParams): Promise<Alphabet | null> => {
-  console.log("name", name);
-  console.log("id", id);
   const data = await prisma.alphabet.findUnique({
     where: {
       name,

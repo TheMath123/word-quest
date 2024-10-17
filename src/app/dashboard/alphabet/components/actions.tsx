@@ -11,12 +11,36 @@ import { Button } from "@/components/ui/button";
 import { Alphabet } from "@prisma/client";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { EditAlphabet } from "./edit-alphabet";
+import { deleteAlphabet } from "@/services/dashboard/alphabet";
+import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 interface ActionsProps {
   data: Alphabet;
 }
 
 export function Actions({ data }: ActionsProps) {
+  const [loadingDelete, setLoadingDelete] = useState(false)
+
+  const handleDelete = async () => {
+    setLoadingDelete(true)
+    const res = await deleteAlphabet(data.id)
+    if (res?.error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: res.error,
+      });
+      return;
+    } else {
+      toast({
+        variant: "default",
+        title: "Uh oh! Success!",
+        description: res?.description,
+      });
+    }
+    setLoadingDelete(false)
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -37,10 +61,18 @@ export function Actions({ data }: ActionsProps) {
           <EditAlphabet
             id={data.id}
           >
-            <div className={dropdownButtonItemCss}>Edit</div>
+            <div
+              className={dropdownButtonItemCss}
+            >
+              Edit
+            </div>
           </EditAlphabet>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-destructive">
+        <DropdownMenuItem
+          disabled={loadingDelete}
+          className="text-red-500"
+          onClick={() => handleDelete()}
+        >
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>

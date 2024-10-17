@@ -21,9 +21,10 @@ export function EditPuzzle({ id, children }: EditPuzzleProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!id) return;
-      const data = await searchPuzzle(id);
-      setData(data);
+      if (id) {
+        const data = await searchPuzzle(id);
+        setData(data);
+      }
       setLoading(false)
     }
 

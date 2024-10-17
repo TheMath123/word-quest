@@ -68,6 +68,7 @@ export function DataTable<TData, TValue>({
     },
   })
 
+
   return (
     <div>
       <header className="flex flex-row justify-between items-center">

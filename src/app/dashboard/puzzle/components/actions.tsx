@@ -11,12 +11,37 @@ import { Button } from "@/components/ui/button";
 import { Puzzle } from "@prisma/client";
 import { EditPuzzle } from "./edit-puzzle";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
+import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { deletePuzzle } from "@/services/dashboard/puzzle";
 
 interface ActionsProps {
   data: Puzzle;
 }
 
 export function Actions({ data }: ActionsProps) {
+  const [loadingDelete, setLoadingDelete] = useState(false)
+
+  const handleDelete = async () => {
+    setLoadingDelete(true)
+    const res = await deletePuzzle(data.id)
+    if (res?.error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: res.error,
+      });
+      return;
+    } else {
+      toast({
+        variant: "default",
+        title: "Uh oh! Success!",
+        description: res?.description,
+      });
+    }
+    setLoadingDelete(false)
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,7 +65,11 @@ export function Actions({ data }: ActionsProps) {
             <div className={dropdownButtonItemCss}>Edit</div>
           </EditPuzzle>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-destructive">
+        <DropdownMenuItem
+          className="text-red-500"
+          onClick={() => handleDelete()}
+          disabled={loadingDelete}
+        >
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>

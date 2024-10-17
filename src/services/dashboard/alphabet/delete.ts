@@ -6,7 +6,6 @@ import { deleteAlphabet as deleteAlphabetDB } from "@/model/alphabet";
 export async function deleteAlphabet(id: string): Promise<ServiceResponse> {
   try {
     const alphabet = await deleteAlphabetDB(id);
-    console.log("alphabet", alphabet);
     if (!alphabet) {
       return { error: "Alphabet not found" };
     }

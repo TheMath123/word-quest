@@ -21,10 +21,10 @@ export function EditAlphabet({ id, children }: EditAlphabetProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!id) return;
-      const data = await searchAlphabet({ id });
-      console.log('data', data);
-      setData(data);
+      if (id) {
+        const data = await searchAlphabet({ id });
+        setData(data);
+      }
       setLoading(false)
     }
 
