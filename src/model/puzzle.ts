@@ -7,13 +7,36 @@ const getPuzzles = async (): Promise<Puzzle[] | null> => {
   return data;
 };
 
-const getPuzzle = async (id: string): Promise<Puzzle | null> => {
+const getPuzzleById = async (id: string): Promise<Puzzle | null> => {
   const data = await prisma.puzzle.findUnique({
     where: {
       id,
     },
   });
   return data;
+};
+
+const getRandomPuzzle = async (
+  alphabetName?: string
+): Promise<Puzzle | null> => {
+  const whereClause = alphabetName ? { alphabetName } : {};
+
+  const puzzlesCount = await prisma.puzzle.count({
+    where: whereClause,
+  });
+
+  if (puzzlesCount === 0) {
+    return null;
+  }
+
+  const skip = Math.floor(Math.random() * puzzlesCount);
+
+  const randomPuzzle = await prisma.puzzle.findFirst({
+    where: whereClause,
+    skip: skip,
+  });
+
+  return randomPuzzle;
 };
 
 const createPuzzle = async (data: PuzzleDTO): Promise<Puzzle> => {
@@ -50,4 +73,11 @@ const deletePuzzle = async (id: string): Promise<Puzzle> => {
   return puzzle;
 };
 
-export { getPuzzles, getPuzzle, createPuzzle, updatePuzzle, deletePuzzle };
+export {
+  getPuzzles,
+  getPuzzleById,
+  getRandomPuzzle,
+  createPuzzle,
+  updatePuzzle,
+  deletePuzzle,
+};

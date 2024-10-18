@@ -1,11 +1,11 @@
 "use server";
 
-import { getPuzzleById } from "@/model/puzzle";
+import { getRandomPuzzle } from "@/model/puzzle";
 import { Puzzle } from "@prisma/client";
 
-export async function searchPuzzle(id: string): Promise<Puzzle | null> {
+export async function fetchGame(alphabetName: string): Promise<Puzzle | null> {
   try {
-    const puzzle = await getPuzzleById(id);
+    const puzzle = await getRandomPuzzle(alphabetName);
     if (!puzzle) {
       return null;
     }

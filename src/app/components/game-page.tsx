@@ -6,8 +6,9 @@ import { DefeatDialog, HowToPlay, Keyboard, Row, WinDialog } from "@/components"
 
 function GameContainer() {
   const {
+    alphabet,
     maxAttempts,
-    correctWord,
+    puzzle,
     wordSize,
     defeat,
     win,
@@ -21,7 +22,9 @@ function GameContainer() {
     resetTurn,
   } = useGame();
 
-  if (!correctWord) return <Loading />
+  console.log('puzzle', puzzle);
+  console.log('alphabet', alphabet);
+  if (!puzzle) return <Loading />
 
   return (
     <div className="flex flex-col gap-8 justify-start items-center p-4">
@@ -36,7 +39,7 @@ function GameContainer() {
           </code>
           {' '} attempts left
         </p>
-        <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
+        <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{puzzle.tip ?? ''}</dd></p>
         <HowToPlay />
       </header>
 
@@ -58,12 +61,13 @@ function GameContainer() {
             key={`row-${index}`}
             word={index === currentAttempt ? currentWord : word}
             size={wordSize}
-            correctWord={correctWord.word}
+            correctWord={puzzle.word}
             checkWord={canCheck[index]}
           />
         ))}
       </main>
       <Keyboard
+        alphabet={alphabet}
         className="mb-6"
         disabled={defeat || win}
         onKeyPress={handleWordChange}

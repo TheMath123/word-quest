@@ -3,7 +3,7 @@ import { ProfileHeader } from "@/components/profile/profile-header"
 import { Footer } from "@/components"
 import { GamePage } from "@/app/components/game-page"
 
-export default function Home() {
+export default async function Home() {
   return (
     <Suspense>
       <div className="grid h-dvh">

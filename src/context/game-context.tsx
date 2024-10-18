@@ -1,17 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import words from '@/assets/words.json';
-
-interface Word {
-  id: string,
-  word: string,
-  tip: string,
-  alphabet: string;
-}
+import { Alphabet, Puzzle } from '@prisma/client';
+import { fetchGame } from '@/services/game/fetch';
+import { searchAlphabet } from '@/services/dashboard/alphabet';
+import { searchPuzzle } from '@/services/dashboard/puzzle';
 
 interface GameContextType {
+  alphabet: Alphabet | null;
   maxAttempts: number;
-  correctWord: Word | null;
+  puzzle: Puzzle | null;
   wordSize: number;
   defeat: boolean;
   win: boolean;
@@ -28,10 +25,12 @@ interface GameContextType {
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const alphabetName = 'Latin';
   const maxAttempts = 5;
   const [wordID, setWordID] = useLocalStorage<string | undefined>('id');
-  const [correctWord, setCorrectWord] = useState<Word | null>(null);
+  const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [wordSize, setWordSize] = useLocalStorage('sizew', 0);
+  const [alphabet, setAlphabet] = useLocalStorage<Alphabet | null>('alphabet', null);
   const [defeat, setDefeat] = useLocalStorage('defeat', false);
   const [win, setWin] = useLocalStorage('win', false);
   const initialChecks = Array(maxAttempts).fill(false);
@@ -41,33 +40,41 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
   const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
 
-  const chooseNewWord = () => {
-    const chosenWord = randomNewWord();
-    setCorrectWord(chosenWord);
-    setWordSize(chosenWord.word.length);
+  const chooseNewWord = async () => {
+    const dataPuzzle = await fetchGame(alphabetName);
+    const dataAlphabet = await searchAlphabet({ name: dataPuzzle?.alphabetName });
+    const chosenWord = dataPuzzle?.word as string;
+    if (dataPuzzle && chosenWord && dataAlphabet) {
+      setPuzzle(dataPuzzle);
+      setWordSize(chosenWord.length);
+      setWordID(dataPuzzle.id);
+      setAlphabet(dataAlphabet);
+    }
   }
 
-  const getWord = (id: string): Word | null => {
-    return words.find(word => word.id === id) || null;
+  const existCurrentPuzzle = async () => {
+    console.log('existCurrentPuzzle');
+    if (wordID) {
+      const dataPuzzle = await searchPuzzle(wordID);
+      const dataAlphabet = await searchAlphabet({ name: dataPuzzle?.alphabetName });
+      const chosenWord = dataPuzzle?.word as string;
+      if (dataPuzzle && chosenWord) {
+        setPuzzle(dataPuzzle);
+        setWordSize(chosenWord.length);
+        setWordID(dataPuzzle.id);
+        setAlphabet(dataAlphabet);
+      }
+    }
   }
+
 
   useEffect(() => {
     if (wordID) {
-      const chosenWord = getWord(wordID);
-      if (chosenWord) {
-        setCorrectWord(chosenWord);
-        setWordSize(chosenWord.word.length);
-        return;
-      }
+      existCurrentPuzzle();
+      return;
     }
     chooseNewWord()
   }, []);
-
-  const randomNewWord = (): Word => {
-    const rawWord = words[Math.floor(Math.random() * words.length)];
-    setWordID(rawWord.id);
-    return rawWord;
-  }
 
   const handleBackspace = () => {
     if (currentWord.length > 0) {
@@ -107,7 +114,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const verifyWin = () => {
-    const validation = currentWord.toLowerCase() === correctWord?.word;
+    const validation = currentWord.toLowerCase() === puzzle?.word;
     if (validation) {
       setWin(true);
       return true;
@@ -126,8 +133,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const value = {
+    alphabet,
     maxAttempts,
-    correctWord,
+    puzzle,
     wordSize,
     defeat,
     win,
