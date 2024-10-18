@@ -10,6 +10,8 @@ import {
 import { NameField } from "@/components/form"
 import { useState } from "react"
 import { ChosenGameSchemaType, chosenGameSchema } from "./chosen-game-schema"
+import { searchPuzzle } from "@/services/dashboard/puzzle"
+import { useGame } from "@/context/game-context"
 
 interface ChosenGameFormProps {
   onClose?: () => void;
@@ -17,6 +19,7 @@ interface ChosenGameFormProps {
 
 export function ChosenGameForm({ onClose }: ChosenGameFormProps) {
   const [loading, setLoading] = useState(false)
+  const { changePuzzle } = useGame()
   const form = useForm<ChosenGameSchemaType>({
     resolver: zodResolver(chosenGameSchema),
     defaultValues: {
@@ -26,9 +29,10 @@ export function ChosenGameForm({ onClose }: ChosenGameFormProps) {
 
   async function onSubmit(values: ChosenGameSchemaType) {
     setLoading(true)
-
-    console.log('values', values);
-
+    const res = await searchPuzzle(values.id)
+    if (res) {
+      changePuzzle(values.id);
+    }
     form.reset()
     onClose?.()
   }

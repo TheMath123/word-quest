@@ -70,9 +70,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <header className="flex flex-row justify-between items-center">
+      <header className="flex flex-row justify-between items-center gap-2">
         <DataTableSearch table={table} columnKey="word" />
-        <h1 className="text-xl font-semibold">{title}</h1>
+        <h1 className="text-xl font-semibold hidden md:block">{title}</h1>
         <div className="space-x-4 flex items-center">
           <EditPuzzle />
           <DataTableVisibility table={table} />

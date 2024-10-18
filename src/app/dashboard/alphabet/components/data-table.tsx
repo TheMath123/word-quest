@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
     <div>
       <header className="flex flex-row justify-between items-center">
         <DataTableSearch table={table} columnKey="name" />
-        <h1 className="text-xl font-semibold">{title}</h1>
+        <h1 className="text-xl font-semibold hidden md:block">{title}</h1>
         <div className="space-x-4 flex items-center">
           <EditAlphabet />
           <DataTableVisibility table={table} />
