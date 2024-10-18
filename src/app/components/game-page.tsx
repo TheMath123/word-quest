@@ -3,6 +3,7 @@
 import { GameProvider, useGame } from "@/context/game-context";
 import Loading from "@/app/loading";
 import { DefeatDialog, HowToPlay, Keyboard, Row, WinDialog } from "@/components";
+import { ChosenGame } from "./chosen-game";
 
 function GameContainer() {
   const {
@@ -22,8 +23,6 @@ function GameContainer() {
     resetTurn,
   } = useGame();
 
-  console.log('puzzle', puzzle);
-  console.log('alphabet', alphabet);
   if (!puzzle) return <Loading />
 
   return (
@@ -82,6 +81,7 @@ function GameContainer() {
 
 export function GamePage() {
   return <GameProvider>
+    <ChosenGame />
     <GameContainer />
   </GameProvider>
 }

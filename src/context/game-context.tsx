@@ -20,6 +20,7 @@ interface GameContextType {
   handleConfirm: () => void;
   handleWordChange: (newLetter: string) => void;
   resetTurn: () => void;
+  changePuzzle: (id: string) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -40,6 +41,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
   const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
 
+  const changePuzzle = (id: string) => {
+    setWordID(id);
+    existCurrentPuzzle()
+  }
+
   const chooseNewWord = async () => {
     const dataPuzzle = await fetchGame(alphabetName);
     const dataAlphabet = await searchAlphabet({ name: dataPuzzle?.alphabetName });
@@ -53,7 +59,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const existCurrentPuzzle = async () => {
-    console.log('existCurrentPuzzle');
     if (wordID) {
       const dataPuzzle = await searchPuzzle(wordID);
       const dataAlphabet = await searchAlphabet({ name: dataPuzzle?.alphabetName });
@@ -147,6 +152,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     handleConfirm,
     handleWordChange,
     resetTurn,
+    changePuzzle
   };
 
   return <GameContext.Provider
