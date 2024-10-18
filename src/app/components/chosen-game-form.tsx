@@ -12,6 +12,7 @@ import { useState } from "react"
 import { ChosenGameSchemaType, chosenGameSchema } from "./chosen-game-schema"
 import { searchPuzzle } from "@/services/dashboard/puzzle"
 import { useGame } from "@/context/game-context"
+import { toast } from "@/hooks/use-toast"
 
 interface ChosenGameFormProps {
   onClose?: () => void;
@@ -30,8 +31,17 @@ export function ChosenGameForm({ onClose }: ChosenGameFormProps) {
   async function onSubmit(values: ChosenGameSchemaType) {
     setLoading(true)
     const res = await searchPuzzle(values.id)
+    console.log('res', res);
     if (res) {
       changePuzzle(values.id);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! =(",
+        description: 'Puzzle does not exist, or wrong identification',
+      });
+      setLoading(false)
+      return;
     }
     form.reset()
     onClose?.()

@@ -3,6 +3,7 @@ import { ChosenGameForm } from "./chosen-game-form";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Wrench } from "@mynaui/icons-react";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export function ChosenGame() {
   const [open, setOpen] = useState(false)
@@ -20,6 +21,9 @@ export function ChosenGame() {
       <DialogTitle>
         Choose the puzzle
       </DialogTitle>
+      <DialogDescription>
+        Enter the ID of the puzzle you want to play.
+      </DialogDescription>
       <ChosenGameForm onClose={(() => setOpen(false))} />
     </DialogContent>
   </Dialog>)

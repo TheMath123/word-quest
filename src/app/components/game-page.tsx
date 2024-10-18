@@ -20,7 +20,7 @@ function GameContainer() {
     handleBackspace,
     handleConfirm,
     handleWordChange,
-    resetTurn,
+    nextTurn,
   } = useGame();
 
   if (!puzzle) return <Loading />
@@ -45,12 +45,12 @@ function GameContainer() {
       <WinDialog
         open={win}
         data={{ attempts: maxAttempts - currentAttempt }}
-        onNextRound={resetTurn}
+        onNextRound={nextTurn}
       />
 
       <DefeatDialog
         open={defeat}
-        onTryAgain={resetTurn}
+        onTryAgain={nextTurn}
       />
 
       <main className="max-w-2xl min-h-fit flex flex-col w-full space-y-4">

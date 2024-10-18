@@ -21,6 +21,7 @@ interface GameContextType {
   handleWordChange: (newLetter: string) => void;
   resetTurn: () => void;
   changePuzzle: (id: string) => void;
+  nextTurn: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -28,7 +29,7 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const alphabetName = 'Latin';
   const maxAttempts = 5;
-  const [wordID, setWordID] = useLocalStorage<string | undefined>('id');
+  const [wordID, setWordID] = useLocalStorage<string | undefined | null>('id');
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [wordSize, setWordSize] = useLocalStorage('sizew', 0);
   const [alphabet, setAlphabet] = useLocalStorage<Alphabet | null>('alphabet', null);
@@ -42,12 +43,14 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
 
   const changePuzzle = (id: string) => {
+    resetTurn();
     setWordID(id);
-    existCurrentPuzzle()
+    loadWord();
   }
 
-  const chooseNewWord = async () => {
-    const dataPuzzle = await fetchGame(alphabetName);
+  const loadWord = async (newWord: boolean = false) => {
+    const isNew = newWord || !wordID;
+    const dataPuzzle = isNew ? await fetchGame(alphabetName) : await searchPuzzle(wordID);
     const dataAlphabet = await searchAlphabet({ name: dataPuzzle?.alphabetName });
     const chosenWord = dataPuzzle?.word as string;
     if (dataPuzzle && chosenWord && dataAlphabet) {
@@ -58,27 +61,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
-  const existCurrentPuzzle = async () => {
-    if (wordID) {
-      const dataPuzzle = await searchPuzzle(wordID);
-      const dataAlphabet = await searchAlphabet({ name: dataPuzzle?.alphabetName });
-      const chosenWord = dataPuzzle?.word as string;
-      if (dataPuzzle && chosenWord) {
-        setPuzzle(dataPuzzle);
-        setWordSize(chosenWord.length);
-        setWordID(dataPuzzle.id);
-        setAlphabet(dataAlphabet);
-      }
-    }
+  const nextTurn = () => {
+    resetTurn();
+    loadWord(true);
   }
 
-
   useEffect(() => {
-    if (wordID) {
-      existCurrentPuzzle();
-      return;
-    }
-    chooseNewWord()
+    loadWord()
   }, []);
 
   const handleBackspace = () => {
@@ -128,13 +117,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const resetTurn = () => {
+    setWordID(null);
     setCurrentAttempt(0);
     setGameWords(fillGrid);
     setCurrentWord('');
     setDefeat(false);
     setWin(false);
     setCanCheck(initialChecks);
-    chooseNewWord()
   };
 
   const value = {
@@ -152,7 +141,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     handleConfirm,
     handleWordChange,
     resetTurn,
-    changePuzzle
+    changePuzzle,
+    nextTurn
   };
 
   return <GameContext.Provider
