@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Alphabet } from "@prisma/client";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { EditAlphabet } from "./edit-alphabet";
-import { deleteAlphabet } from "@/services/dashboard/alphabet";
+import { deleteAlphabet } from "@/services/alphabet";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 

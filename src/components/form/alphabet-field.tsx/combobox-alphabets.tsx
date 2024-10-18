@@ -17,7 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { fetchAlphabets } from "@/services/dashboard/alphabet"
+import { fetchAlphabets } from "@/services/alphabet"
 import { ButtonInput } from "@/components/ui/button-input"
 
 interface Item {

@@ -1,5 +1,5 @@
 
-import { fetchAlphabets } from "@/services/dashboard/alphabet";
+import { fetchAlphabets } from "@/services/alphabet";
 import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
 

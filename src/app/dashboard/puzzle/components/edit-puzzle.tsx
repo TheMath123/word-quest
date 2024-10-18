@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PuzzleForm } from "./puzzle-form";
 import { Button } from "@/components/ui/button";
-import { searchPuzzle } from "@/services/dashboard/puzzle";
+import { searchPuzzle } from "@/services/puzzle";
 import { Puzzle } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { EditLoading } from "./edit-loading";

@@ -13,7 +13,7 @@ import { EditPuzzle } from "./edit-puzzle";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { deletePuzzle } from "@/services/dashboard/puzzle";
+import { deletePuzzle } from "@/services/puzzle";
 
 interface ActionsProps {
   data: Puzzle;

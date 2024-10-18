@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { Alphabet, Puzzle } from '@prisma/client';
 import { fetchGame } from '@/services/game/fetch';
-import { searchAlphabet } from '@/services/dashboard/alphabet';
-import { searchPuzzle } from '@/services/dashboard/puzzle';
+import { searchAlphabet } from '@/services/alphabet';
+import { searchPuzzle } from '@/services/puzzle';
 import { useRouter } from 'next/navigation';
 
 interface GameContextType {

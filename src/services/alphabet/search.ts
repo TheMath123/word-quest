@@ -9,9 +9,6 @@ export async function searchAlphabet({
 }: GetAlphabetParams): Promise<Alphabet | null> {
   try {
     const alphabet = await getAlphabet({ id, name });
-    if (!alphabet) {
-      return null;
-    }
     return alphabet;
   } catch (error) {
     console.error("error", error);

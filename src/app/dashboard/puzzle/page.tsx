@@ -1,4 +1,4 @@
-import { fetchPuzzles } from "@/services/dashboard/puzzle";
+import { fetchPuzzles } from "@/services/puzzle";
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form"
 import { NameField } from "@/components/form"
 import { toast } from "@/hooks/use-toast"
-import { createAlphabet, updateAlphabet } from "@/services/dashboard/alphabet"
+import { createAlphabet, updateAlphabet } from "@/services/alphabet"
 import { AlphabetSchemaType, alphabetSchema } from "./alphabet-schema"
 import { useState } from "react"
 import { Alphabet } from "@prisma/client"

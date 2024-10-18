@@ -3,17 +3,15 @@ import { prisma } from "@/lib/db/prisma";
 import { Puzzle } from "@prisma/client";
 
 const getPuzzles = async (): Promise<Puzzle[] | null> => {
-  const data = await prisma.puzzle.findMany();
-  return data;
+  return prisma.puzzle.findMany();
 };
 
 const getPuzzleById = async (id: string): Promise<Puzzle | null> => {
-  const data = await prisma.puzzle.findUnique({
+  return prisma.puzzle.findUnique({
     where: {
       id,
     },
   });
-  return data;
 };
 
 const getRandomPuzzle = async (
@@ -40,18 +38,17 @@ const getRandomPuzzle = async (
 };
 
 const createPuzzle = async (data: PuzzleDTO): Promise<Puzzle> => {
-  const puzzle = await prisma.puzzle.create({
+  return prisma.puzzle.create({
     data: {
       word: data.word,
       tip: data.tip,
       alphabetName: data.alphabetName,
     },
   });
-  return puzzle;
 };
 
 const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<Puzzle> => {
-  const puzzle = await prisma.puzzle.update({
+  return prisma.puzzle.update({
     data: {
       word: data.word,
       tip: data.tip,
@@ -61,16 +58,14 @@ const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<Puzzle> => {
       id: data.id,
     },
   });
-  return puzzle;
 };
 
 const deletePuzzle = async (id: string): Promise<Puzzle> => {
-  const puzzle = await prisma.puzzle.delete({
+  return prisma.puzzle.delete({
     where: {
       id,
     },
   });
-  return puzzle;
 };
 
 export {

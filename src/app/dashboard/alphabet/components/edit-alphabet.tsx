@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Alphabet, } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { AlphabetForm } from "./alphabet-form";
-import { searchAlphabet } from "@/services/dashboard/alphabet";
+import { searchAlphabet } from "@/services/alphabet";
 import { EditLoading } from "./edit-loading";
 
 interface EditAlphabetProps {
