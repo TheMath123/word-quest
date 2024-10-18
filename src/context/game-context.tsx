@@ -44,13 +44,23 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const changePuzzle = (id: string) => {
     resetTurn();
-    setWordID(id);
-    loadWord();
+    loadWord({ newId: id });
+    // router.refresh()
   }
 
-  const loadWord = async (newWord: boolean = false) => {
-    const isNew = newWord || !wordID;
-    const dataPuzzle = isNew ? await fetchGame(alphabetName) : await searchPuzzle(wordID);
+
+
+  const loadWord = async ({ genNewWord = false, newId }: { genNewWord?: boolean, newId?: string }) => {
+    console.log('!newWord && wordID', !genNewWord && !!wordID);
+    let dataPuzzle = null;
+    if (!genNewWord && !!wordID && !!newId) {
+      console.log('wordID', wordID);
+      console.log('newId', newId);
+      dataPuzzle = await searchPuzzle(newId || wordID);
+    } else {
+      dataPuzzle = await fetchGame(alphabetName)
+    }
+    console.log('dataPuzzle', dataPuzzle);
     const dataAlphabet = await searchAlphabet({ name: dataPuzzle?.alphabetName });
     const chosenWord = dataPuzzle?.word as string;
     if (dataPuzzle && chosenWord && dataAlphabet) {
@@ -63,11 +73,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const nextTurn = () => {
     resetTurn();
-    loadWord(true);
+    loadWord({
+      genNewWord: true
+    });
   }
 
   useEffect(() => {
-    loadWord()
+    loadWord({})
   }, []);
 
   const handleBackspace = () => {
