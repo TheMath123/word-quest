@@ -4,6 +4,7 @@ import { Alphabet, Puzzle } from '@prisma/client';
 import { fetchGame } from '@/services/game/fetch';
 import { searchAlphabet } from '@/services/dashboard/alphabet';
 import { searchPuzzle } from '@/services/dashboard/puzzle';
+import { useRouter } from 'next/navigation';
 
 interface GameContextType {
   alphabet: Alphabet | null;
@@ -41,6 +42,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const fillGrid = Array(maxAttempts).fill('');
   const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
   const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
+  const router = useRouter()
 
   const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
     const { genNewWord = false, newId } = options;
@@ -74,11 +76,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const changePuzzle = async (id: string) => {
     resetTurn();
     await loadWord({ newId: id });
+    router.refresh()
   };
 
   const nextTurn = async () => {
     resetTurn();
     await loadWord({ genNewWord: true });
+    router.refresh()
   };
 
   useEffect(() => {

@@ -34,7 +34,7 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false,
     {letters.length > 0 && letters.map(
       (letter: string) =>
         <Key
-          key={letter}
+          key={`letter-${letter}-${Math.floor(Math.random() * 999)}`}
           disabled={disabled}
           onClick={() => handleKeyPress(letter)}
         >
