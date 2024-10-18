@@ -4,6 +4,7 @@ import { GameProvider, useGame } from "@/context/game-context";
 import Loading from "@/app/loading";
 import { DefeatDialog, HowToPlay, Keyboard, Row, WinDialog } from "@/components";
 import { ChosenGame } from "./chosen-game";
+import { useUser } from "@/hooks/use-profile";
 
 function GameContainer() {
   const {
@@ -80,8 +81,9 @@ function GameContainer() {
 }
 
 export function GamePage() {
+  const user = useUser()
   return <GameProvider>
-    <ChosenGame />
+    {user ? <ChosenGame /> : null}
     <GameContainer />
   </GameProvider>
 }
