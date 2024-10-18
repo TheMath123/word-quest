@@ -4,6 +4,7 @@ import { ProfilePhoto } from "@/components/profile/profile-photo"
 import { getProfile } from "@/services/auth"
 import Link from "next/link"
 import { WinkGhost } from '@mynaui/icons-react';
+import { searchGameData } from "@/services/game-data";
 
 
 export async function ProfilePage() {
@@ -15,7 +16,10 @@ export async function ProfilePage() {
       <h1>{data.error}</h1>
       <Link href='/' className="text-xl">Back</Link>
     </main>
+
   }
+
+  const gameData = user?.id ? await searchGameData(user.id) : null
 
   return <main className="bg-background-gradient h-dvh p-4">
     <header className="flex flex-row justify-between">
@@ -42,7 +46,7 @@ export async function ProfilePage() {
     </header>
     <section className="py-8 grid place-content-center pt-20">
       <WinkGhost className="w-16 h-16" />
+      <pre>{JSON.stringify(gameData, null, 2)}</pre>
     </section>
-    {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
   </main>
 }

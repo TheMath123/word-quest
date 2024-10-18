@@ -4,7 +4,7 @@ import { ServiceResponse } from "@/@types/response";
 import { UpdateGameDataDTO } from "@/dtos/game-data-dto";
 import { updateGameData as updateGameDataDB } from "@/model/game-data";
 
-export async function updatePuzzle(
+export async function updateGameData(
   params: UpdateGameDataDTO
 ): Promise<ServiceResponse> {
   try {

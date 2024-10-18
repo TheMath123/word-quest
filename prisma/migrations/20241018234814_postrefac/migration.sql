@@ -66,10 +66,10 @@ CREATE TABLE "Authenticator" (
 CREATE TABLE "GameData" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "userId" TEXT NOT NULL,
-    "totalCompleted" INTEGER NOT NULL,
+    "totalCompleted" INTEGER NOT NULL DEFAULT 0,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "GameData_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("email") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "GameData_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -77,7 +77,9 @@ CREATE TABLE "PuzzleCompleted" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "puzzleId" TEXT NOT NULL,
     "completedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "PuzzleCompleted_puzzleId_fkey" FOREIGN KEY ("puzzleId") REFERENCES "Puzzle" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "gameDataId" TEXT NOT NULL,
+    CONSTRAINT "PuzzleCompleted_puzzleId_fkey" FOREIGN KEY ("puzzleId") REFERENCES "Puzzle" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "PuzzleCompleted_gameDataId_fkey" FOREIGN KEY ("gameDataId") REFERENCES "GameData" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -96,15 +98,8 @@ CREATE TABLE "Puzzle" (
     "tip" TEXT NOT NULL,
     "alphabetName" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "_GameDataToPuzzleCompleted" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
-    CONSTRAINT "_GameDataToPuzzleCompleted_A_fkey" FOREIGN KEY ("A") REFERENCES "GameData" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_GameDataToPuzzleCompleted_B_fkey" FOREIGN KEY ("B") REFERENCES "PuzzleCompleted" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Puzzle_alphabetName_fkey" FOREIGN KEY ("alphabetName") REFERENCES "Alphabet" ("name") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -126,13 +121,4 @@ CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credent
 CREATE UNIQUE INDEX "GameData_userId_key" ON "GameData"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "PuzzleCompleted_puzzleId_key" ON "PuzzleCompleted"("puzzleId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Alphabet_name_key" ON "Alphabet"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_GameDataToPuzzleCompleted_AB_unique" ON "_GameDataToPuzzleCompleted"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_GameDataToPuzzleCompleted_B_index" ON "_GameDataToPuzzleCompleted"("B");

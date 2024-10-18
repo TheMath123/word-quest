@@ -3,7 +3,7 @@
 import { getUserGameData } from "@/model/game-data";
 import { GameData } from "@prisma/client";
 
-export async function searchPuzzle(userId: string): Promise<GameData | null> {
+export async function searchGameData(userId: string): Promise<GameData | null> {
   try {
     const puzzle = await getUserGameData(userId);
     return puzzle;
