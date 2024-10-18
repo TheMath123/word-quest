@@ -41,6 +41,8 @@ export function Actions({ data }: ActionsProps) {
     }
     setLoadingDelete(false)
   }
+
+  const isAlphabetDefault = data.name === "Latin";
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -56,25 +58,29 @@ export function Actions({ data }: ActionsProps) {
         >
           Copy ID
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <EditAlphabet
-            id={data.id}
-          >
-            <div
-              className={dropdownButtonItemCss}
+        {isAlphabetDefault ? null : (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <EditAlphabet
+                id={data.id}
+              >
+                <div
+                  className={dropdownButtonItemCss}
+                >
+                  Edit
+                </div>
+              </EditAlphabet>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={loadingDelete}
+              className="text-red-500"
+              onClick={() => handleDelete()}
             >
-              Edit
-            </div>
-          </EditAlphabet>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          disabled={loadingDelete}
-          className="text-red-500"
-          onClick={() => handleDelete()}
-        >
-          Delete
-        </DropdownMenuItem>
+              Delete
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
