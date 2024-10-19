@@ -61,7 +61,7 @@ export function AlphabetForm({ initialData, onClose }: AlphabetFormProps) {
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
       <NameField name="name" placeholder="Write Alphabet name" />
       <NameField name="characters" label="Characters" placeholder="a;b;c;e;d;f;..." />
-      <Button type="submit" disabled={loading}>Submit</Button>
+      <Button type="submit" disabled={loading}>Save</Button>
     </form>
   </Form>
 }

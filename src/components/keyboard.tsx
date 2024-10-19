@@ -30,7 +30,13 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false,
     onConfirm()
   }
 
-  return <div className={cn(className, 'grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap', 'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4 max-w-xl')}>
+  return <div
+    className={cn(
+      className,
+      alphabet.name.toLowerCase().trim() === 'davek' && 'font-davek',
+      'grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap',
+      'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4 max-w-xl'
+    )}>
     {letters.length > 0 && letters.map(
       (letter: string) =>
         <Key
