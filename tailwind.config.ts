@@ -17,6 +17,7 @@ const config: Config = {
       },
       fontFamily: {
         jost: ["Jost", "sans-serif"],
+        davek: ["Davek", "Jost", "sans-serif"],
       },
     },
   },
