@@ -56,7 +56,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
     const { genNewWord = false, newId } = options;
     let dataPuzzle: Puzzle | null = null;
-    let attempts = 0;
+    const attempts = 0;
     const maxAttempts = 5;
 
     while (!dataPuzzle && attempts < maxAttempts) {
@@ -71,22 +71,23 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (dataPuzzle && user?.id && !newId) {
-        const isCompleted = await checkPuzzleCompleted({
-          userId: user.id,
-          puzzleId: dataPuzzle.id
-        });
-        if (isCompleted) {
-          dataPuzzle = null;
-          attempts++;
-        } else {
-          break;
-        }
+        // const isCompleted = await checkPuzzleCompleted({
+        //   userId: user.id,
+        //   puzzleId: dataPuzzle.id
+        // });
+        // if (isCompleted) {
+        //   dataPuzzle = null;
+        //   attempts++;
+        // } else {
+        //   break;
+        // }
       } else {
         break;
       }
     }
 
     if (!dataPuzzle) {
+      destroyLocalStorage()
       console.error('Failed to load puzzle');
       return;
     }
@@ -105,7 +106,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const handleConfirm = async () => {
     const isWin = verifyWin();
     if (isWin && user?.id && puzzle) {
-      await updateUserGameData(user.id, puzzle.id);
+      // await updateUserGameData(user.id, puzzle.id);
     }
     nextAttempt();
   }
