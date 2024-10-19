@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/toaster"
+// import { Analytics } from "@vercel/analytics/react"
+
 import "./globals.css";
+import { davek } from "./fonts";
 
 const font = Jost({
   subsets: ["latin"],
@@ -27,16 +30,11 @@ export default function RootLayout({
         <link rel="icon" href="/images/favicon.ico" sizes="any" />
       </head>
       <body
-        className={`${font.className} antialiased bg-background-gradient`}
+        className={`${font.className} ${davek.variable} antialiased relative`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        {children}
+        <Toaster />
+        {/* <Analytics /> */}
       </body>
     </html >
   );

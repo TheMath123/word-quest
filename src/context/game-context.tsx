@@ -1,17 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import words from '@/assets/words.json';
-
-interface Word {
-  id: string,
-  word: string,
-  tip: string,
-  alphabet: string;
-}
+import { Alphabet, Puzzle } from '@prisma/client';
+import { fetchGame } from '@/services/game/fetch';
+import { searchAlphabet } from '@/services/alphabet';
+import { searchPuzzle } from '@/services/puzzle';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/hooks/use-profile';
+// import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
+import { destroyLocalStorage } from '@/utils/destroy-storage';
 
 interface GameContextType {
+  alphabet: Alphabet | null;
   maxAttempts: number;
-  correctWord: Word | null;
+  puzzle: Puzzle | null;
   wordSize: number;
   defeat: boolean;
   win: boolean;
@@ -23,23 +24,22 @@ interface GameContextType {
   handleConfirm: () => void;
   handleWordChange: (newLetter: string) => void;
   resetTurn: () => void;
+  changePuzzle: (id: string) => void;
+  nextTurn: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-export const useGame = () => {
-  const context = useContext(GameContext);
-  if (!context) {
-    throw new Error('useGame must be used within a GameProvider');
-  }
-  return context;
-};
-
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const alphabetName = 'Latin';
   const maxAttempts = 5;
-  const [wordID, setWordID] = useLocalStorage<string | undefined>('id');
-  const [correctWord, setCorrectWord] = useState<Word | null>(null);
+
+  const router = useRouter()
+
+  const [wordID, setWordID] = useLocalStorage<string | null>('id', null);
+  const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [wordSize, setWordSize] = useLocalStorage('sizew', 0);
+  const [alphabet, setAlphabet] = useLocalStorage<Alphabet | null>('alphabet', null);
   const [defeat, setDefeat] = useLocalStorage('defeat', false);
   const [win, setWin] = useLocalStorage('win', false);
   const initialChecks = Array(maxAttempts).fill(false);
@@ -49,33 +49,116 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
   const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
 
-  const chooseNewWord = () => {
-    const chosenWord = randomNewWord();
-    setCorrectWord(chosenWord);
-    setWordSize(chosenWord.word.length);
-  }
 
-  const getWord = (id: string): Word | null => {
-    return words.find(word => word.id === id) || null;
-  }
+  const user = useUser()
+  // const [, setGameData] = useState<GameData | null>(null);
 
-  useEffect(() => {
-    if (wordID) {
-      const chosenWord = getWord(wordID);
-      if (chosenWord) {
-        setCorrectWord(chosenWord);
-        setWordSize(chosenWord.word.length);
-        return;
+  const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
+    const { genNewWord = false, newId } = options;
+    let dataPuzzle: Puzzle | null = null;
+    const attempts = 0;
+    const maxAttempts = 5;
+
+    while (!dataPuzzle && attempts < maxAttempts) {
+      if (genNewWord) {
+        dataPuzzle = await fetchGame(alphabetName);
+      } else if (newId) {
+        dataPuzzle = await searchPuzzle(newId);
+      } else if (wordID) {
+        dataPuzzle = await searchPuzzle(wordID);
+      } else {
+        dataPuzzle = await fetchGame(alphabetName);
+      }
+
+      if (dataPuzzle && user?.id && !newId) {
+        // const isCompleted = await checkPuzzleCompleted({
+        //   userId: user.id,
+        //   puzzleId: dataPuzzle.id
+        // });
+        // if (isCompleted) {
+        //   dataPuzzle = null;
+        //   attempts++;
+        // } else {
+        //   break;
+        // }
+      } else {
+        break;
       }
     }
-    chooseNewWord()
+
+    if (!dataPuzzle) {
+      destroyLocalStorage()
+      console.error('Failed to load puzzle');
+      return;
+    }
+
+    const dataAlphabet = await searchAlphabet({ name: dataPuzzle.alphabetName });
+
+    if (dataPuzzle && dataPuzzle.word && dataAlphabet) {
+      setPuzzle(dataPuzzle);
+      setWordSize(dataPuzzle.word.length);
+      setWordID(dataPuzzle.id);
+      setAlphabet(dataAlphabet);
+    }
+  };
+
+
+  const handleConfirm = async () => {
+    const isWin = verifyWin();
+    if (isWin && user?.id && puzzle) {
+      // await updateUserGameData(user.id, puzzle.id);
+    }
+    nextAttempt();
+  }
+
+  // const updateUserGameData = async (userId: string, puzzleId: string) => {
+  //   let userGameData = await searchGameData(userId);
+  //   if (!userGameData) {
+  //     userGameData = await createGameData(userId);
+  //   }
+  //   if (userGameData) {
+  //     await addPuzzleCompleted({
+  //       gameDataId: userGameData.id,
+  //       puzzleId,
+  //     });
+  //     await updateGameData({
+  //       gameDataId: userGameData.id,
+  //       data: {
+  //         totalCompleted: userGameData!.totalCompleted + 1
+  //       }
+  //     });
+  //     setGameData(userGameData);
+  //   }
+  // };
+
+  const changePuzzle = async (id: string) => {
+    resetTurn();
+    await loadWord({ newId: id });
+  };
+
+  const nextTurn = async () => {
+    resetTurn();
+    await loadWord({ genNewWord: true });
+    router.refresh()
+  };
+
+  useEffect(() => {
+    const initializeGame = async () => {
+      if (!wordID) {
+        await loadWord({ genNewWord: true });
+      } else {
+        await loadWord({});
+      }
+    };
+
+    initializeGame();
   }, []);
 
-  const randomNewWord = (): Word => {
-    const rawWord = words[Math.floor(Math.random() * words.length)];
-    setWordID(rawWord.id);
-    return rawWord;
-  }
+  // useEffect(() => {
+  //   if (user?.id) {
+  //     searchGameData(user.id).then(setGameData);
+  //   }
+  // }, [user]);
 
   const handleBackspace = () => {
     if (currentWord.length > 0) {
@@ -85,10 +168,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setGameWords(newGameWords);
     }
   };
-
-  const handleConfirm = () => {
-    nextAttempt();
-  }
 
   const handleWordChange = (newLetter: string) => {
     if (currentWord.length < wordSize && !defeat && !win) {
@@ -115,7 +194,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const verifyWin = () => {
-    const validation = currentWord.toLowerCase() === correctWord?.word;
+    const validation = currentWord.toLowerCase() === puzzle?.word;
     if (validation) {
       setWin(true);
       return true;
@@ -124,18 +203,19 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const resetTurn = () => {
+    destroyLocalStorage()
     setCurrentAttempt(0);
     setGameWords(fillGrid);
     setCurrentWord('');
     setDefeat(false);
     setWin(false);
     setCanCheck(initialChecks);
-    chooseNewWord()
   };
 
   const value = {
+    alphabet,
     maxAttempts,
-    correctWord,
+    puzzle,
     wordSize,
     defeat,
     win,
@@ -147,6 +227,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     handleConfirm,
     handleWordChange,
     resetTurn,
+    changePuzzle,
+    nextTurn
   };
 
   return <GameContext.Provider
@@ -154,4 +236,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   >
     {children}
   </GameContext.Provider>;
+};
+
+export const useGame = () => {
+  const context = useContext(GameContext);
+  if (!context) {
+    throw new Error('useGame must be used within a GameProvider');
+  }
+  return context;
 };

@@ -1,10 +1,16 @@
-'use client'
-
-import { GameProvider } from "@/context/game-context"
+import { Suspense } from "react"
+import { ProfileHeader } from "@/components/profile/profile-header"
+import { Footer } from "@/components"
 import { GamePage } from "@/app/components/game-page"
 
-export default function Home() {
-  return <GameProvider>
-    <GamePage />
-  </GameProvider>
+export default async function Home() {
+  return (
+    <Suspense>
+      <div className="relative grid h-dvh">
+        <ProfileHeader />
+        <GamePage />
+        <Footer />
+      </div>
+    </Suspense>
+  )
 }

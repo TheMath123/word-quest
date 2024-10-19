@@ -3,7 +3,6 @@
 import colors from 'tailwindcss/colors';
 import { BlinkBlur } from 'react-loading-indicators';
 import { Footer } from '@/components';
-import { Analytics } from "@vercel/analytics/react"
 
 export default function Loading() {
   return (
@@ -16,7 +15,6 @@ export default function Loading() {
         />
       </main>
       <Footer />
-      <Analytics />
     </div>
   );
 }
