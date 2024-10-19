@@ -63,6 +63,7 @@ function GameContainer() {
             size={wordSize}
             correctWord={puzzle.word}
             checkWord={canCheck[index]}
+            alphabet={alphabet}
           />
         ))}
       </main>
