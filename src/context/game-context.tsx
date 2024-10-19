@@ -7,6 +7,7 @@ import { searchPuzzle } from '@/services/puzzle';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/hooks/use-profile';
 import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
+import { destroyLocalStorage } from '@/utils/destroy-storage';
 
 interface GameContextType {
   alphabet: Alphabet | null;
@@ -132,7 +133,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const changePuzzle = async (id: string) => {
     resetTurn();
     await loadWord({ newId: id });
-    router.refresh()
   };
 
   const nextTurn = async () => {
@@ -202,6 +202,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const resetTurn = () => {
+    destroyLocalStorage()
     setCurrentAttempt(0);
     setGameWords(fillGrid);
     setCurrentWord('');
