@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { Alphabet, GameData, Puzzle } from '@prisma/client';
+import { Alphabet, Puzzle } from '@prisma/client';
 import { fetchGame } from '@/services/game/fetch';
 import { searchAlphabet } from '@/services/alphabet';
 import { searchPuzzle } from '@/services/puzzle';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/hooks/use-profile';
-import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
+// import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
 import { destroyLocalStorage } from '@/utils/destroy-storage';
 
 interface GameContextType {
@@ -51,7 +51,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   const user = useUser()
-  const [, setGameData] = useState<GameData | null>(null);
+  // const [, setGameData] = useState<GameData | null>(null);
 
   const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
     const { genNewWord = false, newId } = options;
@@ -111,25 +111,25 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     nextAttempt();
   }
 
-  const updateUserGameData = async (userId: string, puzzleId: string) => {
-    let userGameData = await searchGameData(userId);
-    if (!userGameData) {
-      userGameData = await createGameData(userId);
-    }
-    if (userGameData) {
-      await addPuzzleCompleted({
-        gameDataId: userGameData.id,
-        puzzleId,
-      });
-      await updateGameData({
-        gameDataId: userGameData.id,
-        data: {
-          totalCompleted: userGameData!.totalCompleted + 1
-        }
-      });
-      setGameData(userGameData);
-    }
-  };
+  // const updateUserGameData = async (userId: string, puzzleId: string) => {
+  //   let userGameData = await searchGameData(userId);
+  //   if (!userGameData) {
+  //     userGameData = await createGameData(userId);
+  //   }
+  //   if (userGameData) {
+  //     await addPuzzleCompleted({
+  //       gameDataId: userGameData.id,
+  //       puzzleId,
+  //     });
+  //     await updateGameData({
+  //       gameDataId: userGameData.id,
+  //       data: {
+  //         totalCompleted: userGameData!.totalCompleted + 1
+  //       }
+  //     });
+  //     setGameData(userGameData);
+  //   }
+  // };
 
   const changePuzzle = async (id: string) => {
     resetTurn();
@@ -154,11 +154,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeGame();
   }, []);
 
-  useEffect(() => {
-    if (user?.id) {
-      searchGameData(user.id).then(setGameData);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user?.id) {
+  //     searchGameData(user.id).then(setGameData);
+  //   }
+  // }, [user]);
 
   const handleBackspace = () => {
     if (currentWord.length > 0) {
