@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from "react";
-import signInWithGithub from "@/actions/auth/sign-in-with-github";
 import { BrandGithub } from "@mynaui/icons-react"
 import { Button } from "@/components/ui/button";
+import { signInWithGithub } from "@/services/auth";
 
 interface SignInGithubProps {
   children?: React.ReactNode;

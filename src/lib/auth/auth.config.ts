@@ -6,7 +6,6 @@ import { prisma } from "@/lib/db/prisma";
 
 export default {
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
   providers: [
     GitHub,
     Google({

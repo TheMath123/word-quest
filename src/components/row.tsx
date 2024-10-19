@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Letter } from "@/components";
 import { convertStringToArray } from "@/lib/convert-string-to-array";
 import { cn } from "@/lib/cn";
+import { Alphabet } from "@prisma/client";
 
 interface RowProps {
   focused?: boolean,
@@ -11,10 +12,12 @@ interface RowProps {
   word?: string,
   size: number,
   correctWord: string;
+  alphabet?: Alphabet | null,
 }
 
-export function Row({ focused = false, word = '', size, checkWord = false, correctWord }: RowProps) {
+export function Row({ focused = false, word = '', size, checkWord = false, correctWord, alphabet }: RowProps) {
   const [wordLetters, setWordLetters] = useState<string[]>(convertStringToArray(word, size));
+  let isDavek = false;
 
   useEffect(() => {
     setWordLetters(convertStringToArray(word, size))
@@ -35,7 +38,16 @@ export function Row({ focused = false, word = '', size, checkWord = false, corre
     return 'default';
   }
 
-  return <div className={cn(`flex flex-row gap-2 md:gap-4 justify-center min-w-[300px]`)}>
+  if (alphabet) {
+    isDavek = alphabet.name.toLowerCase().trim() === 'davek';
+  }
+
+  return <div
+    className={cn(
+      isDavek && 'font-davek',
+      `flex flex-row gap-2 md:gap-4 justify-center min-w-[300px]`,
+    )}
+  >
     {wordLetters.map((letter, index) => (
       <Letter
         key={`${letter}-${index}`}

@@ -3,17 +3,14 @@
 import { GameProvider, useGame } from "@/context/game-context";
 import Loading from "@/app/loading";
 import { DefeatDialog, HowToPlay, Keyboard, Row, WinDialog } from "@/components";
+import { ChosenGame } from "./chosen-game";
+import { useUser } from "@/hooks/use-profile";
 
-export function GamePage() {
-  return <GameProvider>
-    <GameContainer />
-  </GameProvider>
-}
-
-export function GameContainer() {
+function GameContainer() {
   const {
+    alphabet,
     maxAttempts,
-    correctWord,
+    puzzle,
     wordSize,
     defeat,
     win,
@@ -24,10 +21,10 @@ export function GameContainer() {
     handleBackspace,
     handleConfirm,
     handleWordChange,
-    resetTurn,
+    nextTurn,
   } = useGame();
 
-  if (!correctWord) return <Loading />
+  if (!puzzle) return <Loading />
 
   return (
     <div className="flex flex-col gap-8 justify-start items-center p-4">
@@ -42,19 +39,19 @@ export function GameContainer() {
           </code>
           {' '} attempts left
         </p>
-        <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{correctWord.tip ?? ''}</dd></p>
+        <p className="flex flex-row gap-1 text-foreground/80"><dt className="font-bold">Tip:</dt> <dd>{puzzle.tip ?? ''}</dd></p>
         <HowToPlay />
       </header>
 
       <WinDialog
         open={win}
         data={{ attempts: maxAttempts - currentAttempt }}
-        onNextRound={resetTurn}
+        onNextRound={nextTurn}
       />
 
       <DefeatDialog
         open={defeat}
-        onTryAgain={resetTurn}
+        onTryAgain={nextTurn}
       />
 
       <main className="max-w-2xl min-h-fit flex flex-col w-full space-y-4">
@@ -64,12 +61,14 @@ export function GameContainer() {
             key={`row-${index}`}
             word={index === currentAttempt ? currentWord : word}
             size={wordSize}
-            correctWord={correctWord.word}
+            correctWord={puzzle.word}
             checkWord={canCheck[index]}
+            alphabet={alphabet}
           />
         ))}
       </main>
       <Keyboard
+        alphabet={alphabet}
         className="mb-6"
         disabled={defeat || win}
         onKeyPress={handleWordChange}
@@ -80,4 +79,12 @@ export function GameContainer() {
     </div>
 
   );
+}
+
+export function GamePage() {
+  const user = useUser()
+  return <GameProvider>
+    {user ? <ChosenGame /> : null}
+    <GameContainer />
+  </GameProvider>
 }

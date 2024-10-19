@@ -1,8 +1,9 @@
-import alphabet from '@/assets/alphabet.json'
 import { cn } from '@/lib/cn'
 import { Key } from '@/components'
+import { Alphabet } from '@prisma/client'
 
 interface KeyboardProps {
+  alphabet?: Alphabet | null,
   onKeyPress: (words: string) => void,
   onBackspace: () => void,
   onConfirm: () => void,
@@ -10,7 +11,12 @@ interface KeyboardProps {
   disabled?: boolean,
   className?: string,
 }
-export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false, className }: KeyboardProps) {
+export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false, className, alphabet }: KeyboardProps) {
+  if (!alphabet) return null;
+
+  const letters = alphabet?.characters.trim().split(';')
+
+  if (!letters) return null;
 
   const handleKeyPress = (letter: string) => {
     onKeyPress(letter)
@@ -24,11 +30,17 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false,
     onConfirm()
   }
 
-  return <div className={cn(className, 'grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap', 'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4 max-w-xl')}>
-    {alphabet.length > 0 && alphabet.map(
+  return <div
+    className={cn(
+      className,
+      alphabet.name.toLowerCase().trim() === 'davek' && 'font-davek',
+      'grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap',
+      'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4 max-w-xl'
+    )}>
+    {letters.length > 0 && letters.map(
       (letter: string) =>
         <Key
-          key={letter}
+          key={`letter-${letter}-${Math.floor(Math.random() * 999)}`}
           disabled={disabled}
           onClick={() => handleKeyPress(letter)}
         >

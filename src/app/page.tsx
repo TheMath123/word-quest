@@ -1,11 +1,16 @@
-import { GamePage, } from "@/app/components/game-page"
-import { UserHeader } from "@/app/components/user-header"
+import { Suspense } from "react"
+import { ProfileHeader } from "@/components/profile/profile-header"
 import { Footer } from "@/components"
+import { GamePage } from "@/app/components/game-page"
 
-export default function Home() {
-  return (<div className="grid h-dvh">
-    <UserHeader />
-    <GamePage />
-    <Footer />
-  </div>)
+export default async function Home() {
+  return (
+    <Suspense>
+      <div className="relative grid h-dvh">
+        <ProfileHeader />
+        <GamePage />
+        <Footer />
+      </div>
+    </Suspense>
+  )
 }
