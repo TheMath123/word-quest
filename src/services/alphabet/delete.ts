@@ -5,7 +5,7 @@ import { deleteAlphabet as deleteAlphabetDB } from "@/model/alphabet";
 
 export async function deleteAlphabet(id: string): Promise<ServiceResponse> {
   try {
-    if (id === "cm2aki5kr0000dr8bmqumux98") {
+    if (id === "cm2fdyvsr0005ijr0o173qws6") {
       return { error: "It is not possible to delete the default alphabet." };
     }
 

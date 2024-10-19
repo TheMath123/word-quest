@@ -114,17 +114,19 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!userGameData) {
       userGameData = await createGameData(userId);
     }
-    await addPuzzleCompleted({
-      gameDataId: userGameData!.id,
-      puzzleId,
-    });
-    await updateGameData({
-      gameDataId: userGameData!.id,
-      data: {
-        totalCompleted: userGameData!.totalCompleted + 1
-      }
-    });
-    setGameData(userGameData);
+    if (userGameData) {
+      await addPuzzleCompleted({
+        gameDataId: userGameData.id,
+        puzzleId,
+      });
+      await updateGameData({
+        gameDataId: userGameData.id,
+        data: {
+          totalCompleted: userGameData!.totalCompleted + 1
+        }
+      });
+      setGameData(userGameData);
+    }
   };
 
   const changePuzzle = async (id: string) => {

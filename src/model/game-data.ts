@@ -26,15 +26,20 @@ const createGameData = async (userId: string): Promise<GameDataWithPuzzles> => {
   });
 };
 
-const updateGameData = async ({
-  gameDataId,
-  data,
-}: UpdateGameDataDTO): Promise<GameDataWithPuzzles> => {
-  return prisma.gameData.update({
-    where: { id: gameDataId },
-    data,
-    include: { puzzlesCompleted: true },
-  });
+const updateGameData = async ({ gameDataId, data }: UpdateGameDataDTO) => {
+  try {
+    return await prisma.$transaction(async (tx) => {
+      const gameData = await tx.gameData.update({
+        where: { id: gameDataId },
+        data,
+        include: { puzzlesCompleted: true },
+      });
+      return gameData;
+    });
+  } catch (error) {
+    console.error("[UpdateGameData] Error:", error);
+    throw error;
+  }
 };
 
 const checkPuzzleCompleted = async ({
