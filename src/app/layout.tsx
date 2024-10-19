@@ -32,7 +32,6 @@ export default function RootLayout({
       <body
         className={`${font.className} ${davek.variable} antialiased relative`}
       >
-        <span className="font-davek">TESTE FONT</span>
         {children}
         <Toaster />
         {/* <Analytics /> */}
