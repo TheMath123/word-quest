@@ -6,6 +6,7 @@ import { Actions } from "./actions"
 import { Button } from "@/components/ui/button"
 import { ArrowUpDown } from "@mynaui/icons-react"
 import { Checkbox } from "@/components/ui/checkbox"
+import { LetterDisplay } from "@/components/data/letter-display"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -57,7 +58,14 @@ export const columns: ColumnDef<Alphabet>[] = [
     header: "Characters",
     cell: (row) => {
       const data = row.getValue() as string
-      return data.split(';').join(' ')
+      const characters = data.split(';')
+      return (
+        <div className="grid grid-cols-8 gap-1">
+          {characters.map((character, index) => (
+            <LetterDisplay key={character + index} character={character} />
+          ))}
+        </div>
+      )
     }
   },
   {
