@@ -1,3 +1,4 @@
+/* @next-codemod-ignore */
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { ProfileButton } from "@/components/profile/profile-button";
