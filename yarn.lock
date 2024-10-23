@@ -465,7 +465,7 @@
     "@prisma/driver-adapter-utils" "5.21.1"
     async-mutex "0.5.0"
 
-"@prisma/client@^5.21.0":
+"@prisma/client@^5.21.1":
   version "5.21.1"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.21.1.tgz#ad51ef220eb80173f882e859960d81e626b73898"
   integrity sha512-3n+GgbAZYjaS/k0M03yQsQfR1APbr411r74foknnsGpmhNKBG49VuUkxIU6jORgvJPChoD4WC4PqoHImN1FP0w==
@@ -496,6 +496,11 @@
     "@prisma/engines-version" "5.21.1-1.bf0e5e8a04cada8225617067eaa03d041e2bba36"
     "@prisma/fetch-engine" "5.21.1"
     "@prisma/get-platform" "5.21.1"
+
+"@prisma/extension-accelerate@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@prisma/extension-accelerate/-/extension-accelerate-1.2.1.tgz#c3fc2a76be1ea7df099f51876b9bdd38b73d049a"
+  integrity sha512-QicnMeyqL226ilT3vvRsFAqPeIdqHGKR4c25CoK5zZ1tNIv8egfgpD1gCKqOGmfAz0pIKQnMuJU3eNg9KItC7A==
 
 "@prisma/fetch-engine@5.21.1":
   version "5.21.1"
