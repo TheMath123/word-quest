@@ -1,10 +1,14 @@
-import { fetchPuzzles } from "@/services/puzzle";
-import { columns } from "./components/columns";
-import { DataTable } from "./components/data-table";
+import { getQueryClient } from "@/lib/react-query/query-client"
+import { puzzleOptions } from "@/services/puzzle"
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
+import { PuzzlePage } from "./puzzle-page"
 
 export default async function Puzzle() {
-  const data = await fetchPuzzles()
-  return <main className="container mx-auto p-4 space-y-6">
-    <DataTable title="Puzzles" columns={columns} data={data} />
-  </main>
+  const queryClient = getQueryClient()
+
+  void queryClient.prefetchQuery(puzzleOptions)
+
+  return <HydrationBoundary state={dehydrate(queryClient)}>
+    <PuzzlePage />
+  </HydrationBoundary>
 }

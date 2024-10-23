@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
+import Providers from "@/lib/react-query/query-provider";
 // import { Analytics } from "@vercel/analytics/react"
 
 import "./globals.css";
@@ -32,7 +33,9 @@ export default function RootLayout({
       <body
         className={`${font.className} ${davek.variable} antialiased relative`}
       >
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         <Toaster />
         {/* <Analytics /> */}
       </body>
