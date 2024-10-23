@@ -3,7 +3,11 @@ import { prisma } from "@/lib/db/prisma";
 import { Alphabet } from "@prisma/client";
 
 const getAlphabets = async (): Promise<Alphabet[] | null> => {
-  return prisma.alphabet.findMany();
+  return prisma.alphabet.findMany({
+    cacheStrategy: {
+      ttl: 30,
+    },
+  });
 };
 
 interface GetAlphabetParams {
