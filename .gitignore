@@ -29,6 +29,7 @@ yarn-error.log*
 .env*.local
 !.env.example
 .env.*
+.env
 
 # vercel
 .vercel
@@ -39,6 +40,5 @@ next-env.d.ts
 
 # lock files
 bun.lockb
-
 
 .vscode

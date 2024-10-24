@@ -2,7 +2,6 @@
 
 import colors from 'tailwindcss/colors';
 import { BlinkBlur } from 'react-loading-indicators';
-import { Footer } from '@/components';
 
 export default function Loading() {
   return (
@@ -14,7 +13,6 @@ export default function Loading() {
           text="Word Quest"
         />
       </main>
-      <Footer />
     </div>
   );
 }

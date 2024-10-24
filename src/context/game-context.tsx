@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { Alphabet, Puzzle } from '@prisma/client';
 import { fetchGame } from '@/services/game/fetch';
 import { searchAlphabet } from '@/services/alphabet';
 import { searchPuzzle } from '@/services/puzzle';
@@ -8,11 +7,12 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@/hooks/use-profile';
 // import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
 import { destroyLocalStorage } from '@/utils/destroy-storage';
+import { DAlphabet, DPuzzle } from '@/db/schema';
 
 interface GameContextType {
-  alphabet: Alphabet | null;
+  alphabet: DAlphabet | null;
   maxAttempts: number;
-  puzzle: Puzzle | null;
+  puzzle: DPuzzle | null;
   wordSize: number;
   defeat: boolean;
   win: boolean;
@@ -37,9 +37,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const router = useRouter()
 
   const [wordID, setWordID] = useLocalStorage<string | null>('id', null);
-  const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
+  const [puzzle, setPuzzle] = useState<DPuzzle | null>(null);
   const [wordSize, setWordSize] = useLocalStorage('sizew', 0);
-  const [alphabet, setAlphabet] = useLocalStorage<Alphabet | null>('alphabet', null);
+  const [alphabet, setAlphabet] = useLocalStorage<DAlphabet | null>('alphabet', null);
   const [defeat, setDefeat] = useLocalStorage('defeat', false);
   const [win, setWin] = useLocalStorage('win', false);
   const initialChecks = Array(maxAttempts).fill(false);
@@ -55,7 +55,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
     const { genNewWord = false, newId } = options;
-    let dataPuzzle: Puzzle | null = null;
+    let dataPuzzle: DPuzzle | null = null;
     const attempts = 0;
     const maxAttempts = 5;
 
@@ -88,7 +88,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (!dataPuzzle) {
       destroyLocalStorage()
-      console.error('Failed to load puzzle');
+      // console.error('Failed to load puzzle');
       return;
     }
 

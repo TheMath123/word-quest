@@ -1,9 +1,11 @@
 "use server";
 
+import { DGameData } from "@/db/schema";
 import { getUserGameData } from "@/model/game-data";
-import { GameData } from "@prisma/client";
 
-export async function searchGameData(userId: string): Promise<GameData | null> {
+export async function searchGameData(
+  userId: string
+): Promise<DGameData | null> {
   try {
     const puzzle = await getUserGameData(userId);
     return puzzle;

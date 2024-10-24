@@ -1,11 +1,12 @@
 "use server";
 
 import { ServiceResponse } from "@/@types/response";
+import { env } from "@/env";
 import { deleteAlphabet as deleteAlphabetDB } from "@/model/alphabet";
 
 export async function deleteAlphabet(id: string): Promise<ServiceResponse> {
   try {
-    if (id === "cm2fdyvsr0005ijr0o173qws6") {
+    if (id === env.DEFAULT_ALPHABET_ID) {
       return { error: "It is not possible to delete the default alphabet." };
     }
 

@@ -1,12 +1,12 @@
 "use server";
 
+import { DAlphabet } from "@/db/schema";
 import { getAlphabet, GetAlphabetParams } from "@/model/alphabet";
-import { Alphabet } from "@prisma/client";
 
 export async function searchAlphabet({
   id,
   name,
-}: GetAlphabetParams): Promise<Alphabet | null> {
+}: GetAlphabetParams): Promise<DAlphabet | null> {
   try {
     const alphabet = await getAlphabet({ id, name });
     return alphabet;
