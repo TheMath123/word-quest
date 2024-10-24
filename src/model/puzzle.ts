@@ -1,71 +1,71 @@
+import { eq } from "drizzle-orm";
+import { db } from "@/lib/db/drizzle";
+import { puzzles, DPuzzle } from "@/db/schema";
 import { PuzzleDTO, PuzzleUpdateDTO } from "@/dtos";
-import { prisma } from "@/lib/db/prisma";
-import { Puzzle } from "@prisma/client";
 
-const getPuzzles = async (): Promise<Puzzle[] | null> => {
-  return prisma.puzzle.findMany();
+const getPuzzles = async (): Promise<DPuzzle[] | null> => {
+  const results = await db.select().from(puzzles);
+  return results;
 };
 
-const getPuzzleById = async (id: string): Promise<Puzzle | null> => {
-  return prisma.puzzle.findUnique({
-    where: {
-      id,
-    },
-  });
+const getPuzzleById = async (id: string): Promise<DPuzzle | null> => {
+  const result = await db
+    .select()
+    .from(puzzles)
+    .where(eq(puzzles.id, id))
+    .limit(1);
+
+  return result[0] || null;
 };
 
 const getRandomPuzzle = async (
   alphabetName?: string
-): Promise<Puzzle | null> => {
-  const whereClause = alphabetName ? { alphabetName } : {};
+): Promise<DPuzzle | null> => {
+  const query = alphabetName
+    ? db.select().from(puzzles).where(eq(puzzles.alphabetName, alphabetName))
+    : db.select().from(puzzles);
 
-  const puzzlesCount = await prisma.puzzle.count({
-    where: whereClause,
-  });
+  const allPuzzles = await query;
 
-  if (puzzlesCount === 0) {
+  if (allPuzzles.length === 0) {
     return null;
   }
 
-  const skip = Math.floor(Math.random() * puzzlesCount);
-
-  const randomPuzzle = await prisma.puzzle.findFirst({
-    where: whereClause,
-    skip: skip,
-  });
-
-  return randomPuzzle;
+  const randomIndex = Math.floor(Math.random() * allPuzzles.length);
+  return allPuzzles[randomIndex];
 };
 
-const createPuzzle = async (data: PuzzleDTO): Promise<Puzzle> => {
-  return prisma.puzzle.create({
-    data: {
+const createPuzzle = async (data: PuzzleDTO): Promise<DPuzzle> => {
+  const result = await db
+    .insert(puzzles)
+    .values({
       word: data.word,
       tip: data.tip,
       alphabetName: data.alphabetName,
-    },
-  });
+    })
+    .returning();
+
+  return result[0];
 };
 
-const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<Puzzle> => {
-  return prisma.puzzle.update({
-    data: {
+const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<DPuzzle> => {
+  const result = await db
+    .update(puzzles)
+    .set({
       word: data.word,
       tip: data.tip,
       alphabetName: data.alphabetName,
-    },
-    where: {
-      id: data.id,
-    },
-  });
+    })
+    .where(eq(puzzles.id, data.id))
+    .returning();
+
+  return result[0];
 };
 
-const deletePuzzle = async (id: string): Promise<Puzzle> => {
-  return prisma.puzzle.delete({
-    where: {
-      id,
-    },
-  });
+const deletePuzzle = async (id: string): Promise<DPuzzle> => {
+  const result = await db.delete(puzzles).where(eq(puzzles.id, id)).returning();
+
+  return result[0];
 };
 
 export {

@@ -1,9 +1,9 @@
 "use server";
 
+import { DGameData } from "@/db/schema";
 import { createGameData as createGameDataDB } from "@/model/game-data";
-import { GameData } from "@prisma/client";
 
-export async function createGameData(id: string): Promise<GameData | null> {
+export async function createGameData(id: string): Promise<DGameData | null> {
   try {
     const data = await createGameDataDB(id);
     return data;

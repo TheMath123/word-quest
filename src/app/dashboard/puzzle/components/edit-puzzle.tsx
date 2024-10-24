@@ -4,9 +4,9 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/
 import { PuzzleForm } from "./puzzle-form";
 import { Button } from "@/components/ui/button";
 import { searchPuzzle } from "@/services/puzzle";
-import { Puzzle } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { EditLoading } from "./edit-loading";
+import { DPuzzle } from "@/db/schema";
 
 interface EditPuzzleProps {
   id?: string;
@@ -15,7 +15,7 @@ interface EditPuzzleProps {
 
 export function EditPuzzle({ id, children }: EditPuzzleProps) {
   const message = id ? "Edit Puzzle" : "Create New Puzzle";
-  const [data, setData] = useState<Puzzle | null>(null)
+  const [data, setData] = useState<DPuzzle | null>(null)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(true)
 

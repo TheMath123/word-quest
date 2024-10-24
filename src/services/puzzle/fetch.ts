@@ -1,9 +1,9 @@
 "use server";
 
+import { DPuzzle } from "@/db/schema";
 import { getPuzzles } from "@/model/puzzle";
-import { Puzzle } from "@prisma/client";
 
-export async function fetchPuzzles(): Promise<Puzzle[]> {
+export async function fetchPuzzles(): Promise<DPuzzle[]> {
   try {
     const puzzle = await getPuzzles();
     if (!puzzle) {

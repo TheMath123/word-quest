@@ -3,6 +3,9 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
+    NODE_ENV: z.string({
+      required_error: "NODE_ENV is required",
+    }),
     VERCEL_URL: z.string({ required_error: "VERCEL_URL is required" }),
     AUTH_GITHUB_ID: z.string({ required_error: "AUTH_GITHUB_ID is required" }),
     AUTH_GITHUB_SECRET: z.string({
@@ -12,8 +15,8 @@ export const env = createEnv({
     AUTH_GOOGLE_SECRET: z.string({
       required_error: "AUTH_GOOGLE_SECRET is required",
     }),
-    NODE_ENV: z.string({
-      required_error: "NODE_ENV is required",
+    DEFAULT_ALPHABET_ID: z.string({
+      required_error: "DEFAULT_ALPHABET_ID is required",
     }),
   },
   client: {
@@ -21,7 +24,7 @@ export const env = createEnv({
       required_error: "NEXT_PUBLIC_ENCRYPTION_KEY is required",
     }),
     NEXT_PUBLIC_TURSO_DATABASE_URL: z.string({
-      required_error: "TURSO_DATABASE_URL is required",
+      required_error: "NEXT_PUBLIC_TURSO_DATABASE_URL is required",
     }),
     NEXT_PUBLIC_TURSO_AUTH_TOKEN: z.string({
       required_error: "TURSO_AUTH_TOKEN is required",
@@ -37,5 +40,6 @@ export const env = createEnv({
     NEXT_PUBLIC_ENCRYPTION_KEY: process.env.NEXT_PUBLIC_ENCRYPTION_KEY,
     NEXT_PUBLIC_TURSO_DATABASE_URL: process.env.NEXT_PUBLIC_TURSO_DATABASE_URL,
     NEXT_PUBLIC_TURSO_AUTH_TOKEN: process.env.NEXT_PUBLIC_TURSO_AUTH_TOKEN,
+    DEFAULT_ALPHABET_ID: process.env.DEFAULT_ALPHABET_ID,
   },
 });

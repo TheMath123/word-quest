@@ -1,16 +1,16 @@
 "use client"
 
-import { Puzzle } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { Actions } from "./actions"
 import { Button } from "@/components/ui/button"
 import { ArrowUpDown } from "@mynaui/icons-react"
 import { Checkbox } from "@/components/ui/checkbox"
+import { DPuzzle } from "@/db/schema"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<Puzzle>[] = [
+export const columns: ColumnDef<DPuzzle>[] = [
   {
     id: "select",
     header: ({ table }) => (

@@ -13,11 +13,11 @@ import { AlphabetField } from "@/components/form/alphabet-field.tsx"
 import { createPuzzle } from "@/services/puzzle/create"
 import { useState } from "react"
 import { PuzzleSchemaType, puzzleSchema } from "./puzzle-schema"
-import { Puzzle } from "@prisma/client"
 import { updatePuzzle } from "@/services/puzzle"
+import { DPuzzle } from "@/db/schema"
 
 interface PuzzleFormProps {
-  initialData?: Puzzle | null;
+  initialData?: DPuzzle | null;
   onClose?: () => void;
 }
 
