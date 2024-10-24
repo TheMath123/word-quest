@@ -15,6 +15,9 @@ export const env = createEnv({
     AUTH_GOOGLE_SECRET: z.string({
       required_error: "AUTH_GOOGLE_SECRET is required",
     }),
+    DEFAULT_ALPHABET_ID: z.string({
+      required_error: "DEFAULT_ALPHABET_ID is required",
+    }),
   },
   client: {
     NEXT_PUBLIC_ENCRYPTION_KEY: z.string({
@@ -37,5 +40,6 @@ export const env = createEnv({
     NEXT_PUBLIC_ENCRYPTION_KEY: process.env.NEXT_PUBLIC_ENCRYPTION_KEY,
     NEXT_PUBLIC_TURSO_DATABASE_URL: process.env.NEXT_PUBLIC_TURSO_DATABASE_URL,
     NEXT_PUBLIC_TURSO_AUTH_TOKEN: process.env.NEXT_PUBLIC_TURSO_AUTH_TOKEN,
+    DEFAULT_ALPHABET_ID: process.env.DEFAULT_ALPHABET_ID,
   },
 });
