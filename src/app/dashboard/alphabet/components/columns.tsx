@@ -1,17 +1,17 @@
 "use client"
 
-import { Alphabet } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { Actions } from "./actions"
 import { Button } from "@/components/ui/button"
 import { ArrowUpDown } from "@mynaui/icons-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { LetterDisplay } from "@/components/data/letter-display"
+import { DAlphabet } from "@/db/schema"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<Alphabet>[] = [
+export const columns: ColumnDef<DAlphabet>[] = [
   {
     id: "select",
     header: ({ table }) => (

@@ -1,16 +1,20 @@
 import { PuzzleCompletedDTO } from "@/dtos/puzzle-completed-dto";
-import { prisma } from "@/lib/db/prisma";
-import { PuzzleCompleted } from "@prisma/client";
+import { db } from "@/lib/db/drizzle";
+import { puzzlesCompleted, DPuzzlesCompleted } from "@/db/schema";
 
 const addPuzzleCompleted = async ({
   gameDataId,
   puzzleId,
-}: PuzzleCompletedDTO): Promise<PuzzleCompleted> => {
-  return prisma.puzzleCompleted.create({
-    data: {
+}: PuzzleCompletedDTO): Promise<DPuzzlesCompleted> => {
+  const result = await db
+    .insert(puzzlesCompleted)
+    .values({
       gameDataId,
       puzzleId,
-    },
-  });
+    })
+    .returning();
+
+  return result[0];
 };
+
 export { addPuzzleCompleted };

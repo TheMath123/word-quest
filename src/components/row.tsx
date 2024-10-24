@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Letter } from "@/components";
 import { convertStringToArray } from "@/lib/convert-string-to-array";
 import { cn } from "@/lib/cn";
-import { Alphabet } from "@prisma/client";
+import { DAlphabet } from "@/db/schema";
 
 interface RowProps {
   focused?: boolean,
@@ -12,7 +12,7 @@ interface RowProps {
   word?: string,
   size: number,
   correctWord: string;
-  alphabet?: Alphabet | null,
+  alphabet?: DAlphabet | null,
 }
 
 export function Row({ focused = false, word = '', size, checkWord = false, correctWord, alphabet }: RowProps) {

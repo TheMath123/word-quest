@@ -12,10 +12,10 @@ import { toast } from "@/hooks/use-toast"
 import { createAlphabet, updateAlphabet } from "@/services/alphabet"
 import { AlphabetSchemaType, alphabetSchema } from "./alphabet-schema"
 import { useState } from "react"
-import { Alphabet } from "@prisma/client"
+import { DAlphabet } from "@/db/schema"
 
 interface AlphabetFormProps {
-  initialData?: Alphabet | null;
+  initialData?: DAlphabet | null;
   onClose?: () => void;
 }
 

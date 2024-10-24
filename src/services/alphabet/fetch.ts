@@ -1,9 +1,9 @@
 "use server";
 
+import { DAlphabet } from "@/db/schema";
 import { getAlphabets } from "@/model/alphabet";
-import { Alphabet } from "@prisma/client";
 
-export async function fetchAlphabets(): Promise<Alphabet[]> {
+export async function fetchAlphabets(): Promise<DAlphabet[]> {
   try {
     const alphabets = await getAlphabets();
     if (!alphabets) {

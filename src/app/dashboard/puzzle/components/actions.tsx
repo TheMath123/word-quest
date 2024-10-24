@@ -8,15 +8,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Puzzle } from "@prisma/client";
 import { EditPuzzle } from "./edit-puzzle";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { deletePuzzle } from "@/services/puzzle";
+import { DPuzzle } from "@/db/schema";
 
 interface ActionsProps {
-  data: Puzzle;
+  data: DPuzzle;
 }
 
 export function Actions({ data }: ActionsProps) {

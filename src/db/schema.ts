@@ -6,7 +6,7 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 import { AdapterAccountType } from "@auth/core/adapters";
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 
 export const users = sqliteTable("users", {
   id: text("id")
@@ -32,6 +32,8 @@ export const usersRelations = relations(users, ({ one }) => ({
   }),
 }));
 
+export type DUser = InferSelectModel<typeof users>;
+
 export const accounts = sqliteTable(
   "account",
   {
@@ -56,6 +58,8 @@ export const accounts = sqliteTable(
   })
 );
 
+export type DAccount = InferSelectModel<typeof accounts>;
+
 export const sessions = sqliteTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
   userId: text("userId")
@@ -63,6 +67,8 @@ export const sessions = sqliteTable("session", {
     .references(() => users.id, { onDelete: "cascade" }),
   expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
+
+export type DSession = InferSelectModel<typeof sessions>;
 
 export const verificationTokens = sqliteTable(
   "verificationToken",
@@ -77,6 +83,8 @@ export const verificationTokens = sqliteTable(
     }),
   })
 );
+
+export type DVerificationToken = InferSelectModel<typeof verificationTokens>;
 
 export const authenticators = sqliteTable(
   "authenticator",
@@ -100,6 +108,8 @@ export const authenticators = sqliteTable(
     }),
   })
 );
+
+export type DAuthenticator = InferSelectModel<typeof authenticators>;
 
 export const gameData = sqliteTable("game_data", {
   id: text("id")
@@ -126,6 +136,8 @@ export const gameDataRelations = relations(gameData, ({ one, many }) => ({
   completedPuzzles: many(puzzlesCompleted),
 }));
 
+export type DGameData = InferSelectModel<typeof gameData>;
+
 export const alphabets = sqliteTable("alphabets", {
   id: text("id")
     .primaryKey()
@@ -143,6 +155,8 @@ export const alphabets = sqliteTable("alphabets", {
 export const alphabetsRelations = relations(alphabets, ({ many }) => ({
   puzzles: many(puzzles),
 }));
+
+export type DAlphabet = InferSelectModel<typeof alphabets>;
 
 export const puzzles = sqliteTable("puzzles", {
   id: text("id")
@@ -168,6 +182,8 @@ export const puzzlesRelations = relations(puzzles, ({ one, many }) => ({
   }),
   completions: many(puzzlesCompleted),
 }));
+
+export type DPuzzle = InferSelectModel<typeof puzzles>;
 
 export const puzzlesCompleted = sqliteTable("puzzles_completed", {
   id: text("id")
@@ -197,3 +213,5 @@ export const puzzlesCompletedRelations = relations(
     }),
   })
 );
+
+export type DPuzzlesCompleted = InferSelectModel<typeof puzzlesCompleted>;

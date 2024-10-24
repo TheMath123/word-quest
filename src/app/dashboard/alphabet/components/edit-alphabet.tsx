@@ -2,11 +2,11 @@
 
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Alphabet, } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { AlphabetForm } from "./alphabet-form";
 import { searchAlphabet } from "@/services/alphabet";
 import { EditLoading } from "./edit-loading";
+import { DAlphabet } from "@/db/schema";
 
 interface EditAlphabetProps {
   id?: string;
@@ -15,7 +15,7 @@ interface EditAlphabetProps {
 
 export function EditAlphabet({ id, children }: EditAlphabetProps) {
   const message = id ? "Edit Alphabet" : "Create New Alphabet";
-  const [data, setData] = useState<Alphabet | null>(null)
+  const [data, setData] = useState<DAlphabet | null>(null)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(true)
 

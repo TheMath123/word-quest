@@ -1,9 +1,9 @@
 import { cn } from '@/lib/cn'
 import { Key } from '@/components'
-import { Alphabet } from '@prisma/client'
+import { DAlphabet } from '@/db/schema';
 
 interface KeyboardProps {
-  alphabet?: Alphabet | null,
+  alphabet?: DAlphabet | null,
   onKeyPress: (words: string) => void,
   onBackspace: () => void,
   onConfirm: () => void,

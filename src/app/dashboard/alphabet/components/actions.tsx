@@ -8,15 +8,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Alphabet } from "@prisma/client";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { EditAlphabet } from "./edit-alphabet";
 import { deleteAlphabet } from "@/services/alphabet";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { DAlphabet } from "@/db/schema";
 
 interface ActionsProps {
-  data: Alphabet;
+  data: DAlphabet;
 }
 
 export function Actions({ data }: ActionsProps) {
