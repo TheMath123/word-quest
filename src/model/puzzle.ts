@@ -3,11 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import { Puzzle } from "@prisma/client";
 
 const getPuzzles = async (): Promise<Puzzle[] | null> => {
-  return prisma.puzzle.findMany({
-    cacheStrategy: {
-      ttl: 60,
-    },
-  });
+  return prisma.puzzle.findMany();
 };
 
 const getPuzzleById = async (id: string): Promise<Puzzle | null> => {
