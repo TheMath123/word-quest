@@ -15,16 +15,16 @@ export const env = createEnv({
     NODE_ENV: z.string({
       required_error: "NODE_ENV is required",
     }),
+    TURSO_DATABASE_URL: z.string({
+      required_error: "TURSO_DATABASE_URL is required",
+    }),
+    TURSO_AUTH_TOKEN: z.string({
+      required_error: "TURSO_AUTH_TOKEN is required",
+    }),
   },
   client: {
     NEXT_PUBLIC_ENCRYPTION_KEY: z.string({
       required_error: "NEXT_PUBLIC_ENCRYPTION_KEY is required",
-    }),
-    NEXT_PUBLIC_TURSO_DATABASE_URL: z.string({
-      required_error: "TURSO_DATABASE_URL is required",
-    }),
-    NEXT_PUBLIC_TURSO_AUTH_TOKEN: z.string({
-      required_error: "TURSO_AUTH_TOKEN is required",
     }),
   },
   runtimeEnv: {
@@ -35,7 +35,7 @@ export const env = createEnv({
     AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_ENCRYPTION_KEY: process.env.NEXT_PUBLIC_ENCRYPTION_KEY,
-    NEXT_PUBLIC_TURSO_DATABASE_URL: process.env.NEXT_PUBLIC_TURSO_DATABASE_URL,
-    NEXT_PUBLIC_TURSO_AUTH_TOKEN: process.env.NEXT_PUBLIC_TURSO_AUTH_TOKEN,
+    TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
+    TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
   },
 });
