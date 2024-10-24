@@ -6,6 +6,7 @@ import Providers from "@/lib/react-query/query-provider";
 
 import "./globals.css";
 import { davek } from "./fonts";
+import { Footer } from "@/components";
 
 const font = Jost({
   subsets: ["latin"],
@@ -33,9 +34,12 @@ export default function RootLayout({
       <body
         className={`${font.className} ${davek.variable} antialiased relative`}
       >
-        <Providers>
-          {children}
-        </Providers>
+        <div className="flex flex-col h-screen justify-between">
+          <Providers>
+            {children}
+          </Providers>
+          <Footer />
+        </div>
         <Toaster />
         {/* <Analytics /> */}
       </body>
