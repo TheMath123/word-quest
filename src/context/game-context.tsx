@@ -7,7 +7,10 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@/hooks/use-profile';
 // import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
 import { destroyLocalStorage } from '@/utils/destroy-storage';
-import { DAlphabet, DPuzzle } from '@/db/schema';
+import { DAlphabet, DGameData, DPuzzle } from '@/db/schema';
+import { checkPuzzleCompleted, createGameData, updateGameData } from '@/model/game-data';
+import { addPuzzleCompleted } from '@/model/puzzle-completed';
+import { searchGameData } from '@/services/game-data';
 
 interface GameContextType {
   alphabet: DAlphabet | null;
@@ -51,12 +54,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   const user = useUser()
-  // const [, setGameData] = useState<GameData | null>(null);
+  const [, setGameData] = useState<DGameData | null>(null);
 
   const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
     const { genNewWord = false, newId } = options;
     let dataPuzzle: DPuzzle | null = null;
-    const attempts = 0;
+    let attempts = 0;
     const maxAttempts = 5;
 
     while (!dataPuzzle && attempts < maxAttempts) {
@@ -71,16 +74,16 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (dataPuzzle && user?.id && !newId) {
-        // const isCompleted = await checkPuzzleCompleted({
-        //   userId: user.id,
-        //   puzzleId: dataPuzzle.id
-        // });
-        // if (isCompleted) {
-        //   dataPuzzle = null;
-        //   attempts++;
-        // } else {
-        //   break;
-        // }
+        const isCompleted = await checkPuzzleCompleted({
+          userId: user.id,
+          puzzleId: dataPuzzle.id
+        });
+        if (isCompleted) {
+          dataPuzzle = null;
+          attempts++;
+        } else {
+          break;
+        }
       } else {
         break;
       }
@@ -106,30 +109,30 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const handleConfirm = async () => {
     const isWin = verifyWin();
     if (isWin && user?.id && puzzle) {
-      // await updateUserGameData(user.id, puzzle.id);
+      await updateUserGameData(user.id, puzzle.id);
     }
     nextAttempt();
   }
 
-  // const updateUserGameData = async (userId: string, puzzleId: string) => {
-  //   let userGameData = await searchGameData(userId);
-  //   if (!userGameData) {
-  //     userGameData = await createGameData(userId);
-  //   }
-  //   if (userGameData) {
-  //     await addPuzzleCompleted({
-  //       gameDataId: userGameData.id,
-  //       puzzleId,
-  //     });
-  //     await updateGameData({
-  //       gameDataId: userGameData.id,
-  //       data: {
-  //         totalCompleted: userGameData!.totalCompleted + 1
-  //       }
-  //     });
-  //     setGameData(userGameData);
-  //   }
-  // };
+  const updateUserGameData = async (userId: string, puzzleId: string) => {
+    let userGameData = await searchGameData(userId);
+    if (!userGameData) {
+      userGameData = await createGameData(userId);
+    }
+    if (userGameData) {
+      await addPuzzleCompleted({
+        gameDataId: userGameData.id,
+        puzzleId,
+      });
+      await updateGameData({
+        gameDataId: userGameData.id,
+        data: {
+          totalCompleted: (userGameData?.totalCompleted ?? 0) + 1
+        }
+      });
+      setGameData(userGameData);
+    }
+  };
 
   const changePuzzle = async (id: string) => {
     resetTurn();
@@ -154,11 +157,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeGame();
   }, []);
 
-  // useEffect(() => {
-  //   if (user?.id) {
-  //     searchGameData(user.id).then(setGameData);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user?.id) {
+      searchGameData(user.id).then(setGameData);
+    }
+  }, [user]);
 
   const handleBackspace = () => {
     if (currentWord.length > 0) {
@@ -188,9 +191,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const isWin = verifyWin();
     if (currentAttempt === maxAttempts - 1 && !isWin) {
       setDefeat(true);
+      return;
     }
-    setCurrentAttempt((prev: number) => prev + 1);
     if (!win) setCurrentWord('');
+    setCurrentAttempt((prev: number) => prev + 1);
   }
 
   const verifyWin = () => {
