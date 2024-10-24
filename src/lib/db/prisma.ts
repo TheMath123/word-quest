@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+// import { withAccelerate } from "@prisma/extension-accelerate";
 import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { createClient } from "@libsql/client";
 import { env } from "@/env";
@@ -10,6 +10,10 @@ const libsql = createClient({
 });
 
 const adapter = new PrismaLibSQL(libsql);
-const prisma = new PrismaClient({ adapter }).$extends(withAccelerate());
+// const prisma = new PrismaClient({ adapter });
 
-export { prisma };
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
