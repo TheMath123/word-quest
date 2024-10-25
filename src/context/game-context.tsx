@@ -8,7 +8,7 @@ import { useUser } from '@/hooks/use-profile';
 // import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
 import { destroyLocalStorage } from '@/utils/destroy-storage';
 import { DAlphabet, DGameData, DPuzzle } from '@/db/schema';
-import { checkPuzzleCompleted, createGameData, updateGameData } from '@/model/game-data';
+import { createGameData, updateGameData } from '@/model/game-data';
 import { addPuzzleCompleted } from '@/model/puzzle-completed';
 import { searchGameData } from '@/services/game-data';
 
@@ -59,35 +59,18 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
     const { genNewWord = false, newId } = options;
     let dataPuzzle: DPuzzle | null = null;
-    let attempts = 0;
-    const maxAttempts = 5;
 
-    while (!dataPuzzle && attempts < maxAttempts) {
-      if (genNewWord) {
-        dataPuzzle = await fetchGame(alphabetName);
-      } else if (newId) {
-        dataPuzzle = await searchPuzzle(newId);
-      } else if (wordID) {
-        dataPuzzle = await searchPuzzle(wordID);
-      } else {
-        dataPuzzle = await fetchGame(alphabetName);
-      }
 
-      if (dataPuzzle && user?.id && !newId) {
-        const isCompleted = await checkPuzzleCompleted({
-          userId: user.id,
-          puzzleId: dataPuzzle.id
-        });
-        if (isCompleted) {
-          dataPuzzle = null;
-          attempts++;
-        } else {
-          break;
-        }
-      } else {
-        break;
-      }
+    if (genNewWord) {
+      dataPuzzle = await fetchGame(alphabetName);
+    } else if (newId) {
+      dataPuzzle = await searchPuzzle(newId);
+    } else if (wordID) {
+      dataPuzzle = await searchPuzzle(wordID);
+    } else {
+      dataPuzzle = await fetchGame(alphabetName);
     }
+
 
     if (!dataPuzzle) {
       destroyLocalStorage()
@@ -157,12 +140,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeGame();
   }, []);
 
-  useEffect(() => {
-    if (user?.id) {
-      searchGameData(user.id).then(setGameData);
-    }
-  }, [user]);
-
   const handleBackspace = () => {
     if (currentWord.length > 0) {
       setCurrentWord((prev: string) => prev.slice(0, -1));
@@ -189,6 +166,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return newChecks;
     });
     const isWin = verifyWin();
+    if (isWin) return;
     if (currentAttempt === maxAttempts - 1 && !isWin) {
       setDefeat(true);
       return;
