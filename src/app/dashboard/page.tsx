@@ -3,7 +3,7 @@ import { TypeText, Puzzle } from "@mynaui/icons-react"
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col gap-4 p-4 items-center w-full">
+    <div className="flex flex-col gap-4 p-4 items-center grow">
       <nav className="flex gap-4">
         <Link
           href="/dashboard/puzzle"

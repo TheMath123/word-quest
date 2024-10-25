@@ -5,7 +5,7 @@ import { GamePage } from "@/app/components/game-page"
 export default async function Home() {
   return (
     <Suspense>
-      <div className="relative grid h-full">
+      <div className="relative h-full">
         <ProfileHeader />
         <GamePage />
       </div>

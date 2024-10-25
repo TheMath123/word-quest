@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 export function AlphabetPage() {
   const { data } = useAlphabetsQuery();
 
-  return <main className="container mx-auto p-4 space-y-6">
+  return <main className="container mx-auto p-4 space-y-6 grow">
     <DataTable title='Alphabets' columns={columns} data={data} />
     <h1 className="text-xl font-semibold">Notes</h1>
     <Textarea

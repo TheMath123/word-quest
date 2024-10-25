@@ -34,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${font.className} ${davek.variable} antialiased relative`}
       >
-        <div className="flex flex-col h-screen justify-between">
+        <div className="flex flex-col h-screen justify">
           <Providers>
             {children}
           </Providers>
