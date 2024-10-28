@@ -6,13 +6,13 @@ export const alphabetSchema = z.object({
   }),
   characters: z
     .string()
-    .min(19, 'Write at least 10 characters, split to semicolon ";"')
+    .min(3, 'Write at least 2 characters, split to semicolon ";"')
     .superRefine((value, context) => {
       const listValues = value.trim().split(";");
-      if (listValues.length <= 8) {
+      if (listValues.length < 2) {
         context.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "There must be at least 8 characters",
+          message: "There must be at least 2 characters",
         });
       }
     }),

@@ -6,9 +6,9 @@ export const destroyLocalStorage = () => {
         localStorage.removeItem(key);
       }
     }
-    console.log("All data in localStorage has been deleted.");
+    console.info("All data in localStorage has been deleted.");
   } else {
-    console.log(
+    console.info(
       "The localStorage is not available. Make sure you are in the browser environment."
     );
   }
@@ -22,9 +22,9 @@ export const destroySessionStorage = () => {
         sessionStorage.removeItem(key);
       }
     }
-    console.log("All data in sessionStorage has been deleted.");
+    console.info("All data in sessionStorage has been deleted.");
   } else {
-    console.log(
+    console.info(
       "The sessionStorage is not available. Make sure you are in the browser environment."
     );
   }

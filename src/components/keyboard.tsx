@@ -29,13 +29,22 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false,
   const handleConfirm = () => {
     onConfirm()
   }
+  const alphabetName = alphabet.name.toLowerCase().trim();
+
+  const isDavek = alphabetName === 'davek';
+  const isNumber = alphabetName === 'number';
+  const isMorse = alphabetName === 'morse'
+  const isDefault = !isDavek && !isNumber && !isMorse;
 
   return <div
     className={cn(
       className,
-      alphabet.name.toLowerCase().trim() === 'davek' && 'font-davek',
-      'grid grid-cols-7 md:grid-cols-9 gap-2 place-items-center flex-wrap',
-      'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4 max-w-xl'
+      isDavek && 'font-davek',
+      'grid gap-2 place-items-center',
+      isNumber && 'grid-cols-3',
+      isMorse && 'grid-cols-2',
+      isDefault && 'grid-cols-7 md:grid-cols-9',
+      'bg-gray-300 dark:bg-slate-800 rounded-lg p-2 md:p-4 max-w-xl',
     )}>
     {letters.length > 0 && letters.map(
       (letter: string) =>
@@ -61,7 +70,7 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false,
       key='✓'
       disabled={disabled}
       onClick={() => handleConfirm()}
-      className='md:col-span-9'
+      className={cn(isDefault && 'md:col-span-9')}
       color='confirm'
     >
       <span className='-translate-y-0.5'>
