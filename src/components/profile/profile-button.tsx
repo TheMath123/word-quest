@@ -21,7 +21,7 @@ export async function ProfileButton({ user }: ProfileButtonProps) {
       <DropdownMenuTrigger>
         <ProfilePhoto name={user.name ?? "^_^"} image={user.image ?? ""} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent collisionPadding={16} sideOffset={8}>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild >

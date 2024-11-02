@@ -21,6 +21,7 @@ export async function ProfilePage() {
 
   const gameData = user?.id ? await searchGameData(user.id) : null
 
+
   return <main className="bg-background-gradient h-dvh">
     <header className="flex flex-row justify-between p-4">
       <aside className="flex flex-row gap-4 items-center">
@@ -44,8 +45,8 @@ export async function ProfilePage() {
         </ul>
       </nav>
     </header>
-    <section className="py-8 grid px-4 md:px-24">
-      {gameData?.totalCompleted && <div className="border border-gray-900 dark:border-gray-100 rounded-md p-4 flex flex-col gap-2 items-center w-fit">
+    <section className="py-8 grid px-4 md:px-24 gap-4">
+      {gameData?.totalCompleted ? <div className="border border-gray-900 dark:border-gray-100 rounded-md p-4 flex flex-col gap-2 items-center w-fit">
         <h1 className="font-medium text-xl">
           Total Puzzles Completed
         </h1>
@@ -53,7 +54,8 @@ export async function ProfilePage() {
           <CheckCircle className="w-5 h-5 stroke-green-500" />
           <span className="font-semibold text-2xl">{gameData!.totalCompleted}</span>
         </div>
-      </div>}
+      </div> : null}
+
       {/* <pre>{JSON.stringify(gameData, null, 2)}</pre> */}
     </section>
   </main>
