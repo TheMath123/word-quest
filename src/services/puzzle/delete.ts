@@ -13,6 +13,6 @@ export async function deletePuzzle(id: string): Promise<ServiceResponse> {
     return { description: `Puzzle ${puzzle.word} deleted` };
   } catch (error) {
     console.error("error", error);
-    return { error: "Problems deleting alphabet" };
+    return { error: "Problems deleting puzzle" };
   }
 }
