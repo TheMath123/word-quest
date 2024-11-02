@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db/drizzle";
-import { puzzles, DPuzzle } from "@/db/schema";
+import { puzzles, DPuzzle, puzzlesCompleted } from "@/db/schema";
 import { PuzzleDTO, PuzzleUpdateDTO } from "@/dtos";
 
 const getPuzzles = async (): Promise<DPuzzle[] | null> => {
@@ -63,11 +63,13 @@ const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<DPuzzle> => {
 };
 
 const deletePuzzle = async (id: string): Promise<DPuzzle> => {
-  const result = await db.delete(puzzles).where(eq(puzzles.id, id)).returning();
+  // Primeiro deleta todos os registros de puzzles completados relacionados
+  await db.delete(puzzlesCompleted).where(eq(puzzlesCompleted.puzzleId, id));
 
+  // Depois deleta o puzzle
+  const result = await db.delete(puzzles).where(eq(puzzles.id, id)).returning();
   return result[0];
 };
-
 export {
   getPuzzles,
   getPuzzleById,

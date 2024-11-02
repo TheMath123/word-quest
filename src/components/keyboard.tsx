@@ -34,7 +34,7 @@ export function Keyboard({ onKeyPress, onBackspace, onConfirm, disabled = false,
   const isDavek = alphabetName === 'davek';
   const isNumber = alphabetName === 'number';
   const isMorse = alphabetName === 'morse'
-  const isDefault = !isDavek && !isNumber && !isMorse;
+  const isDefault = !isNumber && !isMorse;
 
   return <div
     className={cn(
