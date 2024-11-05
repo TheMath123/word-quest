@@ -1,0 +1,1 @@
+ALTER TABLE `puzzles` ADD `max_attempts` integer DEFAULT 5 NOT NULL;

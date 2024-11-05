@@ -1,13 +1,4 @@
 import { z } from "zod";
-/*
-  id               String           @id @default(cuid())
-  word             String
-  tip              String
-  alphabetName       String
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  PuzzleCompleted  PuzzleCompleted?
-*/
 
 export const puzzleSchema = z.object({
   word: z.string().min(3, {
@@ -19,6 +10,19 @@ export const puzzleSchema = z.object({
   alphabetName: z.string().min(2, {
     message: "Select alphabet.",
   }),
+  maxAttempts: z
+    .string()
+    .transform((data: string) => Number(data))
+    .pipe(
+      z
+        .number()
+        .min(1, {
+          message: "Max attempts must be at least 1.",
+        })
+        .max(10, {
+          message: "Max attempts must be at most 10.",
+        })
+    ),
 });
 
 export type PuzzleSchemaType = z.infer<typeof puzzleSchema>;

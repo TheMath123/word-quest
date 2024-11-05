@@ -167,6 +167,7 @@ export const puzzles = sqliteTable("puzzles", {
   alphabetName: text("alphabet_name")
     .notNull()
     .references(() => alphabets.name),
+  maxAttempts: integer("max_attempts").notNull().default(5),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).$defaultFn(
     () => new Date()
   ),

@@ -10,10 +10,10 @@ import {
 import { NameField } from "@/components/form"
 import { toast } from "@/hooks/use-toast"
 import { AlphabetField } from "@/components/form/alphabet-field.tsx"
-import { createPuzzle } from "@/services/puzzle/create"
 import { useState } from "react"
-import { PuzzleSchemaType, puzzleSchema } from "./puzzle-schema"
-import { updatePuzzle } from "@/services/puzzle"
+import { puzzleSchema, PuzzleSchemaType } from "./puzzle-schema"
+import { NumberField } from "@/components/form/number-field"
+import { updatePuzzle, createPuzzle, usePuzzlesQuery } from "@/services/puzzle"
 import { DPuzzle } from "@/db/schema"
 
 interface PuzzleFormProps {
@@ -22,6 +22,7 @@ interface PuzzleFormProps {
 }
 
 export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
+  const { refetch } = usePuzzlesQuery()
   const [loading, setLoading] = useState(false)
   const form = useForm<PuzzleSchemaType>({
     resolver: zodResolver(puzzleSchema),
@@ -29,9 +30,9 @@ export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
       word: "",
       tip: '',
       alphabetName: '',
+      maxAttempts: 5,
     },
   })
-
   async function onSubmit(values: PuzzleSchemaType) {
     setLoading(true)
     const res = initialData?.id ?
@@ -54,6 +55,7 @@ export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
       });
     }
     form.reset()
+    refetch()
     onClose?.()
   }
 
@@ -62,6 +64,7 @@ export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
       <NameField name="word" label="Word" placeholder="Write the word to be discovered" />
       <NameField name="tip" label="Tip" placeholder="Write a short tip" />
+      <NumberField name="maxAttempts" label="Max. Attempts" placeholder="Write a maximum attempts" />
       <AlphabetField />
       <Button type="submit" disabled={loading}>Save</Button>
     </form>
