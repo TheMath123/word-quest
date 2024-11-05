@@ -12,7 +12,8 @@ export const puzzleSchema = z.object({
   }),
   maxAttempts: z
     .string()
-    .transform((data: string) => Number(data))
+    .or(z.number())
+    .transform((data: string | number) => Number(data))
     .pipe(
       z
         .number()
