@@ -25,17 +25,20 @@ import { DataTablePagination } from "@/components/table/data-table-pagination"
 import { DataTableSearch } from "@/components/table/data-table-search"
 import { DataTableVisibility } from "@/components/table/data-table-visibility";
 import { EditAlphabet } from "./edit-alphabet";
+import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
   title: string;
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  refetch: () => void;
 }
 
 export function DataTable<TData, TValue>({
   title,
   columns,
   data,
+  refetch
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
@@ -76,6 +79,7 @@ export function DataTable<TData, TValue>({
         <h1 className="text-xl font-semibold hidden md:block">{title}</h1>
         <div className="space-x-4 flex items-center">
           <EditAlphabet />
+          <Button variant="outline" onClick={() => refetch()}>Refresh</Button>
           <DataTableVisibility table={table} />
         </div>
       </header>

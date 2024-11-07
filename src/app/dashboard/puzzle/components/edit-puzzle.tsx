@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { PuzzleForm } from "./puzzle-form";
 import { Button } from "@/components/ui/button";
 import { searchPuzzle } from "@/services/puzzle";
@@ -43,6 +43,7 @@ export function EditPuzzle({ id, children }: EditPuzzleProps) {
         {message}
       </DialogTitle>
       {loading ? <EditLoading /> : <PuzzleForm initialData={data} onClose={(() => setOpen(false))} />}
+      <DialogDescription />
     </DialogContent>
   </Dialog>
 }

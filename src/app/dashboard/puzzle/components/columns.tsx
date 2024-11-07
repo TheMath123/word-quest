@@ -61,6 +61,10 @@ export const columns: ColumnDef<DPuzzle>[] = [
     header: "Alphabet",
   },
   {
+    accessorKey: "maxAttempts",
+    header: "Max Attempts",
+  },
+  {
     accessorKey: "updatedAt",
     header: "Updated At",
     cell: (row) => {

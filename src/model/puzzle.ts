@@ -42,6 +42,7 @@ const createPuzzle = async (data: PuzzleDTO): Promise<DPuzzle> => {
       word: data.word,
       tip: data.tip,
       alphabetName: data.alphabetName,
+      maxAttempts: data.maxAttempts,
     })
     .returning();
 
@@ -55,6 +56,7 @@ const updatePuzzle = async (data: PuzzleUpdateDTO): Promise<DPuzzle> => {
       word: data.word,
       tip: data.tip,
       alphabetName: data.alphabetName,
+      maxAttempts: data.maxAttempts,
     })
     .where(eq(puzzles.id, data.id))
     .returning();
