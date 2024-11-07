@@ -22,10 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "@/components/table/data-table-pagination"
-import { DataTableSearch } from "@/components/table/data-table-search"
-import { DataTableVisibility } from "@/components/table/data-table-visibility";
-import { EditPuzzle } from "./edit-puzzle";
-import { Button } from "@/components/ui/button";
+import { DataTableHeader } from "./data-table-header";
 
 interface DataTableProps<TData, TValue> {
   title: string;
@@ -77,15 +74,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <header className="flex flex-row justify-between items-center gap-2">
-        <DataTableSearch table={table} columnKey="word" />
-        <h1 className="text-xl font-semibold hidden md:block">{title}</h1>
-        <div className="space-x-4 flex items-center">
-          <EditPuzzle />
-          <Button variant="outline" onClick={() => refetch()}>Refresh</Button>
-          <DataTableVisibility table={table} />
-        </div>
-      </header>
+      <DataTableHeader table={table} title={title} refetch={refetch} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
