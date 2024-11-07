@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form"
 import { NameField } from "@/components/form"
 import { toast } from "@/hooks/use-toast"
-import { createAlphabet, updateAlphabet } from "@/services/alphabet"
+import { createAlphabet, updateAlphabet, useAlphabetsQuery } from "@/services/alphabet"
 import { AlphabetSchemaType, alphabetSchema } from "./alphabet-schema"
 import { useState } from "react"
 import { DAlphabet } from "@/db/schema"
@@ -20,6 +20,7 @@ interface AlphabetFormProps {
 }
 
 export function AlphabetForm({ initialData, onClose }: AlphabetFormProps) {
+  const { refetch } = useAlphabetsQuery();
   const [loading, setLoading] = useState(false)
   const form = useForm<AlphabetSchemaType>({
     resolver: zodResolver(alphabetSchema),
@@ -54,6 +55,7 @@ export function AlphabetForm({ initialData, onClose }: AlphabetFormProps) {
       });
     }
     form.reset()
+    refetch()
     onClose?.()
   }
 

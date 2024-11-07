@@ -16,17 +16,17 @@ interface NameFieldProps {
   description?: string;
 }
 
-export function NameField({ name, label, placeholder, description }: NameFieldProps) {
+export function NumberField({ name, label, placeholder, description }: NameFieldProps) {
   const form = useFormContext();
 
   return <FormField
     control={form.control}
-    name={name ?? "name"}
+    name={name ?? "number"}
     render={({ field }) => (
       <FormItem>
-        <FormLabel>{label ?? 'Name'}</FormLabel>
+        <FormLabel>{label ?? 'Number'}</FormLabel>
         <FormControl>
-          <Input placeholder={placeholder ?? "Write your name"} {...field} inputMode="text" enterKeyHint="done" />
+          <Input placeholder={placeholder ?? "Write a number"} {...field} inputMode="numeric" enterKeyHint="done" />
         </FormControl>
         {description ? <FormDescription>
           {description}

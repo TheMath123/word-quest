@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { EditAlphabet } from "./edit-alphabet";
-import { deleteAlphabet } from "@/services/alphabet";
+import { deleteAlphabet, useAlphabetsQuery } from "@/services/alphabet";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { DAlphabet } from "@/db/schema";
@@ -21,6 +21,8 @@ interface ActionsProps {
 
 export function Actions({ data }: ActionsProps) {
   const [loadingDelete, setLoadingDelete] = useState(false)
+  const { refetch } = useAlphabetsQuery();
+
 
   const handleDelete = async () => {
     setLoadingDelete(true)
@@ -40,6 +42,7 @@ export function Actions({ data }: ActionsProps) {
       });
     }
     setLoadingDelete(false)
+    refetch()
   }
 
   return (

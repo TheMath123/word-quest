@@ -6,6 +6,7 @@ export function EditLoading() {
       <InputLoading />
       <InputLoading />
       <InputLoading />
+      <InputLoading />
     </div>
   );
 }
