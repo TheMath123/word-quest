@@ -12,7 +12,7 @@ import { EditPuzzle } from "./edit-puzzle";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { deletePuzzle } from "@/services/puzzle";
+import { deletePuzzle, usePuzzlesQuery } from "@/services/puzzle";
 import { DPuzzle } from "@/db/schema";
 
 interface ActionsProps {
@@ -21,6 +21,7 @@ interface ActionsProps {
 
 export function Actions({ data }: ActionsProps) {
   const [loadingDelete, setLoadingDelete] = useState(false)
+  const { refetch } = usePuzzlesQuery();
 
   const handleDelete = async () => {
     setLoadingDelete(true)
@@ -40,6 +41,7 @@ export function Actions({ data }: ActionsProps) {
       });
     }
     setLoadingDelete(false)
+    refetch()
   }
 
   return (
