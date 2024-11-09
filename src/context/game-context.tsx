@@ -1,120 +1,151 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { GameState } from "@/@types/game.types";
+import { GameFactory } from "@/factories/game-factory";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { fetchGame } from '@/services/game/fetch';
-import { searchAlphabet } from '@/services/alphabet';
-import { searchPuzzle } from '@/services/puzzle';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/hooks/use-profile';
-// import { addPuzzleCompleted, checkPuzzleCompleted, createGameData, searchGameData, updateGameData, } from '@/services/game-data';
-import { destroyLocalStorage } from '@/utils/destroy-storage';
-import { DAlphabet, DGameData, DPuzzle } from '@/db/schema';
-import { createGameData, updateGameData } from '@/model/game-data';
-import { addPuzzleCompleted } from '@/model/puzzle-completed';
-import { searchGameData } from '@/services/game-data';
+import { useUser } from "@/hooks/use-profile";
+import { GameLoaderService } from "@/services/game-loader";
+import { GameProgressService } from "@/services/game-progress";
+import { destroyLocalStorage } from "@/utils/destroy-storage";
+import { useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
+
+export function useGameState(initialState: GameState) {
+  const [state, setState] = useState<GameState>(initialState);
+  const [storedId, setStoredId] = useLocalStorage<string | null>('id', null);
+
+  const updateState = (updates: Partial<GameState>) => {
+    setState(prev => ({ ...prev, ...updates }));
+  };
+
+  return {
+    state,
+    updateState,
+    storedId,
+    setStoredId,
+  };
+}
 
 interface GameContextType {
-  alphabet: DAlphabet | null;
-  maxAttempts: number;
-  puzzle: DPuzzle | null;
-  wordSize: number;
-  defeat: boolean;
-  win: boolean;
-  canCheck: boolean[];
-  currentAttempt: number;
-  gameWords: string[];
-  currentWord: string;
-  handleBackspace: () => void;
-  handleConfirm: () => void;
-  handleWordChange: (newLetter: string) => void;
-  resetTurn: () => void;
-  changePuzzle: (id: string) => void;
-  nextTurn: () => void;
+  state: GameState,
+  maxAttempts: number,
+  handleBackspace: () => void,
+  handleConfirm: () => Promise<void>,
+  handleWordChange: (newLetter: string) => void,
+  resetTurn: () => void,
+  changePuzzle: (id: string) => Promise<void>,
+  nextTurn: () => Promise<void>,
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
+// context/game-context.tsx
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const alphabetName = 'Latin';
-  const maxAttempts = 5;
+  const gameFactory = new GameFactory(5);
+  const gameLoader = new GameLoaderService();
+  const gameProgress = new GameProgressService();
+  const router = useRouter();
+  const user = useUser();
 
-  const router = useRouter()
+  const {
+    state,
+    updateState,
+    storedId,
+    setStoredId
+  } = useGameState(gameFactory.createInitialState());
 
-  const [wordID, setWordID] = useLocalStorage<string | null>('id', null);
-  const [puzzle, setPuzzle] = useState<DPuzzle | null>(null);
-  const [wordSize, setWordSize] = useLocalStorage('sizew', 0);
-  const [alphabet, setAlphabet] = useLocalStorage<DAlphabet | null>('alphabet', null);
-  const [defeat, setDefeat] = useLocalStorage('defeat', false);
-  const [win, setWin] = useLocalStorage('win', false);
-  const initialChecks = Array(maxAttempts).fill(false);
-  const [canCheck, setCanCheck] = useLocalStorage('checks', initialChecks);
-  const [currentAttempt, setCurrentAttempt] = useLocalStorage('attempt', 0);
-  const fillGrid = Array(maxAttempts).fill('');
-  const [gameWords, setGameWords] = useLocalStorage<string[]>('game', fillGrid);
-  const [currentWord, setCurrentWord] = useLocalStorage<string>('word', '');
+  const loadWord = async (options: { genNewWord?: boolean; newId?: string }) => {
+    const result = await gameLoader.loadWord({
+      ...options,
+      currentWordId: storedId
+    });
 
-
-  const user = useUser()
-  const [, setGameData] = useState<DGameData | null>(null);
-
-  const loadWord = async (options: { genNewWord?: boolean, newId?: string }) => {
-    const { genNewWord = false, newId } = options;
-    let dataPuzzle: DPuzzle | null = null;
-
-
-    if (genNewWord) {
-      dataPuzzle = await fetchGame(alphabetName);
-    } else if (newId) {
-      dataPuzzle = await searchPuzzle(newId);
-    } else if (wordID) {
-      dataPuzzle = await searchPuzzle(wordID);
-    } else {
-      dataPuzzle = await fetchGame(alphabetName);
-    }
-
-
-    if (!dataPuzzle) {
-      destroyLocalStorage()
-      // console.error('Failed to load puzzle');
+    if (!result.puzzle) {
+      destroyLocalStorage();
       return;
     }
 
-    const dataAlphabet = await searchAlphabet({ name: dataPuzzle.alphabetName });
+    updateState({
+      puzzle: result.puzzle,
+      wordSize: result.wordSize,
+      alphabet: result.alphabet,
+    });
+    setStoredId(result.puzzle.id);
+  };
 
-    if (dataPuzzle && dataPuzzle.word && dataAlphabet) {
-      setPuzzle(dataPuzzle);
-      setWordSize(dataPuzzle.word.length);
-      setWordID(dataPuzzle.id);
-      setAlphabet(dataAlphabet);
+  const handleWordChange = (newLetter: string) => {
+    if (state.currentWord.length < state.wordSize && !state.defeat && !state.win) {
+      const newWord = state.currentWord + newLetter;
+      const newGameWords = [...state.gameWords];
+      newGameWords[state.currentAttempt] = newWord;
+
+      updateState({
+        currentWord: newWord,
+        gameWords: newGameWords
+      });
     }
   };
 
+  const handleBackspace = () => {
+    if (state.currentWord.length > 0) {
+      const newWord = state.currentWord.slice(0, -1);
+      const newGameWords = [...state.gameWords];
+      newGameWords[state.currentAttempt] = newWord;
+
+      updateState({
+        currentWord: newWord,
+        gameWords: newGameWords
+      });
+    }
+  };
+
+  const verifyWin = (): boolean => {
+    const validation = state.currentWord.toLowerCase() === state.puzzle?.word;
+    if (validation) {
+      updateState({ win: true });
+    }
+    return validation;
+  };
 
   const handleConfirm = async () => {
     const isWin = verifyWin();
-    if (isWin && user?.id && puzzle) {
-      await updateUserGameData(user.id, puzzle.id);
+    if (isWin && user?.id && state.puzzle) {
+      await gameProgress.updateProgress(user.id, state.puzzle.id);
     }
     nextAttempt();
-  }
+  };
 
-  const updateUserGameData = async (userId: string, puzzleId: string) => {
-    let userGameData = await searchGameData(userId);
-    if (!userGameData) {
-      userGameData = await createGameData(userId);
-    }
-    if (userGameData) {
-      await addPuzzleCompleted({
-        gameDataId: userGameData.id,
-        puzzleId,
+  const nextAttempt = () => {
+    const newChecks = [...state.canCheck];
+    newChecks[state.currentAttempt] = true;
+
+    const isWin = verifyWin();
+    if (isWin) {
+      updateState({
+        currentWord: '',
+        currentAttempt: state.currentAttempt + 1,
+        canCheck: newChecks
       });
-      await updateGameData({
-        gameDataId: userGameData.id,
-        data: {
-          totalCompleted: (userGameData?.totalCompleted ?? 0) + 1
-        }
+      return;
+    };
+
+    if (state.currentAttempt === gameFactory.getMaxAttempts() - 1 && !isWin) {
+      updateState({
+        defeat: true,
+        canCheck: newChecks
       });
-      setGameData(userGameData);
+      return;
     }
+
+    if (!state.win) {
+      updateState({
+        currentWord: '',
+        currentAttempt: state.currentAttempt + 1,
+        canCheck: newChecks
+      });
+    }
+  };
+  const resetTurn = () => {
+    destroyLocalStorage();
+    updateState(gameFactory.createInitialState());
   };
 
   const changePuzzle = async (id: string) => {
@@ -125,12 +156,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const nextTurn = async () => {
     resetTurn();
     await loadWord({ genNewWord: true });
-    router.refresh()
+    router.refresh();
   };
 
   useEffect(() => {
     const initializeGame = async () => {
-      if (!wordID) {
+      if (!storedId) {
         await loadWord({ genNewWord: true });
       } else {
         await loadWord({});
@@ -140,84 +171,23 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeGame();
   }, []);
 
-  const handleBackspace = () => {
-    if (currentWord.length > 0) {
-      setCurrentWord((prev: string) => prev.slice(0, -1));
-      const newGameWords = [...gameWords];
-      newGameWords[currentAttempt] = currentWord.slice(0, -1);
-      setGameWords(newGameWords);
-    }
-  };
-
-  const handleWordChange = (newLetter: string) => {
-    if (currentWord.length < wordSize && !defeat && !win) {
-      const newWord = currentWord + newLetter;
-      setCurrentWord(newWord);
-      const newGameWords = [...gameWords];
-      newGameWords[currentAttempt] = newWord;
-      setGameWords(newGameWords);
-    }
-  };
-
-  const nextAttempt = () => {
-    setCanCheck(prev => {
-      const newChecks = [...prev];
-      newChecks[currentAttempt] = true;
-      return newChecks;
-    });
-    const isWin = verifyWin();
-    if (isWin) return;
-    if (currentAttempt === maxAttempts - 1 && !isWin) {
-      setDefeat(true);
-      return;
-    }
-    if (!win) setCurrentWord('');
-    setCurrentAttempt((prev: number) => prev + 1);
-  }
-
-  const verifyWin = () => {
-    const validation = currentWord.toLowerCase() === puzzle?.word;
-    if (validation) {
-      setWin(true);
-      return true;
-    }
-    return false;
-  }
-
-  const resetTurn = () => {
-    destroyLocalStorage()
-    setCurrentAttempt(0);
-    setGameWords(fillGrid);
-    setCurrentWord('');
-    setDefeat(false);
-    setWin(false);
-    setCanCheck(initialChecks);
-  };
-
   const value = {
-    alphabet,
-    maxAttempts,
-    puzzle,
-    wordSize,
-    defeat,
-    win,
-    canCheck,
-    currentAttempt,
-    gameWords,
-    currentWord,
+    state,
+    maxAttempts: gameFactory.getMaxAttempts(),
     handleBackspace,
     handleConfirm,
     handleWordChange,
     resetTurn,
     changePuzzle,
-    nextTurn
+    nextTurn,
   };
 
-  return <GameContext.Provider
-    value={value}
-  >
-    {children}
-  </GameContext.Provider>;
+
+  return (
+    <GameContext.Provider value={value}>
+      {children}
+    </GameContext.Provider>
+  );
 };
 
 export const useGame = () => {

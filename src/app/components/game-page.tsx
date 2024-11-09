@@ -8,16 +8,8 @@ import { useUser } from "@/hooks/use-profile";
 
 function GameContainer() {
   const {
-    alphabet,
+    state: { alphabet, canCheck, currentAttempt, currentWord, defeat, gameWords, puzzle, win, wordSize },
     maxAttempts,
-    puzzle,
-    wordSize,
-    defeat,
-    win,
-    canCheck,
-    currentAttempt,
-    gameWords,
-    currentWord,
     handleBackspace,
     handleConfirm,
     handleWordChange,
@@ -80,7 +72,6 @@ function GameContainer() {
 
   );
 }
-
 export function GamePage() {
   const user = useUser()
   return <GameProvider>
