@@ -25,21 +25,19 @@ export function useGameState(initialState: GameState) {
 }
 
 interface GameContextType {
-  state: GameState,
-  maxAttempts: number,
-  handleBackspace: () => void,
-  handleConfirm: () => Promise<void>,
-  handleWordChange: (newLetter: string) => void,
-  resetTurn: () => void,
-  changePuzzle: (id: string) => Promise<void>,
-  nextTurn: () => Promise<void>,
+  state: GameState;
+  handleBackspace: () => void;
+  handleConfirm: () => Promise<void>;
+  handleWordChange: (newLetter: string) => void;
+  resetTurn: () => void;
+  changePuzzle: (id: string) => Promise<void>;
+  nextTurn: () => Promise<void>;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-// context/game-context.tsx
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const gameFactory = new GameFactory(5);
+  const gameFactory = new GameFactory();
   const gameLoader = new GameLoaderService();
   const gameProgress = new GameProgressService();
   const router = useRouter();
@@ -66,7 +64,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     updateState({
       puzzle: result.puzzle,
       wordSize: result.wordSize,
+      maxAttempts: result.maxAttempts,
       alphabet: result.alphabet,
+      canCheck: Array(result.maxAttempts).fill(false),
+      gameWords: Array(result.maxAttempts).fill(''),
+      currentAttempt: 0,
     });
     setStoredId(result.puzzle.id);
   };
@@ -118,31 +120,29 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     newChecks[state.currentAttempt] = true;
 
     const isWin = verifyWin();
+
+    updateState({
+      currentWord: '',
+      currentAttempt: state.currentAttempt + 1,
+      canCheck: newChecks
+    });
+
     if (isWin) {
       updateState({
         currentWord: '',
-        currentAttempt: state.currentAttempt + 1,
-        canCheck: newChecks
       });
       return;
-    };
+    }
 
-    if (state.currentAttempt === gameFactory.getMaxAttempts() - 1 && !isWin) {
+    if (state.currentAttempt === state.maxAttempts - 1 && !isWin) {
       updateState({
         defeat: true,
         canCheck: newChecks
       });
       return;
     }
-
-    if (!state.win) {
-      updateState({
-        currentWord: '',
-        currentAttempt: state.currentAttempt + 1,
-        canCheck: newChecks
-      });
-    }
   };
+
   const resetTurn = () => {
     destroyLocalStorage();
     updateState(gameFactory.createInitialState());
@@ -173,7 +173,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const value = {
     state,
-    maxAttempts: gameFactory.getMaxAttempts(),
     handleBackspace,
     handleConfirm,
     handleWordChange,
@@ -181,7 +180,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     changePuzzle,
     nextTurn,
   };
-
 
   return (
     <GameContext.Provider value={value}>

@@ -8,8 +8,7 @@ import { useUser } from "@/hooks/use-profile";
 
 function GameContainer() {
   const {
-    state: { alphabet, canCheck, currentAttempt, currentWord, defeat, gameWords, puzzle, win, wordSize },
-    maxAttempts,
+    state: { alphabet, canCheck, currentAttempt, currentWord, defeat, gameWords, puzzle, win, wordSize, maxAttempts },
     handleBackspace,
     handleConfirm,
     handleWordChange,
