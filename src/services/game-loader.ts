@@ -2,20 +2,6 @@ import { DPuzzle, DAlphabet } from "@/db/schema";
 import { searchAlphabet } from "./alphabet";
 import { fetchGame } from "./game/fetch";
 import { searchPuzzle } from "./puzzle";
-
-interface IGameLoaderService {
-  loadWord(options: {
-    genNewWord?: boolean;
-    newId?: string;
-    currentWordId?: string | null;
-  }): Promise<{
-    puzzle: DPuzzle | null;
-    alphabet: DAlphabet | null;
-    wordSize: number;
-    maxAttempts: number;
-  }>;
-}
-
 export class GameLoaderService {
   private readonly alphabetName = "Latin";
 
