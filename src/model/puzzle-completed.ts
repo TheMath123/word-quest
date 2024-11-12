@@ -57,7 +57,6 @@ const getCompletedPuzzlesStats = async (userId: string) => {
       acc[difficulty] = (acc[difficulty] || 0) + 1;
       return acc;
     }, {} as Record<string, number>),
-    // Adicione mais estatísticas conforme necessário
     lastCompletedAt:
       completedPuzzles.length > 0
         ? Math.max(

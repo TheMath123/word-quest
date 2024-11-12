@@ -194,7 +194,6 @@ export const puzzlesCompleted = sqliteTable("puzzles_completed", {
   completedAt: integer("completed_at", { mode: "timestamp_ms" }).$defaultFn(
     () => new Date()
   ),
-  time: integer("time", { mode: "timestamp_ms" }),
   gameDataId: text("game_data_id")
     .notNull()
     .references(() => gameData.id),
