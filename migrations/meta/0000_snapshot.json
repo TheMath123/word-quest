@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ff55f637-9a1a-4823-a6cb-bfb6da906f65",
+  "id": "150639bb-28bd-4f72-9bf4-f2e9020cca42",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "account": {
@@ -330,72 +330,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "puzzles": {
-      "name": "puzzles",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "word": {
-          "name": "word",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "tip": {
-          "name": "tip",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "alphabet_name": {
-          "name": "alphabet_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "puzzles_alphabet_name_alphabets_name_fk": {
-          "name": "puzzles_alphabet_name_alphabets_name_fk",
-          "tableFrom": "puzzles",
-          "tableTo": "alphabets",
-          "columnsFrom": [
-            "alphabet_name"
-          ],
-          "columnsTo": [
-            "name"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "puzzles_completed": {
       "name": "puzzles_completed",
       "columns": {
@@ -420,6 +354,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "time": {
+          "name": "time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "game_data_id": {
           "name": "game_data_id",
           "type": "text",
@@ -430,19 +371,6 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "puzzles_completed_puzzle_id_puzzles_id_fk": {
-          "name": "puzzles_completed_puzzle_id_puzzles_id_fk",
-          "tableFrom": "puzzles_completed",
-          "tableTo": "puzzles",
-          "columnsFrom": [
-            "puzzle_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "puzzles_completed_game_data_id_game_data_id_fk": {
           "name": "puzzles_completed_game_data_id_game_data_id_fk",
           "tableFrom": "puzzles_completed",
@@ -617,6 +545,80 @@
           "name": "verificationToken_identifier_token_pk"
         }
       },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "word_guess": {
+      "name": "word_guess",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "word": {
+          "name": "word",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tip": {
+          "name": "tip",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "alphabet_name": {
+          "name": "alphabet_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "max_attempts": {
+          "name": "max_attempts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 5
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "word_guess_alphabet_name_alphabets_name_fk": {
+          "name": "word_guess_alphabet_name_alphabets_name_fk",
+          "tableFrom": "word_guess",
+          "tableTo": "alphabets",
+          "columnsFrom": [
+            "alphabet_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     }

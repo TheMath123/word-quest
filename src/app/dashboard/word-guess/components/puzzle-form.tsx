@@ -13,16 +13,16 @@ import { AlphabetField } from "@/components/form/alphabet-field.tsx"
 import { useState } from "react"
 import { puzzleSchema, PuzzleSchemaType } from "./puzzle-schema"
 import { NumberField } from "@/components/form/number-field"
-import { updatePuzzle, createPuzzle, usePuzzlesQuery } from "@/services/puzzle"
-import { DPuzzle } from "@/db/schema"
+import { updateWordGuess, createWordGuess, useWordGuessListQuery } from "@/services/word-guess"
+import { DWordGuess } from "@/db/schema"
 
 interface PuzzleFormProps {
-  initialData?: DPuzzle | null;
+  initialData?: DWordGuess | null;
   onClose?: () => void;
 }
 
 export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
-  const { refetch } = usePuzzlesQuery()
+  const { refetch } = useWordGuessListQuery()
   const [loading, setLoading] = useState(false)
   const form = useForm<PuzzleSchemaType>({
     resolver: zodResolver(puzzleSchema),
@@ -36,8 +36,8 @@ export function PuzzleForm({ initialData, onClose }: PuzzleFormProps) {
   async function onSubmit(values: PuzzleSchemaType) {
     setLoading(true)
     const res = initialData?.id ?
-      await updatePuzzle({ ...values, id: initialData.id }) :
-      await createPuzzle({ ...values });
+      await updateWordGuess({ ...values, id: initialData.id }) :
+      await createWordGuess({ ...values });
 
     if (res?.error) {
       toast({

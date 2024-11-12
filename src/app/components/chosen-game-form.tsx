@@ -10,7 +10,7 @@ import {
 import { NameField } from "@/components/form"
 import { useState } from "react"
 import { ChosenGameSchemaType, chosenGameSchema } from "./chosen-game-schema"
-import { searchPuzzle } from "@/services/puzzle"
+import { searchWordGuess } from "@/services/word-guess"
 import { useGame } from "@/context/game-context"
 import { toast } from "@/hooks/use-toast"
 
@@ -30,7 +30,7 @@ export function ChosenGameForm({ onClose }: ChosenGameFormProps) {
 
   async function onSubmit(values: ChosenGameSchemaType) {
     setLoading(true)
-    const res = await searchPuzzle(values.id)
+    const res = await searchWordGuess(values.id)
     if (res) {
       changePuzzle(values.id);
     } else {
