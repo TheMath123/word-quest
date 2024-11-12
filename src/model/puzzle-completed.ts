@@ -4,9 +4,9 @@ import {
   puzzlesCompleted,
   DPuzzlesCompleted,
   DGameData,
-  DPuzzle,
+  DWordGuess,
   gameData,
-  puzzles,
+  wordGuess,
 } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 
@@ -14,7 +14,7 @@ export type CompletedPuzzleWithDetails = {
   completedAt: Date | null;
   gameDataId: string;
   puzzleId: string;
-  puzzle: DPuzzle;
+  puzzle: DWordGuess;
   gameData: DGameData;
 };
 
@@ -23,11 +23,11 @@ const listCompletedPuzzlesWithDetails = async (userId: string) => {
   const query = db
     .select({
       completed: puzzlesCompleted,
-      puzzle: puzzles,
+      puzzle: wordGuess,
       userData: gameData,
     })
     .from(puzzlesCompleted)
-    .innerJoin(puzzles, eq(puzzlesCompleted.puzzleId, puzzles.id))
+    .innerJoin(wordGuess, eq(puzzlesCompleted.puzzleId, wordGuess.id))
     .innerJoin(gameData, eq(puzzlesCompleted.gameDataId, gameData.id))
     .where(eq(gameData.userId, userId))
     .orderBy(desc(puzzlesCompleted.completedAt));
@@ -57,7 +57,6 @@ const getCompletedPuzzlesStats = async (userId: string) => {
       acc[difficulty] = (acc[difficulty] || 0) + 1;
       return acc;
     }, {} as Record<string, number>),
-    // Adicione mais estatísticas conforme necessário
     lastCompletedAt:
       completedPuzzles.length > 0
         ? Math.max(

@@ -1,5 +1,5 @@
-import { GameState } from "@/@types/game.types";
-import { GameFactory } from "@/factories/game-factory";
+import { GameState } from "@/@types/word-guess-game";
+import { WordGuessGameFactory } from "@/factories/game-factory";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useUser } from "@/hooks/use-profile";
 import { GameLoaderService } from "@/services/game-loader";
@@ -37,7 +37,7 @@ interface GameContextType {
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const gameFactory = new GameFactory();
+  const gameFactory = new WordGuessGameFactory();
   const gameLoader = new GameLoaderService();
   const gameProgress = new GameProgressService();
   const router = useRouter();
