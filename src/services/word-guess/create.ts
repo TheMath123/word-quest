@@ -1,16 +1,16 @@
 "use server";
 
 import { ServiceResponse } from "@/@types/response";
-import { PuzzleUpdateDTO } from "@/dtos";
-import { updatePuzzle as updatePuzzleDB } from "@/model/puzzle";
+import { WordGuessDTO } from "@/dtos";
+import { createWordGuess as createWordGuessDB } from "@/model/word-guess";
 
-export async function updatePuzzle(
-  data: PuzzleUpdateDTO
+export async function createWordGuess(
+  data: WordGuessDTO
 ): Promise<ServiceResponse> {
   try {
-    await updatePuzzleDB(data);
+    await createWordGuessDB(data);
 
-    return { description: "Alphabet updated" };
+    return { description: "Alphabet created" };
   } catch (error) {
     console.error("error", error);
     if (error instanceof Error) {

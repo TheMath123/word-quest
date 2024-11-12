@@ -12,7 +12,7 @@ export function NavBar() {
         <Link href='/dashboard/'>Dashboard</Link>
       </li>
       <li>
-        <Link href='/dashboard/puzzle'>Puzzle</Link>
+        <Link href='/dashboard/word-guess'>Word Guess</Link>
       </li>
       <li>
         <Link href='/dashboard/alphabet'>Alphabet</Link>

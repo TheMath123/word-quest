@@ -1,10 +1,10 @@
-export interface PuzzleDTO {
+export interface WordGuessDTO {
   word: string;
   tip: string;
   alphabetName: string;
   maxAttempts: number;
 }
 
-export interface PuzzleUpdateDTO extends PuzzleDTO {
+export interface WordGuessUpdateDTO extends WordGuessDTO {
   id: string;
 }
