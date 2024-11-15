@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
 import Providers from "@/lib/react-query/query-provider";
-// import { Analytics } from "@vercel/analytics/react"
 
 import "./globals.css";
 import { davek } from "./fonts";
@@ -41,7 +40,6 @@ export default function RootLayout({
           <Footer />
         </div>
         <Toaster />
-        {/* <Analytics /> */}
       </body>
     </html >
   );

@@ -3,10 +3,10 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { PuzzleForm } from "./puzzle-form";
 import { Button } from "@/components/ui/button";
-import { searchPuzzle } from "@/services/puzzle";
+import { searchWordGuess } from "@/services/word-guess";
 import { useEffect, useState } from "react";
 import { EditLoading } from "./edit-loading";
-import { DPuzzle } from "@/db/schema";
+import { DWordGuess } from "@/db/schema";
 
 interface EditPuzzleProps {
   id?: string;
@@ -15,14 +15,14 @@ interface EditPuzzleProps {
 
 export function EditPuzzle({ id, children }: EditPuzzleProps) {
   const message = id ? "Edit Puzzle" : "Create New Puzzle";
-  const [data, setData] = useState<DPuzzle | null>(null)
+  const [data, setData] = useState<DWordGuess | null>(null)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        const data = await searchPuzzle(id);
+        const data = await searchWordGuess(id);
         setData(data);
       }
       setLoading(false)

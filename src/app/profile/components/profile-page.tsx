@@ -5,6 +5,7 @@ import { getProfile } from "@/services/auth"
 import Link from "next/link"
 import { CheckCircle } from '@mynaui/icons-react';
 import { searchGameData } from "@/services/game-data";
+import { NavMenuProfile } from "./nav-menu-profile";
 
 
 export async function ProfilePage() {
@@ -23,7 +24,7 @@ export async function ProfilePage() {
 
 
   return <main className="bg-background-gradient h-dvh">
-    <header className="flex flex-row justify-between p-4">
+    <header className="flex flex-row md:justify-between p-4 flex-wrap ">
       <aside className="flex flex-row gap-4 items-center">
         {user && user.image ?
           <ProfilePhoto
@@ -37,13 +38,7 @@ export async function ProfilePage() {
           <h2 className="text-sm md:text-base font-light">{user!.email}</h2>
         </div>
       </aside>
-      <nav className="flex gap-4 p-4">
-        <ul className="flex space-x-4">
-          <li><Link href="/">Home</Link></li>
-          {user!.role === Role.ADMIN ? <li><Link href="/dashboard">Dashboard</Link></li> : null}
-          <li><Link href="/logout">Logout</Link></li>
-        </ul>
-      </nav>
+      <NavMenuProfile role={user?.role ?? Role.USER} />
     </header>
     <section className="py-8 grid px-4 md:px-24 gap-4">
       {gameData?.totalCompleted ? <div className="border border-gray-900 dark:border-gray-100 rounded-md p-4 flex flex-col gap-2 items-center w-fit">

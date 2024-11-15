@@ -1,7 +1,7 @@
-import { DPuzzle, DAlphabet } from "@/db/schema";
+import { DWordGuess, DAlphabet } from "@/db/schema";
 import { searchAlphabet } from "./alphabet";
 import { fetchGame } from "./game/fetch";
-import { searchPuzzle } from "./puzzle";
+import { searchWordGuess } from "./word-guess";
 export class GameLoaderService {
   private readonly alphabetName = "Latin";
 
@@ -10,20 +10,20 @@ export class GameLoaderService {
     newId?: string;
     currentWordId?: string | null;
   }): Promise<{
-    puzzle: DPuzzle | null;
+    puzzle: DWordGuess | null;
     alphabet: DAlphabet | null;
     wordSize: number;
     maxAttempts: number;
   }> {
     const { genNewWord = false, newId, currentWordId } = options;
-    let dataPuzzle: DPuzzle | null = null;
+    let dataPuzzle: DWordGuess | null = null;
 
     if (genNewWord) {
       dataPuzzle = await fetchGame(this.alphabetName);
     } else if (newId) {
-      dataPuzzle = await searchPuzzle(newId);
+      dataPuzzle = await searchWordGuess(newId);
     } else if (currentWordId) {
-      dataPuzzle = await searchPuzzle(currentWordId);
+      dataPuzzle = await searchWordGuess(currentWordId);
     } else {
       dataPuzzle = await fetchGame(this.alphabetName);
     }

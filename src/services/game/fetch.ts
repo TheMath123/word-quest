@@ -1,11 +1,13 @@
 "use server";
 
-import { DPuzzle } from "@/db/schema";
-import { getRandomPuzzle } from "@/model/puzzle";
+import { DWordGuess } from "@/db/schema";
+import { getRandomWordGuess } from "@/model/word-guess";
 
-export async function fetchGame(alphabetName: string): Promise<DPuzzle | null> {
+export async function fetchGame(
+  alphabetName: string
+): Promise<DWordGuess | null> {
   try {
-    const puzzle = await getRandomPuzzle(alphabetName);
+    const puzzle = await getRandomWordGuess(alphabetName);
     if (!puzzle) {
       return null;
     }

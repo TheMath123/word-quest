@@ -1,11 +1,11 @@
 "use server";
 
 import { ServiceResponse } from "@/@types/response";
-import { deletePuzzle as deletePuzzleDB } from "@/model/puzzle";
+import { deleteWordGuess as deleteWordGuessDB } from "@/model/word-guess";
 
-export async function deletePuzzle(id: string): Promise<ServiceResponse> {
+export async function deleteWordGuess(id: string): Promise<ServiceResponse> {
   try {
-    const puzzle = await deletePuzzleDB(id);
+    const puzzle = await deleteWordGuessDB(id);
     if (!puzzle) {
       return { error: "Puzzle not found" };
     }

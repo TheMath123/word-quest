@@ -1,8 +1,8 @@
-import { DAlphabet, DPuzzle } from "@/db/schema";
+import { DAlphabet, DWordGuess } from "@/db/schema";
 
 export interface GameState {
   alphabet: DAlphabet | null;
-  puzzle: DPuzzle | null;
+  puzzle: DWordGuess | null;
   wordSize: number;
   maxAttempts: number;
   defeat: boolean;

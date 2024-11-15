@@ -153,12 +153,12 @@ export const alphabets = sqliteTable("alphabets", {
 });
 
 export const alphabetsRelations = relations(alphabets, ({ many }) => ({
-  puzzles: many(puzzles),
+  puzzles: many(wordGuess),
 }));
 
 export type DAlphabet = InferSelectModel<typeof alphabets>;
 
-export const puzzles = sqliteTable("puzzles", {
+export const wordGuess = sqliteTable("word_guess", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => createId()),
@@ -176,23 +176,21 @@ export const puzzles = sqliteTable("puzzles", {
   ),
 });
 
-export const puzzlesRelations = relations(puzzles, ({ one, many }) => ({
+export const puzzlesRelations = relations(wordGuess, ({ one, many }) => ({
   alphabet: one(alphabets, {
-    fields: [puzzles.alphabetName],
+    fields: [wordGuess.alphabetName],
     references: [alphabets.name],
   }),
   completions: many(puzzlesCompleted),
 }));
 
-export type DPuzzle = InferSelectModel<typeof puzzles>;
+export type DWordGuess = InferSelectModel<typeof wordGuess>;
 
 export const puzzlesCompleted = sqliteTable("puzzles_completed", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => createId()),
-  puzzleId: text("puzzle_id")
-    .notNull()
-    .references(() => puzzles.id),
+  puzzleId: text("puzzle_id").notNull(),
   completedAt: integer("completed_at", { mode: "timestamp_ms" }).$defaultFn(
     () => new Date()
   ),
@@ -207,10 +205,6 @@ export const puzzlesCompletedRelations = relations(
     gameData: one(gameData, {
       fields: [puzzlesCompleted.gameDataId],
       references: [gameData.id],
-    }),
-    puzzle: one(puzzles, {
-      fields: [puzzlesCompleted.puzzleId],
-      references: [puzzles.id],
     }),
   })
 );

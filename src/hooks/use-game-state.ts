@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocalStorage } from "./use-local-storage";
-import { GameState } from "@/@types/game.types";
+import { GameState } from "@/@types/word-guess-game";
 
 export function useGameState(initialState: GameState) {
   const [state, setState] = useState<GameState>(initialState);

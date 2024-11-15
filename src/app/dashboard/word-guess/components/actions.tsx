@@ -12,20 +12,20 @@ import { EditPuzzle } from "./edit-puzzle";
 import { dropdownButtonItemCss } from "@/components/table/actions/dropdown-button-item-css";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { deletePuzzle, usePuzzlesQuery } from "@/services/puzzle";
-import { DPuzzle } from "@/db/schema";
+import { deleteWordGuess, useWordGuessListQuery } from "@/services/word-guess";
+import { DWordGuess } from "@/db/schema";
 
 interface ActionsProps {
-  data: DPuzzle;
+  data: DWordGuess;
 }
 
 export function Actions({ data }: ActionsProps) {
   const [loadingDelete, setLoadingDelete] = useState(false)
-  const { refetch } = usePuzzlesQuery();
+  const { refetch } = useWordGuessListQuery();
 
   const handleDelete = async () => {
     setLoadingDelete(true)
-    const res = await deletePuzzle(data.id)
+    const res = await deleteWordGuess(data.id)
     if (res?.error) {
       toast({
         variant: "destructive",

@@ -1,6 +1,6 @@
-import { GameState } from "@/@types/game.types";
+import { GameState } from "@/@types/word-guess-game";
 
-export class GameFactory {
+export class WordGuessGameFactory {
   createInitialState(): GameState {
     return {
       alphabet: null,
