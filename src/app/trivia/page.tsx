@@ -1,5 +1,5 @@
 import { TriviaPage } from "./trivia-page";
 
-export function Trivia() {
+export default function Trivia() {
   return <TriviaPage />
 }
