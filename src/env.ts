@@ -18,6 +18,9 @@ export const env = createEnv({
     DEFAULT_ALPHABET_ID: z.string({
       required_error: "DEFAULT_ALPHABET_ID is required",
     }),
+    OPEN_TRIVIA_DB_API_URL: z.string({
+      required_error: "OPEN_TRIVIA_DB_API_URL is required",
+    }),
   },
   client: {
     NEXT_PUBLIC_ENCRYPTION_KEY: z.string({
@@ -41,5 +44,6 @@ export const env = createEnv({
     NEXT_PUBLIC_TURSO_DATABASE_URL: process.env.NEXT_PUBLIC_TURSO_DATABASE_URL,
     NEXT_PUBLIC_TURSO_AUTH_TOKEN: process.env.NEXT_PUBLIC_TURSO_AUTH_TOKEN,
     DEFAULT_ALPHABET_ID: process.env.DEFAULT_ALPHABET_ID,
+    OPEN_TRIVIA_DB_API_URL: process.env.OPEN_TRIVIA_DB_API_URL,
   },
 });
