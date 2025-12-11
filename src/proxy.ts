@@ -4,7 +4,7 @@ import { Role } from "./@types/role";
 const authRoutes = ["/login", "/register"];
 const adminRoutes = ["/dashboard"];
 
-export default middleware((req) => {
+export default proxy((req) => {
   const initialUrl = new URL("/", req.url);
   const pathname = req.nextUrl.pathname;
   const session = req.auth;
